@@ -6,7 +6,7 @@ export const SITE = {
   url: "https://rafaelcoelho.pages.dev",
   author: "Rafael Coelho",
   email: "rafaelcoelho1409@gmail.com",
-  location: "Curitiba, Paraná, Brazil",
+  location: "Brazil",
   relocation: "Open to relocation — Abu Dhabi · Riyadh · Doha · Dubai · Singapore",
   ogImage: "/og.png",
   locale: "en",
@@ -14,7 +14,6 @@ export const SITE = {
 
 export const SOCIALS = {
   github: "https://github.com/rafaelcoelho1409",
-  linkedin: "https://www.linkedin.com/in/rafaelcoelho1409",
   email: "mailto:rafaelcoelho1409@gmail.com",
 } as const;
 
