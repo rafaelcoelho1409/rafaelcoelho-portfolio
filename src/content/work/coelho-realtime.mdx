@@ -34,6 +34,7 @@ presentation: /work/coelho-realtime/COELHORealTime.pdf
 
 import { Image } from "astro:assets";
 import architecture from "../../assets/work/coelho-realtime/architecture.png";
+import PdfViewer from "../../components/PdfViewer.astro";
 
 ## Executive summary
 
@@ -50,6 +51,20 @@ training directly from Kafka streams, while CatBoost and scikit-learn handle bat
 data accumulated in a Delta Lake. All experiments are tracked with MLflow, models are cached in
 Redis for sub-millisecond inference, and the entire system is monitored through Prometheus,
 Grafana, Alertmanager, and Karma.
+
+## See it deployed
+
+The platform demands 16+ GB RAM to run, so you can't spin it up casually — these 53
+slides are the verifiable record of the system running in production: live dashboards,
+alert routing, MLflow tracking, CI/CD flows. Navigate with arrows or open fullscreen for
+the full read.
+
+<PdfViewer
+  src="/work/coelho-realtime/COELHORealTime.pdf"
+  height="72vh"
+  ariaLabel="COELHO RealTime — 53-slide deployment record"
+  downloadLabel="Open PDF in new tab"
+/>
 
 ## Platform architecture
 
@@ -179,5 +194,4 @@ All provisioned via ConfigMaps with sidecar auto-discovery:
 - **Real-time and batch ML co-existing in a single platform** — not theoretical; tested under continuous synthetic load
 - **Production rigor** — tracing, alerting, GitOps, IaC, dashboards, alerting routing — not a notebook demo
 
-[Source on GitHub →](https://github.com/rafaelcoelho1409/COELHORealTime) ·
-[PDF presentation (53 slides) →](/work/coelho-realtime/COELHORealTime.pdf)
+[Source on GitHub →](https://github.com/rafaelcoelho1409/COELHORealTime)
