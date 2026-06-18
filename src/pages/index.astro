@@ -26,20 +26,20 @@ const recentPosts = (await getCollection("writing", ({ data }) => !data.draft))
         class="font-display mb-6 text-[2.25rem] leading-[1.12] font-medium tracking-tight sm:text-[3.25rem]"
         style="color: var(--color-text); letter-spacing: -0.03em;"
       >
-        Production ML systems on Kubernetes — from real-time
+        Production AI systems on Kubernetes — from real-time
         <span style="color: var(--color-gold); font-style: italic;"
           >incremental</span
-        > pipelines to agentic RAG.
+        > pipelines to adaptive agentic RAG.
       </h1>
       <p class="text-[17px] leading-[1.7]" style="color: var(--color-text-muted);">
-        Six years designing, deploying, and operating end-to-end AI and ML systems.
-        Currently shipping
-        <a
+        Six years shipping end-to-end ML platforms — Kafka, Spark, full GitOps, 50+
+        Prometheus metrics, 11 Grafana dashboards. Building <a
           href="/work/coelho-nexus"
           class="font-medium transition-colors hover:text-[var(--color-gold)]"
           style="color: var(--color-text); border-bottom: 1px solid var(--color-gold); padding-bottom: 1px;"
           >COELHO Nexus</a
-        > — an Agentic RAG + GraphRAG search platform.
+        > — adaptive Agentic RAG with a 19-model LLM router, two-stage retrieval, and
+        GraphRAG via Neo4j.
       </p>
 
       <div class="mt-8 flex flex-wrap gap-2.5">

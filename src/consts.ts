@@ -2,7 +2,7 @@ export const SITE = {
   title: "Rafael Coelho",
   tagline: "Senior AI Engineer · MLOps & Agentic Systems",
   description:
-    "Senior AI Engineer shipping production agentic systems on Kubernetes. 6+ years across MLOps, real-time ML, GraphRAG, agentic orchestration with LangGraph, and observability at scale.",
+    "Senior AI Engineer shipping production agentic AI on Kubernetes — adaptive RAG, real-time ML, GraphRAG, GitOps. 6+ years. Building COELHO Nexus.",
   url: "https://rafaelcoelho.pages.dev",
   author: "Rafael Coelho",
   email: "rafaelcoelho1409@gmail.com",
