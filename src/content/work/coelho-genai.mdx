@@ -1,9 +1,8 @@
 ---
 title: "COELHO GenAI"
-summary: "Privacy-first Generative AI platform connecting users to open-source LLMs (Llama 3.1, Gemma 2, others) via Ollama and Groq — with five purpose-built tools."
-outcome: "Five-tool GenAI platform with autonomous data-science agents, document understanding via Docling, and online retrieval via DuckDuckGo / Wikipedia / PubMed."
+summary: "Privacy-first Generative AI platform connecting users to open-source LLMs (Llama 3.1, Gemma 2) via Ollama or Groq — with five purpose-built tools spanning chat, retrieval, autonomous data science, document analysis, and agentic plan-and-solve."
+outcome: "Five distinct GenAI tools shipped end-to-end · runs fully local on Ollama or low-latency via Groq · autonomous data-science agents and document analysis via Docling."
 date: 2024-09-01
-order: 4
 stack:
   - LangChain
   - Ollama
@@ -11,36 +10,86 @@ stack:
   - Llama 3.1
   - Gemma 2
   - Docling
+  - DuckDuckGo
+  - Wikipedia
+  - PubMed
   - Streamlit
+  - Python
 repo: https://github.com/rafaelcoelho1409/COELHOGenAI
+presentation: /work/coelho-genai/COELHOGenAI.pdf
 thumbnail: /work/coelho-genai/logo.png
 ---
 
-## Five tools, one local LLM
+import PdfViewer from "../../components/PdfViewer.astro";
 
-COELHO GenAI connects users to open-source Large Language Models (Llama 3.1, Gemma 2, and others)
-through **Ollama** (fully local) and **Groq** (low-latency hosted) — giving users a private LLM
-interface backed by:
+## Executive summary
 
-**1) Assistant** — general-purpose chatbot for brainstorming and problem-solving.
+**COELHO GenAI** connects users to open-source Large Language Models —
+**Llama 3.1** (Meta), **Gemma 2** (Google), and others — through **Ollama** for fully
+local inference or **Groq** for low-latency hosted serving. Five purpose-built tools
+sit on top of that LLM substrate:
 
-**2) Information Retrieval** — connects the local LLM to online tools (DuckDuckGo, Wikipedia,
-PubMed) for grounded answers without leaving privacy.
+1. **Assistant** — general-purpose chatbot
+2. **Information Retrieval** — LLM-grounded online tool calling (DuckDuckGo, Wikipedia, PubMed)
+3. **Data Science** — autonomous agents for data exploration and modeling
+4. **Document Assistant** — document RAG via Docling + LangChain document loaders
+5. **Plan & Solve** — agentic decomposition of complex requests into executable strategy plans
 
-**3) Data Science** — autonomous AI agents that explore and analyze user-supplied data with the
-LLM in the loop. Generates EDA, plots, and modeling suggestions.
+The platform's design principle is **LLM choice + privacy**: pick where your tokens go
+(local on Ollama, hosted on Groq) and which model runs them.
 
-**4) Document Assistant** — analyzes documents using **Docling** and a dozen LangChain document
-loaders (Wikipedia, PDFs, web pages, and more). Strong for users who need RAG over their own files.
+## See it deployed
 
-**5) Plan & Solve** — agentic decomposition tool: turns a user request into a detailed strategy
-plan and executes it step-by-step.
+The platform needs Ollama running locally OR Groq API access plus a Python
+environment with the full LangChain stack — not trivial to spin up casually. These 13
+slides are the verifiable record of the five tools running with real workflows: live
+chat, web-grounded retrieval, autonomous data-science notebook generation, document
+RAG, and agentic strategy planning. Navigate with arrows or open fullscreen for the
+full read.
+
+<PdfViewer
+  src="/work/coelho-genai/COELHOGenAI.pdf"
+  height="72vh"
+  ariaLabel="COELHO GenAI — 13-slide deployment record"
+  downloadLabel="Open PDF in new tab"
+/>
+
+## Five tools, one local LLM substrate
+
+| Tool | What it does | Distinctive design |
+|---|---|---|
+| **Assistant** | General chatbot for brainstorming, problem-solving, ideation | Runs against your chosen local or hosted LLM — no vendor lock-in |
+| **Information Retrieval** | LLM-grounded online tool-calling — DuckDuckGo (web), Wikipedia (encyclopedia), PubMed (medical literature) | Maintains privacy by routing LLM reasoning locally while only the *queries* go out |
+| **Data Science** | Autonomous AI agents explore and analyze user-supplied data — EDA, plots, modeling suggestions | LLM-driven notebook generation grounded in the actual dataset |
+| **Document Assistant** | Document RAG powered by **Docling** + a dozen LangChain document loaders (PDFs, web pages, Wikipedia, more) | Docling handles the hard part: extracting structure from messy PDFs into clean Markdown for retrieval |
+| **Plan & Solve** | Agentic decomposition: turns a user request into an executable, step-by-step strategy plan | Acts as a meta-tool — produces a plan others tools or the user can execute |
+
+## Why "privacy-first" matters here
+
+Most GenAI tools in 2024 forced you to send every prompt to OpenAI / Anthropic. That
+worked for individuals; it failed for organizations handling sensitive documents
+(legal, medical, internal R&D). COELHO GenAI lets the user keep inference **fully
+local on Ollama** when needed, swap to Groq for low-latency public-data use cases, or
+mix providers per tool. The substrate is the same; the trust boundary moves with the
+task.
+
+This is the same multi-provider routing principle that became the production rotator
+in [COELHO Nexus](/work/coelho-nexus) — just an earlier, narrower form.
 
 ## Stack
 
-- **Streamlit** — interface
-- **LangChain** — agent composition + retrieval orchestration
-- **Ollama** for fully local inference; **Groq** for low-latency hosted
-- **Docling** for document parsing
+- **LangChain** — agent and tool composition primitives, document loaders
+- **Ollama** — fully local LLM inference
+- **Groq** — low-latency hosted inference for open models
+- **Llama 3.1** (Meta) and **Gemma 2** (Google) — open foundation models
+- **Docling** — structure-aware document parsing for RAG
+- **Streamlit** — interactive interface
+- **Python** — implementation
+
+## What this project proves
+
+- **Five orthogonal GenAI patterns in one codebase** — chat, retrieval, autonomous data science, document RAG, and agentic planning — running on the same LLM substrate
+- **Local-first LLMOps was viable in 2024** — Ollama + open models gave a real privacy story before the LLMOps category had a name
+- **Multi-provider routing started here** — the Ollama/Groq toggle pattern became the production rotator powering COELHO Nexus
 
 [Source on GitHub →](https://github.com/rafaelcoelho1409/COELHOGenAI)
