@@ -5,7 +5,6 @@ export const SITE = {
     "Senior AI Engineer shipping production agentic AI on Kubernetes — adaptive RAG, real-time ML, GraphRAG, GitOps. 6+ years. Building COELHO Nexus.",
   url: "https://rafaelcoelho.pages.dev",
   author: "Rafael Coelho",
-  email: "rafaelcoelho1409@gmail.com",
   location: "Brazil",
   relocation: "Open to relocation — Abu Dhabi · Riyadh · Doha · Dubai · Singapore",
   ogImage: "/og.png",
@@ -14,7 +13,6 @@ export const SITE = {
 
 export const SOCIALS = {
   github: "https://github.com/rafaelcoelho1409",
-  email: "mailto:rafaelcoelho1409@gmail.com",
 } as const;
 
 export const NAV = [
