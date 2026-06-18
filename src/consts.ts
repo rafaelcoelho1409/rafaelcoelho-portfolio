@@ -28,6 +28,6 @@ export const NAV = [
 
 export const HOME_METRICS = [
   { value: "6+", unit: "yrs", label: "designing production ML systems on Kubernetes" },
-  { value: "9", unit: "", label: "production AI / ML projects shipped end-to-end" },
+  { value: "9", unit: "", label: "public AI / ML projects shipped end-to-end" },
   { value: "BSc", unit: "", label: "Mathematics · UFPR — analytical foundation for ML" },
 ] as const;
