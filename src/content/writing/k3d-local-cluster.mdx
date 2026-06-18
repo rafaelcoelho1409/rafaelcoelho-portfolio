@@ -1,6 +1,6 @@
 ---
 title: "Building a local Kubernetes cluster and provisioning DevOps services with Terraform"
-summary: "How to build a local k3d cluster that hosts GitLab, Rancher, ArgoCD, and LocalStack — fully provisioned with Terraform for cross-OS reproducibility."
+summary: "How to build a local k3d cluster that hosts GitLab, Rancher, ArgoCD, and LocalStack — fully provisioned with Terraform for cross-OS reproducibility, with a complete CI/CD flow disposable in one terraform destroy."
 date: 2025-11-10
 tags:
   - kubernetes
@@ -12,48 +12,71 @@ tags:
   - mlops
 ---
 
+import { Image } from "astro:assets";
+import architecture from "../../assets/writing/k3d-local-cluster/architecture.png";
+import clusterRunning from "../../assets/writing/k3d-local-cluster/cluster-running.jpg";
+import servicesLive from "../../assets/writing/k3d-local-cluster/services-live.jpg";
+
 ## Motivation
 
-In the last months I've worked on several projects involving **Machine Learning** and **DevOps**.
-Two of them — a recommendation system for job positions and a Speech-To-Speech system
-(STT/ASR + TTS) — plus a personal **Real-Time Machine Learning** project running in my free time
-made me feel the same friction over and over: I needed a local Kubernetes cluster with real-time
-updates *before* pushing repos to production.
+In the last months I've worked on several projects involving **Machine Learning** and
+**DevOps**. Two of them — a recommendation system for job positions and a
+Speech-To-Speech system (STT/ASR + TTS) — plus a personal **Real-Time Machine
+Learning** project running in my free time made me feel the same friction over and
+over: I needed a local Kubernetes cluster with real-time updates *before* pushing
+repos to production.
 
-So I started using **k3d** and **Skaffold** locally, and then went further and rebuilt a complete
-local Kubernetes stack with **Rancher**, **ArgoCD**, **GitLab**, and **LocalStack** — all installed
-declaratively so it would survive an OS switch.
+So I started using **k3d** and **Skaffold** locally, and then went further and
+rebuilt a complete local Kubernetes stack with **Rancher**, **ArgoCD**, **GitLab**,
+and **LocalStack** — all installed declaratively so it would survive an OS switch.
 
-Initially I scripted the installs as `.sh` files (into `bash/`). That works on Linux but breaks on
-Windows. So I dove into **Terraform**. After understanding the basics (providers, resources,
-variables, outputs, the `terraform init / plan / apply / destroy` lifecycle), I rebuilt the same
-stack as an OS-agnostic Terraform module — files in `terraform/`. No more translating `.sh`
-to `.bat`; the abstraction layer guarantees reproducibility on Linux, Windows, and macOS.
+Initially I scripted the installs as `.sh` files (into `bash/`). That works on Linux
+but breaks on Windows. So I dove into **Terraform**. After understanding the basics
+(providers, resources, variables, outputs, the
+`terraform init / plan / apply / destroy` lifecycle), I rebuilt the same stack as an
+OS-agnostic Terraform module — files in `terraform/`. No more translating `.sh` to
+`.bat`; the abstraction layer guarantees reproducibility on Linux, Windows, and
+macOS.
 
-> **Heads up:** plan for at least 16 GB of RAM. My local k3d cluster with the full stack
-> (GitLab + Rancher + ArgoCD + LocalStack) was pulling ~10 GB, mostly GitLab. You can disable
-> GitLab components you don't need via `values.yaml` to slim it down.
+> **Heads up:** plan for at least 16 GB of RAM. My local k3d cluster with the full
+> stack (GitLab + Rancher + ArgoCD + LocalStack) was pulling ~10 GB, mostly GitLab.
+> You can disable GitLab components you don't need via `values.yaml` to slim it down.
+
+## Architecture
+
+<Image
+  src={architecture}
+  alt="Terraform provisions the Docker Engine layer, k3d cluster (1 server + 3 agents), and k3d Registry; Helm then installs the K8s services in two groups — Management (LocalStack, Rancher) and GitOps + CI/CD (GitLab, ArgoCD + Image Updater)."
+  loading="eager"
+  quality={92}
+/>
+
+_Terraform sits at the root, provisions the Docker / k3d infrastructure layer, then
+hands off to Helm to install the management (LocalStack, Rancher) and GitOps + CI/CD
+(GitLab, ArgoCD + Image Updater) service groups. Single command provisions
+everything; single command tears it down._
 
 ## DevOps stack
 
-### Features
+| Component | Role |
+|---|---|
+| **k3d cluster** | 1 server + 3 agents with a local Docker registry |
+| **ArgoCD** | GitOps continuous delivery |
+| **ArgoCD Image Updater** | Auto-bumps image tags in Git when new container versions land |
+| **GitLab** | Complete DevOps platform with CI/CD |
+| **Rancher** | Kubernetes management UI for cluster observability |
+| **LocalStack** | AWS service emulator for local development |
 
-- **k3d cluster** — 1 server + 3 agents with a local Docker registry
-- **ArgoCD** — GitOps continuous delivery
-- **ArgoCD Image Updater** — auto-bumps image tags in Git
-- **GitLab** — complete DevOps platform with CI/CD
-- **Rancher** — Kubernetes management UI
-- **LocalStack** — AWS service emulator for local dev
+## Hardware footprint
 
-## My personal setup
+| Component | Specification |
+|---|---|
+| **RAM** | 64 GB |
+| **CPU** | 8 cores (modern x86_64) |
+| **Storage** | 2 TB NVMe SSD |
 
-> **Warning:** highly recommended to have 32 GB RAM, or 16 GB if you disable unused GitLab features
-> in `terraform/modules/gitlab/values.yaml`.
-
-- OS: **Arch Linux**
-- RAM: 64 GB
-- CPU: Intel Core i7 11th gen, 8 cores
-- Storage: 2 TB NVMe SSD
+> **Minimum: 16 GB RAM** if you trim GitLab via `values.yaml`. **32 GB recommended**
+> for the full stack without OOM pressure.
 
 ## Installation requirements
 
@@ -97,15 +120,17 @@ terraform apply -target=module.k3d_cluster
 terraform apply
 ```
 
-> **Warning:** several minutes. Make sure RAM is healthy before this.
+> **Warning:** several minutes. Make sure RAM headroom is healthy before this.
 
 ### 6. Access the services
 
-- **Rancher** — http://localhost:7443
-- **GitLab** — http://localhost:8090
-- **ArgoCD** — http://localhost:9080
-- **LocalStack** — http://localhost:4566
-- **k3d Registry** — http://localhost:5000
+| Service | URL |
+|---|---|
+| **Rancher** | http://localhost:7443 |
+| **GitLab** | http://localhost:8090 |
+| **ArgoCD** | http://localhost:9080 |
+| **LocalStack** | http://localhost:4566 |
+| **k3d Registry** | http://localhost:5000 |
 
 ### 7. Retrieve credentials
 
@@ -131,10 +156,29 @@ I connected my **Real-Time Machine Learning** project to this stack, so:
 1. Push the repo to local GitLab
 2. GitLab CI builds Docker images and pushes them to the k3d Registry
 3. ArgoCD Image Updater detects new images on the registry and triggers ArgoCD
-4. ArgoCD applies the Helm charts to the cluster and monitors resource health in real time
+4. ArgoCD applies the Helm charts to the cluster and monitors resource health in real
+   time
 
-The main purpose: a complete local CI/CD flow connecting GitLab CI with ArgoCD, with Kubernetes
-resource health monitored live in Rancher — and all of it disposable in one
-`terraform destroy`.
+<Image
+  src={clusterRunning}
+  alt="The k3d cluster running with all services deployed — Terraform-provisioned, Helm-installed, ArgoCD-synced."
+  loading="lazy"
+  quality={88}
+/>
+
+_The cluster running with all services deployed — every layer of the diagram above, live on a single machine._
+
+<Image
+  src={servicesLive}
+  alt="The services accessible at their local ports — Rancher, GitLab, ArgoCD, LocalStack — all on a single laptop."
+  loading="lazy"
+  quality={88}
+/>
+
+_All services accessible at their local ports — Rancher, GitLab, ArgoCD, LocalStack — the same loop that would run in production, on a single laptop._
+
+The main purpose: a complete local CI/CD flow connecting GitLab CI with ArgoCD, with
+Kubernetes resource health monitored live in Rancher — and all of it disposable in
+one `terraform destroy`.
 
 [Source on GitHub →](https://github.com/rafaelcoelho1409/K3D)
