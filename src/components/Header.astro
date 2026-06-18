@@ -4,24 +4,28 @@ import { NAV, SITE } from "../consts";
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
-<header class="sticky top-0 z-30 border-b backdrop-blur-md" style="border-color: var(--color-border); background-color: color-mix(in oklch, var(--color-bg) 80%, transparent);">
+<header
+  class="sticky top-0 z-30 backdrop-blur-md"
+  style="background-color: color-mix(in oklch, var(--color-bg) 78%, transparent);"
+>
   <div class="container-wide flex h-14 items-center justify-between">
     <a
       href="/"
-      class="font-mono text-[13px] tracking-tight transition-colors hover:text-[var(--color-accent)]"
-      style="color: var(--color-text);"
+      class="font-display text-[16px] font-semibold tracking-tight transition-colors hover:text-[var(--color-gold)]"
+      style="color: var(--color-text); letter-spacing: -0.02em;"
     >
-      {SITE.title.toLowerCase().replace(" ", "-")}<span style="color: var(--color-accent);">.</span>
+      Rafael<span style="color: var(--color-gold);">·</span>Coelho
     </a>
 
-    <nav class="flex items-center gap-1 text-[13px]" aria-label="Primary">
+    <nav class="flex items-center gap-1 text-[12.5px]" aria-label="Primary">
       {
         NAV.map((item) => {
-          const active = path === item.href || (item.href !== "/" && path.startsWith(item.href));
+          const active =
+            path === item.href || (item.href !== "/" && path.startsWith(item.href));
           return (
             <a
               href={item.href}
-              class={`rounded px-2.5 py-1.5 font-medium transition-colors hover:text-[var(--color-text)]`}
+              class="rounded-sm px-2.5 py-1.5 font-medium tracking-tight transition-colors hover:text-[var(--color-text)]"
               style={`color: ${active ? "var(--color-text)" : "var(--color-text-dim)"};`}
               aria-current={active ? "page" : undefined}
             >
@@ -32,4 +36,5 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
       }
     </nav>
   </div>
+  <div class="hairline-gold"></div>
 </header>

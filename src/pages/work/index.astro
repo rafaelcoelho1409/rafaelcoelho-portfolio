@@ -13,14 +13,17 @@ const all = (await getCollection("work", ({ data }) => !data.draft)).sort(
   description="Production ML and MLOps projects shipped by Rafael Coelho — case studies on architecture, tradeoffs, and outcomes."
 >
   <div class="container-page">
-    <header class="mb-10">
-      <p class="mb-2 font-mono text-[12px]" style="color: var(--color-accent);">/ work</p>
-      <h1 class="mb-3 text-3xl font-semibold tracking-tight" style="color: var(--color-text);">
+    <header class="mb-14 pt-4">
+      <p class="eyebrow mb-4">/ Work</p>
+      <h1
+        class="font-display mb-4 text-[2.4rem] font-medium tracking-tight"
+        style="color: var(--color-text); letter-spacing: -0.025em;"
+      >
         Selected projects
       </h1>
-      <p class="text-[15px] leading-7" style="color: var(--color-text-muted);">
-        Case studies of production ML systems I've designed, shipped, and operated. Architecture
-        diagrams, tradeoff notes, and measurable outcomes.
+      <p class="text-[16px] leading-[1.7]" style="color: var(--color-text-muted);">
+        Case studies of production ML systems I've designed, shipped, and operated.
+        Architecture diagrams, tradeoff notes, and measurable outcomes.
       </p>
     </header>
 

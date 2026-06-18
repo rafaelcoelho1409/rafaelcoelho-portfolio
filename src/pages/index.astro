@@ -7,7 +7,8 @@ import { getCollection } from "astro:content";
 import { SITE, HOME_METRICS } from "../consts";
 
 const allWork = (await getCollection("work", ({ data }) => !data.draft)).sort(
-  (a, b) => a.data.order - b.data.order || b.data.date.valueOf() - a.data.date.valueOf(),
+  (a, b) =>
+    a.data.order - b.data.order || b.data.date.valueOf() - a.data.date.valueOf(),
 );
 const featured = allWork.filter((w) => w.data.featured).slice(0, 4);
 const featuredList = featured.length > 0 ? featured : allWork.slice(0, 4);
@@ -19,55 +20,64 @@ const recentPosts = (await getCollection("writing", ({ data }) => !data.draft))
 
 <Base>
   <div class="container-page">
-    <section class="mb-16 pt-4 sm:mb-20 sm:pt-8">
-      <p class="mb-4 font-mono text-[12px]" style="color: var(--color-accent);">
-        {SITE.tagline}
-      </p>
+    <section class="mb-20 pt-8 sm:mb-24 sm:pt-14">
+      <p class="eyebrow mb-5">{SITE.tagline}</p>
       <h1
-        class="mb-5 text-3xl leading-tight font-semibold tracking-tight sm:text-[2.5rem] sm:leading-[1.15]"
-        style="color: var(--color-text);"
+        class="font-display mb-6 text-[2.25rem] leading-[1.12] font-medium tracking-tight sm:text-[3.25rem]"
+        style="color: var(--color-text); letter-spacing: -0.03em;"
       >
-        I ship production ML systems on Kubernetes — from real-time
-        <span style="color: var(--color-accent);">incremental</span> pipelines to agentic RAG.
+        Production ML systems on Kubernetes — from real-time
+        <span style="color: var(--color-gold); font-style: italic;"
+          >incremental</span
+        > pipelines to agentic RAG.
       </h1>
-      <p class="text-[16px] leading-7" style="color: var(--color-text-muted);">
-        6+ years designing, deploying, and operating end-to-end ML platforms. Currently shipping
+      <p class="text-[17px] leading-[1.7]" style="color: var(--color-text-muted);">
+        Six years designing, deploying, and operating end-to-end ML platforms.
+        Currently shipping
         <a
           href="/work/coelho-nexus"
-          class="underline decoration-2 underline-offset-4 transition-colors hover:text-[var(--color-accent)]"
-          style="text-decoration-color: var(--color-accent);">COELHO Nexus</a
+          class="font-medium transition-colors hover:text-[var(--color-gold)]"
+          style="color: var(--color-text); border-bottom: 1px solid var(--color-gold); padding-bottom: 1px;"
+          >COELHO Nexus</a
         > — an Agentic RAG + GraphRAG search platform.
       </p>
 
-      <div class="mt-6 flex flex-wrap gap-2 font-mono text-[12px]">
+      <div class="mt-8 flex flex-wrap gap-2.5">
         <span
-          class="rounded-full border px-2.5 py-1"
-          style="border-color: var(--color-border-strong); color: var(--color-text-muted);"
+          class="rounded-full border px-3 py-1 font-mono text-[10.5px] tracking-[0.14em] uppercase"
+          style="border-color: var(--color-border-strong); color: var(--color-platinum);"
         >
           {SITE.location}
         </span>
         <span
-          class="rounded-full border px-2.5 py-1"
-          style="border-color: var(--color-accent-dim); color: var(--color-accent);"
+          class="rounded-full border px-3 py-1 font-mono text-[10.5px] tracking-[0.14em] uppercase"
+          style="border-color: var(--color-gold-deep); color: var(--color-gold);"
         >
-          {SITE.relocation}
+          Open · UAE · KSA · Qatar · Singapore · USA
         </span>
       </div>
     </section>
 
-    <section class="mb-16 grid grid-cols-1 gap-3 sm:grid-cols-3">
-      {HOME_METRICS.map((m) => <MetricTile value={m.value} unit={m.unit} label={m.label} />)}
+    <div class="hairline-gold mb-20"></div>
+
+    <section class="mb-20">
+      <p class="eyebrow mb-6">By the numbers</p>
+      <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        {
+          HOME_METRICS.map((m) => (
+            <MetricTile value={m.value} unit={m.unit} label={m.label} />
+          ))
+        }
+      </div>
     </section>
 
-    <section class="mb-16">
-      <div class="mb-5 flex items-baseline justify-between">
-        <h2 class="text-lg font-semibold tracking-tight" style="color: var(--color-text);">
-          Selected work
-        </h2>
+    <section class="mb-20">
+      <div class="mb-6 flex items-baseline justify-between">
+        <p class="eyebrow">Selected work</p>
         <a
           href="/work"
-          class="font-mono text-[12px] transition-colors hover:text-[var(--color-accent)]"
-          style="color: var(--color-text-dim);">All work →</a
+          class="font-mono text-[11px] tracking-[0.14em] uppercase transition-colors hover:text-[var(--color-gold)]"
+          style="color: var(--color-platinum-dim);">All work →</a
         >
       </div>
       <div class="grid grid-cols-1 gap-3">
@@ -88,15 +98,13 @@ const recentPosts = (await getCollection("writing", ({ data }) => !data.draft))
     </section>
 
     {recentPosts.length > 0 && (
-      <section class="mb-12">
-        <div class="mb-3 flex items-baseline justify-between">
-          <h2 class="text-lg font-semibold tracking-tight" style="color: var(--color-text);">
-            Recent writing
-          </h2>
+      <section class="mb-16">
+        <div class="mb-4 flex items-baseline justify-between">
+          <p class="eyebrow">Recent writing</p>
           <a
             href="/writing"
-            class="font-mono text-[12px] transition-colors hover:text-[var(--color-accent)]"
-            style="color: var(--color-text-dim);"
+            class="font-mono text-[11px] tracking-[0.14em] uppercase transition-colors hover:text-[var(--color-gold)]"
+            style="color: var(--color-platinum-dim);"
           >
             All writing →
           </a>

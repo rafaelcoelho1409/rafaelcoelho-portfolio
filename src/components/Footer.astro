@@ -4,18 +4,21 @@ import { SITE, SOCIALS } from "../consts";
 const year = 2026;
 ---
 
-<footer class="border-t" style="border-color: var(--color-border);">
-  <div class="container-wide flex flex-col gap-3 py-8 text-[13px] sm:flex-row sm:items-center sm:justify-between">
-    <div class="font-mono" style="color: var(--color-text-dim);">
-      © {year} {SITE.author} · {SITE.location}
+<footer class="mt-12">
+  <div class="hairline-gold"></div>
+  <div
+    class="container-wide flex flex-col gap-3 py-8 text-[12.5px] sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div class="font-mono tracking-tight" style="color: var(--color-text-dim);">
+      © {year}&nbsp;&nbsp;·&nbsp;&nbsp;{SITE.author}&nbsp;&nbsp;·&nbsp;&nbsp;{SITE.location}
     </div>
-    <nav class="flex items-center gap-4" aria-label="Social">
+    <nav class="flex items-center gap-5" aria-label="Social">
       <a
         href={SOCIALS.github}
         target="_blank"
         rel="noreferrer noopener"
-        class="transition-colors hover:text-[var(--color-text)]"
-        style="color: var(--color-text-dim);"
+        class="font-mono tracking-tight transition-colors hover:text-[var(--color-gold)]"
+        style="color: var(--color-platinum-dim);"
       >
         GitHub
       </a>
@@ -23,22 +26,22 @@ const year = 2026;
         href={SOCIALS.linkedin}
         target="_blank"
         rel="noreferrer noopener"
-        class="transition-colors hover:text-[var(--color-text)]"
-        style="color: var(--color-text-dim);"
+        class="font-mono tracking-tight transition-colors hover:text-[var(--color-gold)]"
+        style="color: var(--color-platinum-dim);"
       >
         LinkedIn
       </a>
       <a
         href={SOCIALS.email}
-        class="transition-colors hover:text-[var(--color-text)]"
-        style="color: var(--color-text-dim);"
+        class="font-mono tracking-tight transition-colors hover:text-[var(--color-gold)]"
+        style="color: var(--color-platinum-dim);"
       >
         Email
       </a>
       <a
         href="/rss.xml"
-        class="transition-colors hover:text-[var(--color-text)]"
-        style="color: var(--color-text-dim);"
+        class="font-mono tracking-tight transition-colors hover:text-[var(--color-gold)]"
+        style="color: var(--color-platinum-dim);"
       >
         RSS
       </a>

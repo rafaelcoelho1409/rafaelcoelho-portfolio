@@ -14,12 +14,15 @@ export interface Props {
   presentation?: string;
 }
 
-const { title, summary, outcome, date, stack, repo, demo, paper, presentation } = Astro.props;
+const { title, summary, outcome, date, stack, repo, demo, paper, presentation } =
+  Astro.props;
 
 const dateLabel = new Intl.DateTimeFormat("en-US", {
   month: "long",
   year: "numeric",
-}).format(date);
+})
+  .format(date)
+  .toUpperCase();
 
 const links = [
   repo && { label: "Source", href: repo },
@@ -33,51 +36,60 @@ const links = [
   <article class="container-page">
     <a
       href="/work"
-      class="mb-6 inline-flex items-center gap-1 font-mono text-[12px] transition-colors hover:text-[var(--color-accent)]"
-      style="color: var(--color-text-dim);"
+      class="mb-8 inline-flex items-center gap-1 font-mono text-[11px] tracking-[0.14em] uppercase transition-colors hover:text-[var(--color-gold)]"
+      style="color: var(--color-platinum-dim);"
     >
       ← Work
     </a>
 
-    <header class="mb-10">
-      <p class="mb-2 font-mono text-[12px]" style="color: var(--color-accent);">{dateLabel}</p>
+    <header class="mb-12">
+      <p
+        class="eyebrow mb-4"
+        style="font-family: var(--font-mono);"
+      >
+        {dateLabel}
+      </p>
       <h1
-        class="mb-4 text-3xl font-semibold tracking-tight sm:text-4xl"
-        style="color: var(--color-text);"
+        class="font-display mb-6 text-[2.4rem] leading-[1.1] font-medium tracking-tight sm:text-[3rem]"
+        style="color: var(--color-text); letter-spacing: -0.028em;"
       >
         {title}
       </h1>
-      <p class="text-[16px] leading-7" style="color: var(--color-text-muted);">{summary}</p>
+      <p class="text-[17px] leading-[1.7]" style="color: var(--color-text-muted);">
+        {summary}
+      </p>
 
       {outcome && (
         <div
-          class="mt-6 rounded-lg border p-4"
-          style="border-color: var(--color-accent-dim); background-color: color-mix(in oklch, var(--color-accent) 8%, var(--color-surface));"
+          class="mt-7 rounded-sm border p-5"
+          style="border-color: var(--color-gold-deep); background-color: color-mix(in oklch, var(--color-gold) 5%, var(--color-bg-2));"
         >
           <div
-            class="mb-1 font-mono text-[10px] uppercase tracking-wider"
-            style="color: var(--color-accent);"
+            class="mb-2 font-mono text-[10px] tracking-[0.22em] uppercase"
+            style="color: var(--color-gold);"
           >
             Outcome
           </div>
-          <div class="font-mono text-[13px]" style="color: var(--color-text);">{outcome}</div>
+          <div class="text-[14px] leading-relaxed" style="color: var(--color-text);">
+            {outcome}
+          </div>
         </div>
       )}
 
       {stack.length > 0 && (
-        <div class="mt-5 flex flex-wrap gap-1.5">
+        <div class="mt-6 flex flex-wrap gap-1.5">
           {stack.map((s) => <StackBadge name={s} />)}
         </div>
       )}
 
       {links.length > 0 && (
-        <div class="mt-5 flex flex-wrap gap-3 font-mono text-[13px]">
+        <div class="mt-6 flex flex-wrap gap-2.5 font-mono text-[12px] tracking-tight">
           {links.map((l) => (
             <a
               href={l.href}
               target="_blank"
               rel="noreferrer noopener"
-              class="rounded border px-3 py-1.5 transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+              class="rounded-sm border px-3 py-1.5 transition-colors hover:border-[var(--color-gold)] hover:text-[var(--color-gold)]"
               style="border-color: var(--color-border-strong); color: var(--color-text);"
             >
               {l.label} ↗
@@ -86,6 +98,8 @@ const links = [
         </div>
       )}
     </header>
+
+    <div class="hairline-gold mb-10" style="opacity: 0.35;"></div>
 
     <div class="prose-content">
       <slot />

@@ -16,7 +16,7 @@ const { title, summary, outcome, href, stack, date, featured = false } = Astro.p
 const dateLabel = new Intl.DateTimeFormat("en-US", {
   month: "short",
   year: "numeric",
-}).format(date);
+}).format(date).toUpperCase();
 
 const visibleStack = stack.slice(0, 6);
 const restCount = Math.max(0, stack.length - visibleStack.length);
@@ -24,45 +24,54 @@ const restCount = Math.max(0, stack.length - visibleStack.length);
 
 <a
   href={href}
-  class="group block rounded-lg border p-5 transition-colors hover:bg-[color-mix(in_oklch,var(--color-surface)_70%,var(--color-bg))]"
-  style={`border-color: ${featured ? "var(--color-border-strong)" : "var(--color-border)"}; background-color: var(--color-surface);`}
+  class="group block rounded-sm border p-6 transition-colors hover:bg-[color-mix(in_oklch,var(--color-bg-2)_75%,var(--color-bg))]"
+  style={`border-color: ${featured ? "var(--color-gold-deep)" : "var(--color-border)"}; background-color: var(--color-bg-2);`}
 >
-  <div class="mb-3 flex items-center justify-between gap-3">
-    <div class="flex items-center gap-2">
+  <div class="mb-4 flex items-baseline justify-between gap-3">
+    <div class="flex items-center gap-3">
       <h3
-        class="text-[15px] font-semibold tracking-tight transition-colors group-hover:text-[var(--color-accent)]"
-        style="color: var(--color-text);"
+        class="font-display text-[20px] font-semibold tracking-tight transition-colors group-hover:text-[var(--color-gold)]"
+        style="color: var(--color-text); letter-spacing: -0.018em;"
       >
         {title}
       </h3>
       {featured && (
         <span
-          class="rounded-full border px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider"
-          style="border-color: var(--color-accent-dim); color: var(--color-accent);"
+          class="rounded-full border px-2 py-[2px] font-mono text-[9.5px] tracking-[0.16em] uppercase"
+          style="border-color: var(--color-gold-deep); color: var(--color-gold);"
         >
           Flagship
         </span>
       )}
     </div>
-    <span class="font-mono text-[11px] whitespace-nowrap" style="color: var(--color-text-dim);">
+    <span
+      class="font-mono text-[10.5px] tracking-[0.14em] whitespace-nowrap"
+      style="color: var(--color-platinum-dim);"
+    >
       {dateLabel}
     </span>
   </div>
 
-  <p class="mb-4 text-[14px] leading-relaxed" style="color: var(--color-text-muted);">
+  <p
+    class="mb-5 text-[14.5px] leading-relaxed"
+    style="color: var(--color-text-muted);"
+  >
     {summary}
   </p>
 
   {outcome && (
-    <p class="mb-4 border-l-2 pl-3 font-mono text-[12.5px]" style="border-color: var(--color-accent); color: var(--color-text);">
+    <div
+      class="mb-5 border-l py-1 pl-4 font-mono text-[12.5px] leading-relaxed"
+      style="border-color: var(--color-gold); color: var(--color-text);"
+    >
       {outcome}
-    </p>
+    </div>
   )}
 
   <div class="flex flex-wrap items-center gap-1.5">
     {visibleStack.map((s) => <StackBadge name={s} />)}
     {restCount > 0 && (
-      <span class="font-mono text-[11px]" style="color: var(--color-text-dim);">
+      <span class="font-mono text-[10.5px] tracking-tight" style="color: var(--color-text-dim);">
         +{restCount} more
       </span>
     )}

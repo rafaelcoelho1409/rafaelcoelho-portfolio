@@ -4,25 +4,27 @@ import { CV } from "../data/cv";
 import { SITE, SOCIALS } from "../consts";
 ---
 
-<Base
-  title="CV"
-  description={`CV of ${SITE.author} — Senior MLOps / ML Engineer.`}
->
+<Base title="CV" description={`CV of ${SITE.author} — Senior MLOps / ML Engineer.`}>
   <div class="container-page">
-    <header class="mb-10">
-      <p class="mb-2 font-mono text-[12px]" style="color: var(--color-accent);">/ cv</p>
-      <h1 class="mb-1 text-3xl font-semibold tracking-tight" style="color: var(--color-text);">
+    <header class="mb-14 pt-4">
+      <p class="eyebrow mb-4">/ CV</p>
+      <h1
+        class="font-display mb-1 text-[2.4rem] font-medium tracking-tight"
+        style="color: var(--color-text); letter-spacing: -0.025em;"
+      >
         {SITE.author}
       </h1>
-      <p class="mb-4 font-mono text-[13px]" style="color: var(--color-text-muted);">
+      <p class="mb-5 font-mono text-[12px] tracking-[0.14em] uppercase" style="color: var(--color-platinum-dim);">
         {SITE.tagline} · {SITE.location}
       </p>
-      <p class="text-[15px] leading-7" style="color: var(--color-text-muted);">{CV.intro}</p>
+      <p class="text-[16px] leading-[1.75]" style="color: var(--color-text-muted);">
+        {CV.intro}
+      </p>
 
-      <div class="mt-5 flex flex-wrap gap-3 font-mono text-[12.5px]">
+      <div class="mt-6 flex flex-wrap gap-2.5 font-mono text-[12px] tracking-tight">
         <a
           href={SOCIALS.email}
-          class="rounded border px-3 py-1.5 transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+          class="rounded-sm border px-3 py-1.5 transition-colors hover:border-[var(--color-gold)] hover:text-[var(--color-gold)]"
           style="border-color: var(--color-border-strong); color: var(--color-text);"
           >{SITE.email}</a
         >
@@ -30,34 +32,31 @@ import { SITE, SOCIALS } from "../consts";
           href={SOCIALS.github}
           target="_blank"
           rel="noreferrer noopener"
-          class="rounded border px-3 py-1.5 transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+          class="rounded-sm border px-3 py-1.5 transition-colors hover:border-[var(--color-gold)] hover:text-[var(--color-gold)]"
           style="border-color: var(--color-border-strong); color: var(--color-text);">GitHub ↗</a
         >
         <a
           href={SOCIALS.linkedin}
           target="_blank"
           rel="noreferrer noopener"
-          class="rounded border px-3 py-1.5 transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+          class="rounded-sm border px-3 py-1.5 transition-colors hover:border-[var(--color-gold)] hover:text-[var(--color-gold)]"
           style="border-color: var(--color-border-strong); color: var(--color-text);">LinkedIn ↗</a
         >
       </div>
     </header>
 
-    <section class="mb-12">
-      <h2
-        class="mb-4 font-mono text-[11px] uppercase tracking-widest"
-        style="color: var(--color-text-dim);"
-      >
-        Highlights
-      </h2>
-      <ul class="space-y-3">
+    <div class="hairline-gold mb-12" style="opacity: 0.35;"></div>
+
+    <section class="mb-14">
+      <h2 class="label-mono mb-5">Highlights</h2>
+      <ul class="space-y-3.5">
         {
           CV.highlights.map((h) => (
             <li
-              class="flex gap-3 text-[14.5px] leading-relaxed"
+              class="flex gap-3.5 text-[14.5px] leading-[1.7]"
               style="color: var(--color-text-muted);"
             >
-              <span style="color: var(--color-accent);">→</span>
+              <span style="color: var(--color-gold);">→</span>
               <span>{h}</span>
             </li>
           ))
@@ -65,45 +64,40 @@ import { SITE, SOCIALS } from "../consts";
       </ul>
     </section>
 
-    <section class="mb-12">
-      <h2
-        class="mb-5 font-mono text-[11px] uppercase tracking-widest"
-        style="color: var(--color-text-dim);"
-      >
-        Experience
-      </h2>
-      <div class="space-y-8">
+    <section class="mb-14">
+      <h2 class="label-mono mb-7">Experience</h2>
+      <div class="space-y-10">
         {
           CV.experience.map((e) => (
             <div>
-              <div class="mb-1 flex flex-wrap items-baseline justify-between gap-2">
+              <div class="mb-1.5 flex flex-wrap items-baseline justify-between gap-2">
                 <h3
-                  class="text-[15px] font-semibold tracking-tight"
-                  style="color: var(--color-text);"
+                  class="font-display text-[18px] font-semibold tracking-tight"
+                  style="color: var(--color-text); letter-spacing: -0.015em;"
                 >
                   {e.role}
                 </h3>
                 <span
-                  class="font-mono text-[12px] whitespace-nowrap"
-                  style="color: var(--color-text-dim);"
+                  class="font-mono text-[10.5px] tracking-[0.14em] uppercase whitespace-nowrap"
+                  style="color: var(--color-platinum-dim);"
                 >
                   {e.period}
                 </span>
               </div>
               <div
-                class="mb-3 font-mono text-[12.5px]"
-                style="color: var(--color-text-muted);"
+                class="mb-4 text-[13px] italic"
+                style="font-family: var(--font-display); color: var(--color-gold-dim);"
               >
                 {e.org}
                 {e.location && ` · ${e.location}`}
               </div>
-              <ul class="space-y-2">
+              <ul class="space-y-2.5">
                 {e.bullets.map((b) => (
                   <li
-                    class="flex gap-2.5 text-[14px] leading-relaxed"
+                    class="flex gap-3 text-[14px] leading-[1.7]"
                     style="color: var(--color-text-muted);"
                   >
-                    <span style="color: var(--color-text-dim);">·</span>
+                    <span style="color: var(--color-gold-deep);">·</span>
                     <span>{b}</span>
                   </li>
                 ))}
@@ -114,21 +108,16 @@ import { SITE, SOCIALS } from "../consts";
       </div>
     </section>
 
-    <section class="mb-12">
-      <h2
-        class="mb-5 font-mono text-[11px] uppercase tracking-widest"
-        style="color: var(--color-text-dim);"
-      >
-        Education
-      </h2>
+    <section class="mb-14">
+      <h2 class="label-mono mb-6">Education</h2>
       <div class="space-y-3">
         {
           CV.education.map((e) => (
             <div>
-              <div class="text-[15px]" style="color: var(--color-text);">
+              <div class="font-display text-[16px]" style="color: var(--color-text);">
                 {e.degree}
               </div>
-              <div class="font-mono text-[12.5px]" style="color: var(--color-text-muted);">
+              <div class="font-mono text-[11.5px] tracking-[0.1em] uppercase" style="color: var(--color-platinum-dim);">
                 {e.org} · {e.period}
               </div>
             </div>
@@ -137,28 +126,23 @@ import { SITE, SOCIALS } from "../consts";
       </div>
     </section>
 
-    <section class="mb-12">
-      <h2
-        class="mb-5 font-mono text-[11px] uppercase tracking-widest"
-        style="color: var(--color-text-dim);"
-      >
-        Skills
-      </h2>
-      <div class="space-y-4">
+    <section class="mb-14">
+      <h2 class="label-mono mb-6">Skills</h2>
+      <div class="space-y-5">
         {
           Object.entries(CV.skills).map(([group, items]) => (
             <div>
               <div
-                class="mb-2 font-mono text-[12px]"
-                style="color: var(--color-text-dim);"
+                class="mb-2.5 font-mono text-[11px] tracking-[0.12em] uppercase"
+                style="color: var(--color-platinum-dim);"
               >
                 {group}
               </div>
               <div class="flex flex-wrap gap-1.5">
                 {items.map((s) => (
                   <span
-                    class="inline-flex items-center rounded-full border px-2 py-0.5 font-mono text-[11px]"
-                    style="border-color: var(--color-border); background-color: var(--color-surface); color: var(--color-text-muted);"
+                    class="inline-flex items-center rounded-full border px-2.5 py-[3px] font-mono text-[10.5px] tracking-tight"
+                    style="border-color: var(--color-border); background-color: var(--color-bg-2); color: var(--color-platinum-dim);"
                   >
                     {s}
                   </span>
@@ -171,13 +155,8 @@ import { SITE, SOCIALS } from "../consts";
     </section>
 
     <section class="mb-6">
-      <h2
-        class="mb-5 font-mono text-[11px] uppercase tracking-widest"
-        style="color: var(--color-text-dim);"
-      >
-        Languages
-      </h2>
-      <ul class="flex flex-wrap gap-x-6 gap-y-2 text-[14px]">
+      <h2 class="label-mono mb-5">Languages</h2>
+      <ul class="flex flex-wrap gap-x-7 gap-y-2 text-[14px]">
         {
           CV.languages.map((l) => (
             <li style="color: var(--color-text-muted);">

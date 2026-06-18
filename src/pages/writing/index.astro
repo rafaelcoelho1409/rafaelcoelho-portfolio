@@ -13,12 +13,15 @@ const posts = (await getCollection("writing", ({ data }) => !data.draft)).sort(
   description="Technical writing on MLOps, real-time ML, Generative AI, and production ML systems by Rafael Coelho."
 >
   <div class="container-page">
-    <header class="mb-10">
-      <p class="mb-2 font-mono text-[12px]" style="color: var(--color-accent);">/ writing</p>
-      <h1 class="mb-3 text-3xl font-semibold tracking-tight" style="color: var(--color-text);">
+    <header class="mb-12 pt-4">
+      <p class="eyebrow mb-4">/ Writing</p>
+      <h1
+        class="font-display mb-4 text-[2.4rem] font-medium tracking-tight"
+        style="color: var(--color-text); letter-spacing: -0.025em;"
+      >
         Writing
       </h1>
-      <p class="text-[15px] leading-7" style="color: var(--color-text-muted);">
+      <p class="text-[16px] leading-[1.7]" style="color: var(--color-text-muted);">
         Notes on MLOps, real-time ML, Generative AI, and the production systems behind them.
       </p>
     </header>
