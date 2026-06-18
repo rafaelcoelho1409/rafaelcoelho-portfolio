@@ -14,7 +14,7 @@ export type CVEducation = {
 
 export const CV = {
   intro:
-    "Senior MLOps / ML Engineer with 6+ years designing and deploying production-grade machine learning systems on Kubernetes. Hands-on across the full ML lifecycle — data engineering, model training and serving, IaC, container orchestration, and observability at scale.",
+    "Senior AI Engineer with 6+ years designing, deploying, and operating production agentic and ML systems on Kubernetes. Hands-on across the full lifecycle — data engineering, model training and serving, IaC, container orchestration, agentic orchestration with LangGraph, and observability at scale.",
 
   highlights: [
     "Built a Real-Time MLOps platform on Kubernetes — incremental + batch ML on Kafka, Spark, Delta Lake, MLflow, with Terraform / Helm / ArgoCD / GitLab CI and 50+ Prometheus metrics across 11 Grafana dashboards.",
