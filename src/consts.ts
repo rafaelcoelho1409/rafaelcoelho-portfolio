@@ -3,7 +3,7 @@ export const SITE = {
   tagline: "Senior MLOps / ML Engineer",
   description:
     "Senior MLOps / ML Engineer shipping production-grade machine learning systems on Kubernetes. 6+ years across Generative AI, agentic systems, real-time pipelines, and observability at scale.",
-  url: "https://rafaelcoelho-portfolio.rafaelcoelho1409.workers.dev",
+  url: "https://rafaelcoelho.pages.dev",
   author: "Rafael Coelho",
   email: "rafaelcoelho1409@gmail.com",
   location: "Curitiba, Paraná, Brazil",

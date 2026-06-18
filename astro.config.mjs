@@ -5,7 +5,7 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://rafaelcoelho-portfolio.rafaelcoelho1409.workers.dev",
+  site: "https://rafaelcoelho.pages.dev",
   trailingSlash: "ignore",
   vite: {
     plugins: [tailwindcss()],
