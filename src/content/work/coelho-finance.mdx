@@ -1,28 +1,87 @@
 ---
 title: "COELHO Finance"
-summary: "Financial market analytics platform combining data science, ML, and AI applied to investment decisions, portfolio tracking, and opportunity identification."
-outcome: "Live Streamlit app with end-to-end financial data pipelines and ML modeling — free public access."
+summary: "Financial market analytics platform combining Data Science, ML, and AI applied to investment analysis, portfolio tracking, and opportunity identification — running live on Streamlit with free public access."
+outcome: "Live Streamlit app with end-to-end financial data pipelines · ML models for investment decisioning · the deliberate sandbox where I prototyped frameworks before bringing them into production work."
 date: 2023-09-01
-order: 6
 stack:
   - Python
   - Streamlit
-  - scikit-learn
   - pandas
+  - NumPy
+  - scikit-learn
+  - Plotly
   - yfinance
+  - statsmodels
 demo: https://coelhofinance.streamlit.app/
 repo: https://github.com/rafaelcoelho1409/COELHOFinance
+presentation: /work/coelho-finance/COELHOFinance.pdf
 thumbnail: /work/coelho-finance/logo.png
 ---
 
-## Personal portfolio meets financial ML
+import PdfViewer from "../../components/PdfViewer.astro";
 
-COELHO Finance was built as a personal portfolio project to test **Data Science, Machine Learning,
-and AI tools applied to financial markets**. It helps users make informed investment decisions,
-track holdings, and identify opportunities — all in a free, live Streamlit app.
+## Executive summary
 
-The project doubled as a deliberate sandbox: every new ML framework I wanted to learn got
-prototyped against real-market data here before going into production work.
+**COELHO Finance** is a financial market analytics platform combining Data Science,
+Machine Learning, and AI to help users make informed investment decisions, track
+their portfolios, and identify market opportunities. The platform is **publicly live**
+at [coelhofinance.streamlit.app](https://coelhofinance.streamlit.app/) — free access,
+no signup, just open and use.
+
+This project was built with **deliberate dual purpose**: a useful free tool for
+investors AND my personal sandbox for testing Data Science, ML, and AI frameworks
+applied to financial market data before bringing them into client production work.
+
+## See it deployed
+
+The Streamlit app is the primary live verification — just open it and explore. These
+15 slides are the deeper deployment record: the full feature set in operation, the
+ML pipelines, and the design choices behind the financial data flows.
+
+<PdfViewer
+  src="/work/coelho-finance/COELHOFinance.pdf"
+  height="72vh"
+  ariaLabel="COELHO Finance — 15-slide deployment record"
+  downloadLabel="Open PDF in new tab"
+/>
+
+## What the platform actually does
+
+Three pillars sit on the same financial-data substrate:
+
+| Pillar | What it delivers | Why it matters |
+|---|---|---|
+| **Investment decisioning** | ML-driven analysis to help users make informed allocation calls | Most retail tools surface stats; this one applies models *on top* of stats |
+| **Portfolio tracking** | End-to-end ingestion → reconciliation → visualization of user holdings | Closes the loop: from raw data to a dashboard the user can actually read |
+| **Opportunity identification** | Pattern analysis across instruments to surface candidates for further review | Compresses hours of manual scanning into a filtered shortlist |
+
+## What this project really was
+
+A **sandbox with users**. Like [Formula 1 Analytics](/work/formula-one-analytics),
+every time I wanted to evaluate a new framework for time-series, a different
+plotting backend, or a fresh ML algorithm for financial data, I prototyped it here
+against real market data before deciding whether it belonged in client work.
+
+The cost was low, the data was clean and public via **yfinance**, the iteration was
+fast, and the live Streamlit app meant the testbed was *useful* — not just throwaway
+notebooks. Several stack choices for later financial-domain work originated from
+prototypes that first shipped here.
+
+## Stack
+
+- **Python** — implementation
+- **Streamlit** — public-facing live interface
+- **pandas** + **NumPy** — data wrangling and time-series ops
+- **scikit-learn** — ML for investment decisioning models
+- **statsmodels** — time-series statistical analysis
+- **Plotly** — interactive financial visualizations
+- **yfinance** — open historical market data source
+
+## What this project proves
+
+- **Financial markets as a delivered domain** — added to Logistics, Real Estate, CV, Cybersecurity, Sports as production domain experience
+- **End-to-end live product ownership** — data ingestion through ML through live UI, all maintained by one engineer
+- **Sandbox-with-users discipline** — the best testbeds for new tooling are the ones that ship to real users; that's where edge cases surface
 
 [Live demo →](https://coelhofinance.streamlit.app/) ·
 [Source on GitHub →](https://github.com/rafaelcoelho1409/COELHOFinance)
