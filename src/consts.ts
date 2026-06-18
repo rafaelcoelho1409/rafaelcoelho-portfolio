@@ -27,7 +27,7 @@ export const NAV = [
 ] as const;
 
 export const HOME_METRICS = [
-  { value: "6+", unit: "yrs", label: "designing production ML systems on Kubernetes" },
+  { value: "6+", unit: "yrs", label: "production ML and Data Science engineering" },
   { value: "9", unit: "", label: "public AI / ML projects shipped end-to-end" },
   { value: "BSc", unit: "", label: "Mathematics · Federal University of Paraná (UFPR)" },
 ] as const;
