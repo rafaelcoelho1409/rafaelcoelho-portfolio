@@ -9,8 +9,7 @@ import portrait from "../assets/photos/profile1.png";
 import { SITE, HOME_METRICS } from "../consts";
 
 const allWork = (await getCollection("work", ({ data }) => !data.draft)).sort(
-  (a, b) =>
-    a.data.order - b.data.order || b.data.date.valueOf() - a.data.date.valueOf(),
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
 const featured = allWork.filter((w) => w.data.featured).slice(0, 4);
 const featuredList = featured.length > 0 ? featured : allWork.slice(0, 4);
