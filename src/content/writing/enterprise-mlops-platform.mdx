@@ -1,6 +1,6 @@
 ---
 title: "Enterprise MLOps platform — production Kubernetes infrastructure with full CI/CD, GitOps, and workflow orchestration"
-summary: "Production-grade MLOps platform featuring Terraform, Kubernetes (k3d), GitLab, ArgoCD, Airflow, MinIO, and full infrastructure automation."
+summary: "Production-grade MLOps platform on Kubernetes — Terraform, k3d, GitLab, ArgoCD, Apache Airflow, MinIO, Rancher — with end-to-end IaC, GitOps continuous delivery, and DAG-orchestrated ML pipelines. Validated against a Real-Time ML project."
 date: 2025-12-03
 tags:
   - kubernetes
@@ -12,130 +12,195 @@ tags:
   - cicd
 ---
 
+import { Image } from "astro:assets";
+import architecture from "../../assets/writing/enterprise-mlops-platform/architecture.png";
+import airflowDag from "../../assets/writing/enterprise-mlops-platform/airflow-dag.jpg";
+import rancherUi from "../../assets/writing/enterprise-mlops-platform/rancher-ui.jpg";
+import argocdProject from "../../assets/writing/enterprise-mlops-platform/argocd-project.jpg";
+
 ## Executive summary
 
-This project demonstrates the design and implementation of a **production-grade MLOps platform**
-built on Kubernetes — integrating modern cloud-native technologies for end-to-end CI/CD pipelines,
-GitOps deployments, and scalable workflow orchestration. It's a significant evolution from the
-earlier
-[local k3d cluster setup](/writing/k3d-local-cluster): the source isn't public this time (it's a
-personal platform), so this writeup focuses on how it was built and what it delivers.
+This is the design and implementation of a **production-grade MLOps platform** on
+Kubernetes — integrating modern cloud-native technologies for end-to-end CI/CD
+pipelines, GitOps deployments, and scalable workflow orchestration.
+
+It's a significant evolution from the earlier
+[local k3d cluster setup](/writing/k3d-local-cluster) post: the source isn't public
+this time (it's a personal platform powering real production work), so this writeup
+focuses on **how it was built and what it delivers** rather than walking through
+config files line by line.
 
 ## Business context
 
-Over months of working on enterprise ML projects — a recommendation system for job positions, a
-Speech-To-Speech system (STT/ASR + TTS), an Agentic AI platform, and a personal Real-Time ML
-project — the need for a **robust, production-ready MLOps infrastructure** became evident. I also
-wanted an environment that could replicate production locally while keeping full CI/CD capabilities.
+Over months of working on enterprise ML projects — a recommendation system for job
+positions, a Speech-To-Speech system (STT/ASR + TTS), an Agentic AI platform, and a
+personal Real-Time ML project — the need for a **robust, production-ready MLOps
+infrastructure** became evident. I needed an environment that could:
 
-The platform had to:
-
-- Support real-time development and testing before production deployment
-- Provide complete GitOps-based continuous delivery
+- Replicate production conditions locally
+- Maintain full CI/CD capabilities end-to-end
+- Provide GitOps-based continuous delivery
 - Enable automated workflow orchestration for ML pipelines
-- Ensure reproducibility across environments
+- Ensure reproducibility across operating systems
 - Deliver enterprise-grade reliability and scalability
 
 ## Platform architecture
 
+<Image
+  src={architecture}
+  alt="Enterprise MLOps platform architecture — Terraform provisions the k3d cluster; GitLab + ArgoCD provide CI/CD + GitOps; Apache Airflow orchestrates ML pipelines; MinIO/PostgreSQL/Redis form the data layer; Rancher provides cluster observability."
+  loading="eager"
+  quality={92}
+/>
+
 ### Infrastructure as Code
 
-The entire infrastructure is provisioned with **Terraform** — an abstraction layer ensuring
-reproducibility across Linux, Windows, and macOS. Declarative infra management means the whole
-config is version-controlled, with no drift between dev / staging / prod-like environments.
+The entire infrastructure is provisioned with **Terraform** — an abstraction layer
+ensuring reproducibility across Linux, Windows, and macOS. Declarative infra
+management means the whole config is version-controlled, with no drift between dev,
+staging, and prod-like environments.
 
 ### Core components
 
+The platform consists of multiple integrated services, each serving a specific role
+in the MLOps ecosystem:
+
 **Container orchestration**
-- **k3d** — 1 server + 3 agent nodes, prod-like locally
-- **Docker** — runtime
-- **Helm** — package manager
-- **k3d Registry** — local container registry
+
+- **k3d** — lightweight Kubernetes distribution, 1 server + 3 agent nodes, prod-like behavior locally
+- **Docker** — container runtime
+- **Helm** — Kubernetes package manager for declarative app deployment
+- **k3d Registry** — local container registry for custom images
 
 **GitOps & CI/CD**
-- **GitLab** — source control + CI/CD + container registry
-- **ArgoCD** — GitOps continuous delivery, auto-syncing from Git
+
+- **GitLab** — source control + CI/CD + container registry, all in one
+- **ArgoCD** — GitOps continuous delivery, auto-syncing from Git repositories
 - **ArgoCD Image Updater** — automated detection and deployment of new image versions
 
 **Workflow orchestration**
-- **Apache Airflow** — production-grade DAG orchestration for ML pipelines
-- **Airflow DAG Processor** — dedicated parser / scheduler
-- **Git-Sync** — DAGs synced automatically from GitLab
+
+- **Apache Airflow** — production-grade DAG orchestration for ML pipelines and data workflows
+- **Airflow DAG Processor** — dedicated parser and scheduler
+- **Git-Sync** — DAGs synchronized automatically from GitLab repositories
 
 **Data & storage**
-- **MinIO** — S3-compatible object storage for ML artifacts, models, datasets
-- **PostgreSQL** — metadata store for Airflow + GitLab
-- **Redis** — in-memory cache + workflow queue
+
+- **MinIO** — S3-compatible object storage for ML artifacts, models, datasets, pipeline outputs
+- **PostgreSQL** — relational metadata store for Airflow + GitLab
+- **Redis** — in-memory cache and message queue for workflow execution
 
 **Management & monitoring**
-- **Rancher** — cluster monitoring + operational insights
-- **LocalStack** — AWS emulator for cloud-dependent local development
+
+- **Rancher** — centralized cluster monitoring, resource management, operational insights
+- **LocalStack** — AWS service emulator for local development without external dependencies
 
 ## Hardware footprint
 
-- Arch Linux · 64 GB RAM · Intel i7 11th gen · 8 cores · 2 TB NVMe
+| Component | Specification |
+|---|---|
+| **RAM** | 64 GB |
+| **CPU** | 8 cores (modern x86_64) |
+| **Storage** | 2 TB NVMe SSD |
+| **Orchestration** | k3d (local Kubernetes) |
 
-Full platform footprint: ~6-10 GB RAM total; GitLab dominates and can be trimmed via `values.yaml`.
+Full platform footprint: ~6–10 GB RAM total in steady state. GitLab dominates and can
+be trimmed via `values.yaml` for tighter resource budgets — most other components are
+lean.
 
 ## CI/CD pipeline integration
 
-End-to-end flow:
+End-to-end flow from a commit to a live deployment:
 
-1. **Source control** — repos in local GitLab
-2. **CI** — GitLab CI pipelines triggered on commits
-3. **Container build** — Docker images built in GitLab CI, pushed to k3d Registry
-4. **Auto-deploy** — ArgoCD Image Updater detects new image versions
-5. **GitOps sync** — ArgoCD applies Kubernetes manifests from Git
-6. **Health monitoring** — Rancher surfaces deployment health and resource utilization in real-time
+1. **Source control** — code repositories in the local GitLab instance
+2. **Continuous integration** — GitLab CI pipelines automatically triggered on code commits
+3. **Container build** — Docker images built within GitLab CI and pushed to the k3d Registry
+4. **Auto-deploy** — ArgoCD Image Updater detects new image versions in the registry
+5. **GitOps sync** — ArgoCD applies Kubernetes manifests from Git repositories
+6. **Health monitoring** — Rancher provides real-time visibility into deployment health and resource utilization
+
+<Image
+  src={argocdProject}
+  alt="ArgoCD UI showing a deployed project with synced application state — the GitOps loop closed end-to-end."
+  loading="lazy"
+  quality={88}
+/>
+
+_ArgoCD showing a deployed project — GitOps loop closed end-to-end, application state synced from Git to the cluster automatically._
 
 ## Workflow orchestration
 
-Apache Airflow provides enterprise-grade DAG orchestration:
+Apache Airflow provides enterprise-grade workflow orchestration capabilities:
 
-- **DAG management** — synced from GitLab via git-sync sidecar
-- **Scalable execution** — distributed tasks across Kubernetes pods
-- **Data pipeline integration** — MinIO for artifacts, PostgreSQL for metadata
-- **Monitoring & alerting** — execution tracking and failure handling
+- **DAG management** — workflow definitions automatically synchronized from GitLab repositories via the git-sync sidecar
+- **Scalable execution** — distributed task execution across Kubernetes pods
+- **Data pipeline integration** — direct integration with MinIO for artifact storage and PostgreSQL for metadata management
+- **Monitoring & alerting** — built-in monitoring of pipeline execution with failure handling
 
-## Validation: integration with a Real-Time ML project
+<Image
+  src={airflowDag}
+  alt="An Airflow DAG running on the platform — the workflow execution graph visible in the Airflow UI."
+  loading="lazy"
+  quality={88}
+/>
 
-The platform was validated by integrating with a Real-Time ML project that simulates real-time data
-generation and trains classification, regression, and clustering models in real time.
+_An Airflow DAG running on the platform — tasks scheduled, executed across Kubernetes pods, monitored through the Airflow UI._
+
+## Validation — integration with a Real-Time ML project
+
+The platform was validated by integrating it with a Real-Time Machine Learning
+project that simulates real-time data generation and trains classification,
+regression, and clustering models in real time.
 
 End-to-end workflow validated:
 
-1. Repo pushed to local GitLab
-2. GitLab CI builds Docker images for the microservices
+1. Repo pushed to the local GitLab instance
+2. GitLab CI pipeline built multiple Docker images using microservices architecture
 3. Images pushed to k3d Registry with semantic versioning
-4. ArgoCD Image Updater detects new image versions and triggers automated deployment
-5. Helm charts define all Kubernetes resources, applied by ArgoCD
-6. Rancher shows live resource health and pod status
-7. Airflow DAGs orchestrate ML training pipelines, preprocessing, and deployment workflows
+4. ArgoCD Image Updater detected new versions and triggered automated deployment
+5. Helm charts defined all Kubernetes resources, applied and managed by ArgoCD
+6. Rancher provided live monitoring of resource health and pod status
+7. Airflow DAGs orchestrated ML training pipelines, preprocessing, and deployment workflows
+
+<Image
+  src={rancherUi}
+  alt="Rancher UI showing all Helm packages installed into the k3d cluster — real-time visibility into deployment health and resource utilization."
+  loading="lazy"
+  quality={88}
+/>
+
+_Rancher showing all Helm packages installed into the k3d cluster — real-time visibility into deployment health and resource utilization across the full platform._
 
 ## Key achievements
 
 **Technical excellence**
+
 - Full infrastructure provisioning automated through Terraform
-- True GitOps workflow with declarative configuration and automated sync
+- True GitOps workflow with declarative configuration and automated synchronization
 - Production-ready microservices deployment patterns
-- Enterprise workflow orchestration with Airflow
+- Enterprise-grade workflow orchestration with Apache Airflow
 
 **DevOps best practices**
-- IaC for reproducibility
+
+- Infrastructure-as-Code for reproducibility
 - Container-based immutable infrastructure with automated rollbacks
-- Full CD from commit to deploy
-- Observability via Rancher
+- Full continuous deployment from commit to deploy
+- Comprehensive observability through Rancher
 
 **MLOps capabilities**
-- End-to-end ML pipelines: ingestion → deploy
-- S3-compatible artifact management
-- DAG scheduling for ML workflows
-- Infrastructure for real-time training and inference
+
+- End-to-end ML pipelines: data ingestion → training → serving
+- S3-compatible artifact management via MinIO
+- DAG-based scheduling for ML workflows
+- Infrastructure supporting real-time training and inference
 
 ## Conclusion
 
-This platform integrates IaC, GitOps, containerization, and workflow orchestration into a
-production-grade MLOps environment. It bridges development and production cleanly, letting the
-ML side stay focused on modeling while operations stay automated and reliable. It's the
-infrastructure backbone for [COELHO RealTime](/work/coelho-realtime) and several other production
-ML projects I run privately.
+This platform integrates Infrastructure-as-Code, GitOps, containerization, and
+workflow orchestration into a production-grade MLOps environment. It bridges
+development and production cleanly — the ML side stays focused on modeling while
+operations stay automated, reproducible, and reliable.
+
+It's the infrastructure backbone for
+[COELHO RealTime](/work/coelho-realtime) and several other production ML projects I
+run privately.
