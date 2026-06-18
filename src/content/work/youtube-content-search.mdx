@@ -1,43 +1,100 @@
 ---
 title: "YouTube Content Search"
-summary: "GraphRAG platform that extracts entities and relationships from YouTube transcripts into a Neo4j knowledge graph — the research that became COELHO Nexus."
-outcome: "Multi-hop video queries across Search / Video / Channel / Playlist modes. Demonstrated KG-based retrieval superiority over vanilla vector RAG."
+summary: "Multi-mode GraphRAG platform that extracts entities and relationships from YouTube transcripts into a Neo4j knowledge graph for multi-hop reasoning — the research that became COELHO Nexus."
+outcome: "Four search modes (Search · Video · Channel · Playlist) · multi-hop reasoning via Neo4j knowledge graph · multi-provider LLM routing across Groq, OpenAI, SambaNova, Scaleway."
 date: 2025-03-28
-order: 5
 stack:
   - LangChain
   - LangGraph
   - Neo4j
   - GraphRAG
   - Llama 3.1
+  - Gemma 2
   - Groq
+  - OpenAI
+  - SambaNova
+  - Scaleway
   - Streamlit
+  - Python
 repo: https://github.com/rafaelcoelho1409/YouTubeContentSearch
+presentation: /work/youtube-content-search/YouTubeContentSearch.pdf
 thumbnail: /work/youtube-content-search/logo.png
 ---
 
-## The research behind COELHO Nexus
+import PdfViewer from "../../components/PdfViewer.astro";
 
-YouTube Content Search uses LangChain and LangGraph to extract entities and relationships from
-video transcripts and store them as a **Knowledge Graph** in Neo4j. Users can search videos
-through four modes:
+## Executive summary
 
-- **Search** — agents autonomously locate videos matching context + filters
-- **Video** — extract structured info from a single video
-- **Channel** — extract and reason across an entire channel's transcript corpus
-- **Playlist** — same as Channel but scoped to playlists
+**YouTube Content Search** is the research project that became
+[COELHO Nexus](/work/coelho-nexus). It builds a Knowledge Graph from YouTube video
+transcripts using AI Agents (LangChain + LangGraph), stores entities and relationships
+in Neo4j, and exposes four distinct retrieval modes — **Search, Video, Channel,
+Playlist** — enabling multi-hop reasoning that vanilla vector RAG can't do.
 
-Every mode lets the user ask follow-up questions; an agent queries the Knowledge Graph to answer
-with **multi-hop reasoning** that vector RAG can't do.
+LLM inference runs across multiple providers (Groq, OpenAI, SambaNova, Scaleway),
+giving the system cost-aware fallback and avoiding vendor lock-in. The interface is
+Streamlit; the agent orchestration is LangGraph.
 
-## Why Knowledge Graphs beat vector RAG here
+## See it deployed
 
-Vector RAG retrieves by semantic similarity. That's enough for *"summarize this video"* but
-inadequate for *"X works_for Y → Y located_in Z"* questions. KGs structurally capture
-relationships, enabling accurate multi-hop reasoning and logically consistent answers — exactly
-what semantic search over interviews and panel discussions needs.
+The platform requires API keys to multiple LLM providers and a running Neo4j instance,
+so you can't trivially spin it up — these 20 slides are the verifiable record of the
+system running with real YouTube content, KG entity extraction, multi-hop queries
+answered, and the four search modes in operation. Navigate with arrows or open
+fullscreen for the full read.
 
-This project was the proof-of-concept that became the production [COELHO Nexus](/work/coelho-nexus)
-platform.
+<PdfViewer
+  src="/work/youtube-content-search/YouTubeContentSearch.pdf"
+  height="72vh"
+  ariaLabel="YouTube Content Search — 20-slide deployment record"
+  downloadLabel="Open PDF in new tab"
+/>
+
+## Four retrieval modes
+
+| Mode | What it does | When it matters |
+|---|---|---|
+| **Search** | AI Agents autonomously locate videos matching context + filters supplied by user | Open-ended discovery — "find videos discussing X" |
+| **Video** | Extract structured information from a single specified video | Deep-dive into one source |
+| **Channel** | AI Agents traverse a YouTube channel's full transcript corpus and reason across it | *"What does this creator believe about Y?"* |
+| **Playlist** | Same pattern as Channel but scoped to a curated playlist | Curated topic exploration |
+
+Each mode exposes a follow-up question chat: an agent queries the Knowledge Graph and
+answers with multi-hop reasoning grounded in the graph traversal — not chunk-similarity
+lottery.
+
+## Why Knowledge Graphs beat vanilla vector RAG here
+
+Vector RAG retrieves by semantic similarity (cosine over chunk embeddings). That works
+for *"summarize this video,"* but fails on questions like:
+
+- *"Which AI researchers discuss safety in interviews with Lex Fridman?"* → requires filtering by speaker AND topic AND venue
+- *"What does Karpathy say about LLM evaluation across his last 10 talks?"* → requires multi-hop reasoning over (speaker → talks → claims → topics)
+- *"Who appears in two or more videos with topic Z?"* → relational query, not similarity query
+
+Knowledge Graphs encode these relationships explicitly: `X works_for Y`,
+`Y located_in Z`, `A discussed B in C`. Cypher queries walk the graph; the LLM grounds
+its answer in the relationship structure. The tradeoff is extraction quality (entity /
+relation extraction is harder than chunk embedding) — but the win on multi-hop
+correctness is substantial.
+
+This proof-of-concept became the architectural backbone of
+[COELHO Nexus](/work/coelho-nexus), where the same GraphRAG pattern scales to a
+production agentic RAG platform with adaptive retrieval routing.
+
+## Stack
+
+- **LangChain** — agent and tool composition primitives
+- **LangGraph** — multi-agent orchestration with explicit state graphs and retry edges
+- **Neo4j** — Knowledge Graph storage + Cypher querying for multi-hop traversal
+- **LLM providers** — Groq (low-latency Llama 3.1, Gemma 2), OpenAI (fallback), SambaNova, Scaleway (cost diversity)
+- **Streamlit** — interactive interface
+- **Python** — implementation
+
+## What this project proves
+
+- **GraphRAG is more than a buzzword** — explicit entity-relationship modeling beats vector-only retrieval on multi-hop questions
+- **Multi-provider LLM routing was shipping-ready in early 2025** — switching across Groq / OpenAI / SambaNova / Scaleway for production cost control predates the rotator I now run in COELHO Nexus
+- **Foundation for COELHO Nexus** — every retrieval insight here was absorbed into the Nexus adaptive 3-mode agentic RAG architecture
 
 [Source on GitHub →](https://github.com/rafaelcoelho1409/YouTubeContentSearch)
