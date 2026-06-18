@@ -1,0 +1,141 @@
+---
+title: "Enterprise MLOps platform — production Kubernetes infrastructure with full CI/CD, GitOps, and workflow orchestration"
+summary: "Production-grade MLOps platform featuring Terraform, Kubernetes (k3d), GitLab, ArgoCD, Airflow, MinIO, and full infrastructure automation."
+date: 2025-12-03
+tags:
+  - kubernetes
+  - mlops
+  - terraform
+  - argocd
+  - airflow
+  - gitops
+  - cicd
+---
+
+## Executive summary
+
+This project demonstrates the design and implementation of a **production-grade MLOps platform**
+built on Kubernetes — integrating modern cloud-native technologies for end-to-end CI/CD pipelines,
+GitOps deployments, and scalable workflow orchestration. It's a significant evolution from the
+earlier
+[local k3d cluster setup](/writing/k3d-local-cluster): the source isn't public this time (it's a
+personal platform), so this writeup focuses on how it was built and what it delivers.
+
+## Business context
+
+Over months of working on enterprise ML projects — a recommendation system for job positions, a
+Speech-To-Speech system (STT/ASR + TTS), an Agentic AI platform, and a personal Real-Time ML
+project — the need for a **robust, production-ready MLOps infrastructure** became evident. I also
+wanted an environment that could replicate production locally while keeping full CI/CD capabilities.
+
+The platform had to:
+
+- Support real-time development and testing before production deployment
+- Provide complete GitOps-based continuous delivery
+- Enable automated workflow orchestration for ML pipelines
+- Ensure reproducibility across environments
+- Deliver enterprise-grade reliability and scalability
+
+## Platform architecture
+
+### Infrastructure as Code
+
+The entire infrastructure is provisioned with **Terraform** — an abstraction layer ensuring
+reproducibility across Linux, Windows, and macOS. Declarative infra management means the whole
+config is version-controlled, with no drift between dev / staging / prod-like environments.
+
+### Core components
+
+**Container orchestration**
+- **k3d** — 1 server + 3 agent nodes, prod-like locally
+- **Docker** — runtime
+- **Helm** — package manager
+- **k3d Registry** — local container registry
+
+**GitOps & CI/CD**
+- **GitLab** — source control + CI/CD + container registry
+- **ArgoCD** — GitOps continuous delivery, auto-syncing from Git
+- **ArgoCD Image Updater** — automated detection and deployment of new image versions
+
+**Workflow orchestration**
+- **Apache Airflow** — production-grade DAG orchestration for ML pipelines
+- **Airflow DAG Processor** — dedicated parser / scheduler
+- **Git-Sync** — DAGs synced automatically from GitLab
+
+**Data & storage**
+- **MinIO** — S3-compatible object storage for ML artifacts, models, datasets
+- **PostgreSQL** — metadata store for Airflow + GitLab
+- **Redis** — in-memory cache + workflow queue
+
+**Management & monitoring**
+- **Rancher** — cluster monitoring + operational insights
+- **LocalStack** — AWS emulator for cloud-dependent local development
+
+## Hardware footprint
+
+- Arch Linux · 64 GB RAM · Intel i7 11th gen · 8 cores · 2 TB NVMe
+
+Full platform footprint: ~6-10 GB RAM total; GitLab dominates and can be trimmed via `values.yaml`.
+
+## CI/CD pipeline integration
+
+End-to-end flow:
+
+1. **Source control** — repos in local GitLab
+2. **CI** — GitLab CI pipelines triggered on commits
+3. **Container build** — Docker images built in GitLab CI, pushed to k3d Registry
+4. **Auto-deploy** — ArgoCD Image Updater detects new image versions
+5. **GitOps sync** — ArgoCD applies Kubernetes manifests from Git
+6. **Health monitoring** — Rancher surfaces deployment health and resource utilization in real-time
+
+## Workflow orchestration
+
+Apache Airflow provides enterprise-grade DAG orchestration:
+
+- **DAG management** — synced from GitLab via git-sync sidecar
+- **Scalable execution** — distributed tasks across Kubernetes pods
+- **Data pipeline integration** — MinIO for artifacts, PostgreSQL for metadata
+- **Monitoring & alerting** — execution tracking and failure handling
+
+## Validation: integration with a Real-Time ML project
+
+The platform was validated by integrating with a Real-Time ML project that simulates real-time data
+generation and trains classification, regression, and clustering models in real time.
+
+End-to-end workflow validated:
+
+1. Repo pushed to local GitLab
+2. GitLab CI builds Docker images for the microservices
+3. Images pushed to k3d Registry with semantic versioning
+4. ArgoCD Image Updater detects new image versions and triggers automated deployment
+5. Helm charts define all Kubernetes resources, applied by ArgoCD
+6. Rancher shows live resource health and pod status
+7. Airflow DAGs orchestrate ML training pipelines, preprocessing, and deployment workflows
+
+## Key achievements
+
+**Technical excellence**
+- Full infrastructure provisioning automated through Terraform
+- True GitOps workflow with declarative configuration and automated sync
+- Production-ready microservices deployment patterns
+- Enterprise workflow orchestration with Airflow
+
+**DevOps best practices**
+- IaC for reproducibility
+- Container-based immutable infrastructure with automated rollbacks
+- Full CD from commit to deploy
+- Observability via Rancher
+
+**MLOps capabilities**
+- End-to-end ML pipelines: ingestion → deploy
+- S3-compatible artifact management
+- DAG scheduling for ML workflows
+- Infrastructure for real-time training and inference
+
+## Conclusion
+
+This platform integrates IaC, GitOps, containerization, and workflow orchestration into a
+production-grade MLOps environment. It bridges development and production cleanly, letting the
+ML side stay focused on modeling while operations stay automated and reliable. It's the
+infrastructure backbone for [COELHO RealTime](/work/coelho-realtime) and several other production
+ML projects I run privately.

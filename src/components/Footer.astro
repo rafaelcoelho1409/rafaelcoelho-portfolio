@@ -1,0 +1,47 @@
+---
+import { SITE, SOCIALS } from "../consts";
+
+const year = 2026;
+---
+
+<footer class="border-t" style="border-color: var(--color-border);">
+  <div class="container-wide flex flex-col gap-3 py-8 text-[13px] sm:flex-row sm:items-center sm:justify-between">
+    <div class="font-mono" style="color: var(--color-text-dim);">
+      © {year} {SITE.author} · {SITE.location}
+    </div>
+    <nav class="flex items-center gap-4" aria-label="Social">
+      <a
+        href={SOCIALS.github}
+        target="_blank"
+        rel="noreferrer noopener"
+        class="transition-colors hover:text-[var(--color-text)]"
+        style="color: var(--color-text-dim);"
+      >
+        GitHub
+      </a>
+      <a
+        href={SOCIALS.linkedin}
+        target="_blank"
+        rel="noreferrer noopener"
+        class="transition-colors hover:text-[var(--color-text)]"
+        style="color: var(--color-text-dim);"
+      >
+        LinkedIn
+      </a>
+      <a
+        href={SOCIALS.email}
+        class="transition-colors hover:text-[var(--color-text)]"
+        style="color: var(--color-text-dim);"
+      >
+        Email
+      </a>
+      <a
+        href="/rss.xml"
+        class="transition-colors hover:text-[var(--color-text)]"
+        style="color: var(--color-text-dim);"
+      >
+        RSS
+      </a>
+    </nav>
+  </div>
+</footer>

@@ -1,0 +1,13 @@
+---
+export interface Props {
+  name: string;
+}
+const { name } = Astro.props;
+---
+
+<span
+  class="inline-flex items-center rounded-full border px-2 py-0.5 font-mono text-[11px]"
+  style="border-color: var(--color-border); background-color: var(--color-surface); color: var(--color-text-muted);"
+>
+  {name}
+</span>

@@ -1,0 +1,191 @@
+---
+import Base from "../layouts/Base.astro";
+import { CV } from "../data/cv";
+import { SITE, SOCIALS } from "../consts";
+---
+
+<Base
+  title="CV"
+  description={`CV of ${SITE.author} — Senior MLOps / ML Engineer.`}
+>
+  <div class="container-page">
+    <header class="mb-10">
+      <p class="mb-2 font-mono text-[12px]" style="color: var(--color-accent);">/ cv</p>
+      <h1 class="mb-1 text-3xl font-semibold tracking-tight" style="color: var(--color-text);">
+        {SITE.author}
+      </h1>
+      <p class="mb-4 font-mono text-[13px]" style="color: var(--color-text-muted);">
+        {SITE.tagline} · {SITE.location}
+      </p>
+      <p class="text-[15px] leading-7" style="color: var(--color-text-muted);">{CV.intro}</p>
+
+      <div class="mt-5 flex flex-wrap gap-3 font-mono text-[12.5px]">
+        <a
+          href={SOCIALS.email}
+          class="rounded border px-3 py-1.5 transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+          style="border-color: var(--color-border-strong); color: var(--color-text);"
+          >{SITE.email}</a
+        >
+        <a
+          href={SOCIALS.github}
+          target="_blank"
+          rel="noreferrer noopener"
+          class="rounded border px-3 py-1.5 transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+          style="border-color: var(--color-border-strong); color: var(--color-text);">GitHub ↗</a
+        >
+        <a
+          href={SOCIALS.linkedin}
+          target="_blank"
+          rel="noreferrer noopener"
+          class="rounded border px-3 py-1.5 transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+          style="border-color: var(--color-border-strong); color: var(--color-text);">LinkedIn ↗</a
+        >
+      </div>
+    </header>
+
+    <section class="mb-12">
+      <h2
+        class="mb-4 font-mono text-[11px] uppercase tracking-widest"
+        style="color: var(--color-text-dim);"
+      >
+        Highlights
+      </h2>
+      <ul class="space-y-3">
+        {
+          CV.highlights.map((h) => (
+            <li
+              class="flex gap-3 text-[14.5px] leading-relaxed"
+              style="color: var(--color-text-muted);"
+            >
+              <span style="color: var(--color-accent);">→</span>
+              <span>{h}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="mb-12">
+      <h2
+        class="mb-5 font-mono text-[11px] uppercase tracking-widest"
+        style="color: var(--color-text-dim);"
+      >
+        Experience
+      </h2>
+      <div class="space-y-8">
+        {
+          CV.experience.map((e) => (
+            <div>
+              <div class="mb-1 flex flex-wrap items-baseline justify-between gap-2">
+                <h3
+                  class="text-[15px] font-semibold tracking-tight"
+                  style="color: var(--color-text);"
+                >
+                  {e.role}
+                </h3>
+                <span
+                  class="font-mono text-[12px] whitespace-nowrap"
+                  style="color: var(--color-text-dim);"
+                >
+                  {e.period}
+                </span>
+              </div>
+              <div
+                class="mb-3 font-mono text-[12.5px]"
+                style="color: var(--color-text-muted);"
+              >
+                {e.org}
+                {e.location && ` · ${e.location}`}
+              </div>
+              <ul class="space-y-2">
+                {e.bullets.map((b) => (
+                  <li
+                    class="flex gap-2.5 text-[14px] leading-relaxed"
+                    style="color: var(--color-text-muted);"
+                  >
+                    <span style="color: var(--color-text-dim);">·</span>
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2
+        class="mb-5 font-mono text-[11px] uppercase tracking-widest"
+        style="color: var(--color-text-dim);"
+      >
+        Education
+      </h2>
+      <div class="space-y-3">
+        {
+          CV.education.map((e) => (
+            <div>
+              <div class="text-[15px]" style="color: var(--color-text);">
+                {e.degree}
+              </div>
+              <div class="font-mono text-[12.5px]" style="color: var(--color-text-muted);">
+                {e.org} · {e.period}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2
+        class="mb-5 font-mono text-[11px] uppercase tracking-widest"
+        style="color: var(--color-text-dim);"
+      >
+        Skills
+      </h2>
+      <div class="space-y-4">
+        {
+          Object.entries(CV.skills).map(([group, items]) => (
+            <div>
+              <div
+                class="mb-2 font-mono text-[12px]"
+                style="color: var(--color-text-dim);"
+              >
+                {group}
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                {items.map((s) => (
+                  <span
+                    class="inline-flex items-center rounded-full border px-2 py-0.5 font-mono text-[11px]"
+                    style="border-color: var(--color-border); background-color: var(--color-surface); color: var(--color-text-muted);"
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="mb-6">
+      <h2
+        class="mb-5 font-mono text-[11px] uppercase tracking-widest"
+        style="color: var(--color-text-dim);"
+      >
+        Languages
+      </h2>
+      <ul class="flex flex-wrap gap-x-6 gap-y-2 text-[14px]">
+        {
+          CV.languages.map((l) => (
+            <li style="color: var(--color-text-muted);">
+              <span style="color: var(--color-text);">{l.name}</span> · {l.level}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </div>
+</Base>

@@ -1,0 +1,43 @@
+---
+import Base from "../../layouts/Base.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import { getCollection } from "astro:content";
+
+const all = (await getCollection("work", ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order || b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<Base
+  title="Work"
+  description="Production ML and MLOps projects shipped by Rafael Coelho — case studies on architecture, tradeoffs, and outcomes."
+>
+  <div class="container-page">
+    <header class="mb-10">
+      <p class="mb-2 font-mono text-[12px]" style="color: var(--color-accent);">/ work</p>
+      <h1 class="mb-3 text-3xl font-semibold tracking-tight" style="color: var(--color-text);">
+        Selected projects
+      </h1>
+      <p class="text-[15px] leading-7" style="color: var(--color-text-muted);">
+        Case studies of production ML systems I've designed, shipped, and operated. Architecture
+        diagrams, tradeoff notes, and measurable outcomes.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 gap-3">
+      {
+        all.map((entry) => (
+          <ProjectCard
+            title={entry.data.title}
+            summary={entry.data.summary}
+            outcome={entry.data.outcome}
+            href={`/work/${entry.id}`}
+            stack={entry.data.stack}
+            date={entry.data.date}
+            featured={entry.data.featured}
+          />
+        ))
+      }
+    </div>
+  </div>
+</Base>

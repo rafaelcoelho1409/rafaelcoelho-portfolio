@@ -1,0 +1,44 @@
+---
+title: "COELHO Agents"
+summary: "Multi-agent system with LangChain and LangGraph powering a simple assistant, an autonomous software developer agent, and a Knowledge-Graph-backed YouTube content search."
+outcome: "Production GraphRAG pipeline with Neo4j knowledge graph extraction from YouTube transcripts; autonomous code-fixing loops in the software developer agent."
+date: 2025-02-17
+order: 3
+stack:
+  - LangChain
+  - LangGraph
+  - Neo4j
+  - GraphRAG
+  - Streamlit
+  - Python
+repo: https://github.com/rafaelcoelho1409/COELHOAgents
+---
+
+## Three agentic tools in one platform
+
+**1) Simple Assistant** — a chatbot with memory and real-time response.
+
+**2) Software Developer** — agentic tool that generates code, runs it, and *fixes its own bugs*
+autonomously in retry loops. Built on a LangGraph state machine for plan → write → execute →
+diagnose → patch.
+
+**3) YouTube Content Search** — extracts video transcripts, runs entity / relation extraction with
+an LLM, and stores the result in Neo4j as a Knowledge Graph. Lets users ask multi-hop questions
+that vanilla RAG can't answer — e.g. *"who has been interviewed about LLM safety on this channel?"*
+This pattern became the backbone of [COELHO Nexus](/work/coelho-nexus).
+
+## Why Knowledge Graph over pure vector RAG
+
+Vector RAG retrieves by semantic similarity, which is fine for keyword-ish questions but bad at
+multi-hop reasoning. A Knowledge Graph encodes *explicit relationships* (e.g. `X works_for Y`,
+`Y located_in Z`) so the retrieval step can walk relationships, not just embeddings. The cost is
+extraction quality; the reward is correctness on questions that mention multiple entities.
+
+## Stack
+
+- **Streamlit** — interface
+- **LangChain** — agent and tool composition
+- **LangGraph** — multi-agent orchestration with explicit state graphs and retry edges
+- **Neo4j** — Knowledge Graph storage and Cypher querying
+
+[Source on GitHub →](https://github.com/rafaelcoelho1409/COELHOAgents)

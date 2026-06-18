@@ -1,17 +1,118 @@
 ---
+import Base from "../layouts/Base.astro";
+import MetricTile from "../components/MetricTile.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import PostCard from "../components/PostCard.astro";
+import { getCollection } from "astro:content";
+import { SITE, HOME_METRICS } from "../consts";
 
+const allWork = (await getCollection("work", ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order || b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const featured = allWork.filter((w) => w.data.featured).slice(0, 4);
+const featuredList = featured.length > 0 ? featured : allWork.slice(0, 4);
+
+const recentPosts = (await getCollection("writing", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base>
+  <div class="container-page">
+    <section class="mb-16 pt-4 sm:mb-20 sm:pt-8">
+      <p class="mb-4 font-mono text-[12px]" style="color: var(--color-accent);">
+        {SITE.tagline}
+      </p>
+      <h1
+        class="mb-5 text-3xl leading-tight font-semibold tracking-tight sm:text-[2.5rem] sm:leading-[1.15]"
+        style="color: var(--color-text);"
+      >
+        I ship production ML systems on Kubernetes — from real-time
+        <span style="color: var(--color-accent);">incremental</span> pipelines to agentic RAG.
+      </h1>
+      <p class="text-[16px] leading-7" style="color: var(--color-text-muted);">
+        6+ years designing, deploying, and operating end-to-end ML platforms. Currently shipping
+        <a
+          href="/work/coelho-nexus"
+          class="underline decoration-2 underline-offset-4 transition-colors hover:text-[var(--color-accent)]"
+          style="text-decoration-color: var(--color-accent);">COELHO Nexus</a
+        > — an Agentic RAG + GraphRAG search platform.
+      </p>
+
+      <div class="mt-6 flex flex-wrap gap-2 font-mono text-[12px]">
+        <span
+          class="rounded-full border px-2.5 py-1"
+          style="border-color: var(--color-border-strong); color: var(--color-text-muted);"
+        >
+          {SITE.location}
+        </span>
+        <span
+          class="rounded-full border px-2.5 py-1"
+          style="border-color: var(--color-accent-dim); color: var(--color-accent);"
+        >
+          {SITE.relocation}
+        </span>
+      </div>
+    </section>
+
+    <section class="mb-16 grid grid-cols-1 gap-3 sm:grid-cols-3">
+      {HOME_METRICS.map((m) => <MetricTile value={m.value} unit={m.unit} label={m.label} />)}
+    </section>
+
+    <section class="mb-16">
+      <div class="mb-5 flex items-baseline justify-between">
+        <h2 class="text-lg font-semibold tracking-tight" style="color: var(--color-text);">
+          Selected work
+        </h2>
+        <a
+          href="/work"
+          class="font-mono text-[12px] transition-colors hover:text-[var(--color-accent)]"
+          style="color: var(--color-text-dim);">All work →</a
+        >
+      </div>
+      <div class="grid grid-cols-1 gap-3">
+        {
+          featuredList.map((entry) => (
+            <ProjectCard
+              title={entry.data.title}
+              summary={entry.data.summary}
+              outcome={entry.data.outcome}
+              href={`/work/${entry.id}`}
+              stack={entry.data.stack}
+              date={entry.data.date}
+              featured={entry.data.featured}
+            />
+          ))
+        }
+      </div>
+    </section>
+
+    {recentPosts.length > 0 && (
+      <section class="mb-12">
+        <div class="mb-3 flex items-baseline justify-between">
+          <h2 class="text-lg font-semibold tracking-tight" style="color: var(--color-text);">
+            Recent writing
+          </h2>
+          <a
+            href="/writing"
+            class="font-mono text-[12px] transition-colors hover:text-[var(--color-accent)]"
+            style="color: var(--color-text-dim);"
+          >
+            All writing →
+          </a>
+        </div>
+        <div>
+          {recentPosts.map((p) => (
+            <PostCard
+              title={p.data.title}
+              summary={p.data.summary}
+              href={`/writing/${p.id}`}
+              date={p.data.date}
+              tags={p.data.tags}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+</Base>

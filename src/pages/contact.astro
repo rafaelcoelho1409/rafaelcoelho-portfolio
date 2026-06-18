@@ -1,0 +1,104 @@
+---
+import Base from "../layouts/Base.astro";
+import { SITE, SOCIALS } from "../consts";
+---
+
+<Base
+  title="Contact"
+  description={`Get in touch with ${SITE.author}.`}
+>
+  <div class="container-page">
+    <header class="mb-10">
+      <p class="mb-2 font-mono text-[12px]" style="color: var(--color-accent);">/ contact</p>
+      <h1 class="mb-3 text-3xl font-semibold tracking-tight" style="color: var(--color-text);">
+        Get in touch
+      </h1>
+      <p class="text-[15px] leading-7" style="color: var(--color-text-muted);">
+        Best for: Senior MLOps / ML / LLMOps engineering roles, agentic AI consulting, paid speaking
+        or workshops. I read every message; reply within 48 hours.
+      </p>
+    </header>
+
+    <section class="mb-10">
+      <h2
+        class="mb-4 font-mono text-[11px] uppercase tracking-widest"
+        style="color: var(--color-text-dim);"
+      >
+        Channels
+      </h2>
+      <ul class="space-y-3">
+        <li
+          class="flex items-baseline justify-between gap-4 border-b py-2"
+          style="border-color: var(--color-border);"
+        >
+          <div>
+            <div class="text-[14px]" style="color: var(--color-text);">Email</div>
+            <div class="font-mono text-[12px]" style="color: var(--color-text-dim);">
+              Fastest. Default to this.
+            </div>
+          </div>
+          <a
+            href={SOCIALS.email}
+            class="font-mono text-[13px] transition-colors hover:text-[var(--color-accent)]"
+            style="color: var(--color-text);"
+          >
+            {SITE.email} ↗
+          </a>
+        </li>
+        <li
+          class="flex items-baseline justify-between gap-4 border-b py-2"
+          style="border-color: var(--color-border);"
+        >
+          <div>
+            <div class="text-[14px]" style="color: var(--color-text);">LinkedIn</div>
+            <div class="font-mono text-[12px]" style="color: var(--color-text-dim);">
+              Good for recruiters with InMail.
+            </div>
+          </div>
+          <a
+            href={SOCIALS.linkedin}
+            target="_blank"
+            rel="noreferrer noopener"
+            class="font-mono text-[13px] transition-colors hover:text-[var(--color-accent)]"
+            style="color: var(--color-text);">/in/rafaelcoelho1409 ↗</a
+          >
+        </li>
+        <li
+          class="flex items-baseline justify-between gap-4 border-b py-2"
+          style="border-color: var(--color-border);"
+        >
+          <div>
+            <div class="text-[14px]" style="color: var(--color-text);">GitHub</div>
+            <div class="font-mono text-[12px]" style="color: var(--color-text-dim);">
+              Code, projects, dotfiles.
+            </div>
+          </div>
+          <a
+            href={SOCIALS.github}
+            target="_blank"
+            rel="noreferrer noopener"
+            class="font-mono text-[13px] transition-colors hover:text-[var(--color-accent)]"
+            style="color: var(--color-text);">@rafaelcoelho1409 ↗</a
+          >
+        </li>
+      </ul>
+    </section>
+
+    <section
+      class="rounded-lg border p-5"
+      style="border-color: var(--color-accent-dim); background-color: color-mix(in oklch, var(--color-accent) 6%, var(--color-surface));"
+    >
+      <h2
+        class="mb-2 font-mono text-[11px] uppercase tracking-widest"
+        style="color: var(--color-accent);"
+      >
+        Hiring & relocation
+      </h2>
+      <p class="text-[14.5px] leading-7" style="color: var(--color-text);">
+        Currently based in {SITE.location}. Open to relocation for Senior / Staff MLOps / LLMOps
+        roles in the UAE (Abu Dhabi, Dubai), Saudi Arabia (Riyadh), Qatar (Doha), or Singapore.
+        Also open to fully remote roles globally.
+      </p>
+    </section>
+  </div>
+</Base>

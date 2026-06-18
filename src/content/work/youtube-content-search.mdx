@@ -1,0 +1,42 @@
+---
+title: "YouTube Content Search"
+summary: "GraphRAG platform that extracts entities and relationships from YouTube transcripts into a Neo4j knowledge graph — the research that became COELHO Nexus."
+outcome: "Multi-hop video queries across Search / Video / Channel / Playlist modes. Demonstrated KG-based retrieval superiority over vanilla vector RAG."
+date: 2025-03-28
+order: 5
+stack:
+  - LangChain
+  - LangGraph
+  - Neo4j
+  - GraphRAG
+  - Llama 3.1
+  - Groq
+  - Streamlit
+repo: https://github.com/rafaelcoelho1409/YouTubeContentSearch
+---
+
+## The research behind COELHO Nexus
+
+YouTube Content Search uses LangChain and LangGraph to extract entities and relationships from
+video transcripts and store them as a **Knowledge Graph** in Neo4j. Users can search videos
+through four modes:
+
+- **Search** — agents autonomously locate videos matching context + filters
+- **Video** — extract structured info from a single video
+- **Channel** — extract and reason across an entire channel's transcript corpus
+- **Playlist** — same as Channel but scoped to playlists
+
+Every mode lets the user ask follow-up questions; an agent queries the Knowledge Graph to answer
+with **multi-hop reasoning** that vector RAG can't do.
+
+## Why Knowledge Graphs beat vector RAG here
+
+Vector RAG retrieves by semantic similarity. That's enough for *"summarize this video"* but
+inadequate for *"X works_for Y → Y located_in Z"* questions. KGs structurally capture
+relationships, enabling accurate multi-hop reasoning and logically consistent answers — exactly
+what semantic search over interviews and panel discussions needs.
+
+This project was the proof-of-concept that became the production [COELHO Nexus](/work/coelho-nexus)
+platform.
+
+[Source on GitHub →](https://github.com/rafaelcoelho1409/YouTubeContentSearch)

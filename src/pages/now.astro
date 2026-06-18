@@ -1,0 +1,67 @@
+---
+import Base from "../layouts/Base.astro";
+
+const lastUpdated = new Date("2026-06-18");
+const dateLabel = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+}).format(lastUpdated);
+---
+
+<Base
+  title="Now"
+  description="What Rafael Coelho is working on right now."
+>
+  <div class="container-page">
+    <header class="mb-10">
+      <p class="mb-2 font-mono text-[12px]" style="color: var(--color-accent);">/ now</p>
+      <h1 class="mb-3 text-3xl font-semibold tracking-tight" style="color: var(--color-text);">
+        What I'm working on
+      </h1>
+      <p class="font-mono text-[12px]" style="color: var(--color-text-dim);">
+        Last updated · {dateLabel}
+      </p>
+    </header>
+
+    <div class="prose-content">
+      <h2>This week</h2>
+      <ul>
+        <li>
+          <strong>Shipping COELHO Nexus v1</strong> — Agentic RAG + GraphRAG search over YouTube
+          transcripts. FastAPI + Qdrant + Neo4j + LangGraph on Oracle Free Tier.
+        </li>
+        <li>
+          Wrapping up self-healing Playwright observability for the ingestion pipeline (Langfuse +
+          OpenTelemetry).
+        </li>
+        <li>Migrating this site from Jekyll/al-folio to Astro 6 + Cloudflare Pages.</li>
+      </ul>
+
+      <h2>This month</h2>
+      <ul>
+        <li>
+          Public launch of COELHO Nexus — first paying users in Brazil (Pix-first pricing), then
+          LATAM and global tiers.
+        </li>
+        <li>
+          Writing up the SOTA observability stack (Langfuse + OTEL + Grafana) we built for the
+          Nexus pipeline.
+        </li>
+        <li>
+          Talking to Senior AI/MLOps roles in the UAE (G42, Inception, Core42), Saudi Arabia, and
+          Singapore.
+        </li>
+      </ul>
+
+      <h2>Background</h2>
+      <p>
+        This is a
+        <a href="https://nownownow.com/about" target="_blank" rel="noreferrer noopener">/now page</a>.
+        A regularly updated snapshot of what I'm actually focused on right now — not what I'd like
+        to be doing, not a roadmap, not aspirational. Built for the person who already knows me and
+        wants to know what to ask about.
+      </p>
+    </div>
+  </div>
+</Base>

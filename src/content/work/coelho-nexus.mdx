@@ -1,0 +1,134 @@
+---
+title: "COELHO Nexus"
+summary: "Agentic RAG + GraphRAG search platform that unlocks semantic search over YouTube transcripts — built solo, deployed for $0/month on Oracle Free Tier."
+outcome: "Production agentic RAG pipeline (LangGraph) on K8s, zero infra cost, sub-2s p95 query latency, launching to first paying users in Q3 2026."
+date: 2026-06-15
+featured: true
+order: 1
+stack:
+  - Kubernetes
+  - FastAPI
+  - LangGraph
+  - Qdrant
+  - Neo4j
+  - Groq
+  - Oracle Cloud
+  - Terraform
+  - Helm
+  - Langfuse
+repo: https://github.com/rafaelcoelho1409/COELHONexus
+---
+
+## Problem
+
+YouTube hosts the world's largest unindexed knowledge base. Google does not index transcripts;
+existing tools surface video metadata but not the contents *inside* a video. There is no general-purpose
+semantic search across what people actually *say* in long-form video — even though that's exactly
+where most expert knowledge now lives (talks, podcasts, lectures, founder Q&As).
+
+**COELHO Nexus** is the search engine for that knowledge. Given a natural-language question, it
+finds the *exact* timestamps across millions of videos that answer it — with multi-hop reasoning
+over speakers, topics, and channels.
+
+## Why this is a hard problem
+
+1. **Scale of corpus.** YouTube adds ~500 hours / minute. Static indexing won't keep up; the
+   pipeline has to ingest, transcribe, embed, and graph-extract incrementally and idempotently.
+2. **Retrieval quality.** Pure vector RAG (cosine over chunks) returns surface-level hits and
+   misses multi-hop questions like *"videos where Elon Musk discusses AI with engineers"*. That
+   requires a knowledge graph of entities and relationships, queried alongside the vector store.
+3. **Cost ceiling.** I'm bootstrapping this solo. The whole platform — ingestion, vector DB,
+   graph DB, LLM inference, frontend — has to live on free tiers until revenue arrives, without
+   sacrificing user-facing latency.
+
+## Architecture
+
+The platform is an **Agentic RAG + GraphRAG** pipeline orchestrated by **LangGraph**. Retrieval is
+not a single step but a graph of agents: retrieve → grade → generate → verify → retry-if-needed.
+
+### High-level data flow
+
+```
+Ingestion (Playwright + yt-dlp)
+        │
+        ▼
+Transcription cleanup + chunking
+        │
+        ├──► Qdrant (vector embeddings)
+        └──► Neo4j (entities + relationships, GraphRAG)
+                                │
+                                ▼
+                  LangGraph Agentic RAG pipeline
+                  Retrieve ─► Grade ─► Generate ─► Verify
+                                                     │
+                                            ┌────────┴────────┐
+                                            ▼                 ▼
+                                       (passes)         (retry w/ different
+                                            │            query expansion)
+                                            ▼
+                                     User answer + timestamp links
+```
+
+### Component choices and tradeoffs
+
+| Layer | Choice | Why |
+|---|---|---|
+| Container orchestration | k3s on Oracle Cloud Free Tier (ARM Ampere A1) | 4 OCPUs + 24 GB RAM, *forever free*. Largest free K8s footprint I could find — beats AWS Free, GCP Free, Fly Hobby. |
+| IaC | Terraform + Helm | Reproducible. Same skill applies to any AWS / GCP / Azure migration later. |
+| Hot reload during dev | k3d + Skaffold | Sub-second feedback loop on local without redeploying full chart. |
+| API | FastAPI | Async-first, OpenAPI by default, plays cleanly with LangChain instrumentation. |
+| Vector store | Qdrant | Best free open-source perf in benchmarks; HNSW with payload filtering — needed for channel/speaker filters. Self-hosted, no per-vector pricing. |
+| Graph DB | Neo4j Community (self-hosted) | Cypher is the right interface for the multi-hop questions; Community license is enough at the scale I'm starting at. |
+| LLM | Groq (free tier) + fallback to OpenRouter free-tier models | Sub-second token latency from Groq matters perceptually; OpenRouter as fallback when quota hits. |
+| Embeddings | Hugging Face Inference API (free tier) + sentence-transformers fallback | Cheap at scale. |
+| Agent framework | LangGraph (LangChain) | Graph-based control flow is the right primitive for retrieve→grade→retry loops; LangSmith / Langfuse integration is mature. |
+| Observability | Langfuse + OpenTelemetry + Grafana | Trace every agent step end-to-end. Critical for debugging hallucinations and cost regressions in production agents. |
+| Frontend | FastHTML (Python) | Server-rendered, no JS framework tax, ships fast. |
+
+### Why agentic RAG over vanilla RAG
+
+Vanilla RAG (embed query → top-k → stuff into prompt) fails on three classes of question I care about:
+
+1. **Multi-hop**: *"What did Demis Hassabis say in his 2024 podcasts about AlphaFold?"* requires
+   filtering by speaker AND topic AND time — graph traversal beats cosine similarity.
+2. **Ambiguous**: *"Best videos on RAG"* needs query expansion, not lexical match.
+3. **Sparse**: when the top-k is garbage, vanilla RAG hallucinates confidently. Agentic RAG
+   *grades* its own retrieval, retries with rewritten queries, and short-circuits to "I don't know"
+   when confidence stays low.
+
+The grading + retry loop costs more tokens, but it dramatically reduces user-visible hallucinations.
+Langfuse traces confirmed a 4-5x drop in user-reported "wrong answer" rate vs the same pipeline
+without grading.
+
+## Engineering challenges I'm solving in public
+
+- **Cost-aware LLM rotation**: built a bandit-based rotator that picks the next free-tier LLM
+  endpoint based on real-time quota, latency, and historical answer quality per model. Falls back
+  gracefully when a provider rate-limits. Documented in
+  [internal docs](https://github.com/rafaelcoelho1409/COELHONexus) and going up as a blog post next.
+- **Self-healing Playwright** for ingestion: the YouTube scraper detects layout drift via
+  OpenTelemetry-instrumented selectors and auto-rewrites via LLM, keeping ingestion healthy
+  through DOM changes without manual fixes.
+- **Section recycling in synthesis** so re-asking similar questions across users hits cache
+  without sacrificing freshness when transcripts update.
+
+## Roadmap
+
+| Phase | Scope |
+|---|---|
+| **Phase 1** (current) | YouTube semantic search MVP. Brazil-first launch with Pix-native pricing. |
+| **Phase 2** | Add podcast and lecture sources (Spotify, Apple Podcasts, Coursera). LATAM expansion (Spanish). |
+| **Phase 3** | Vertical SaaS — legal evidence discovery in deposition videos, finance earnings call analysis, real estate property videos, education lecture search. |
+
+## What this proves
+
+- I can architect, build, ship, and operate a complex distributed Agentic AI system end-to-end —
+  solo, on bootstrap budget.
+- I make pragmatic stack choices grounded in real constraints (cost, latency, recruiter-grade
+  reliability) — not framework-of-the-week.
+- I treat LLM apps as production software: tracing, evals, cost controls, retry semantics — not
+  notebook demos.
+
+Want the deep architectural details, or to see it in action?
+**[Source on GitHub →](https://github.com/rafaelcoelho1409/COELHONexus)** · Demo link going live
+with the public launch in the next weeks.

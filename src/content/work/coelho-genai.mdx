@@ -1,0 +1,45 @@
+---
+title: "COELHO GenAI"
+summary: "Privacy-first Generative AI platform connecting users to open-source LLMs (Llama 3.1, Gemma 2, others) via Ollama and Groq — with five purpose-built tools."
+outcome: "Five-tool GenAI platform with autonomous data-science agents, document understanding via Docling, and online retrieval via DuckDuckGo / Wikipedia / PubMed."
+date: 2024-09-01
+order: 4
+stack:
+  - LangChain
+  - Ollama
+  - Groq
+  - Llama 3.1
+  - Gemma 2
+  - Docling
+  - Streamlit
+repo: https://github.com/rafaelcoelho1409/COELHOGenAI
+---
+
+## Five tools, one local LLM
+
+COELHO GenAI connects users to open-source Large Language Models (Llama 3.1, Gemma 2, and others)
+through **Ollama** (fully local) and **Groq** (low-latency hosted) — giving users a private LLM
+interface backed by:
+
+**1) Assistant** — general-purpose chatbot for brainstorming and problem-solving.
+
+**2) Information Retrieval** — connects the local LLM to online tools (DuckDuckGo, Wikipedia,
+PubMed) for grounded answers without leaving privacy.
+
+**3) Data Science** — autonomous AI agents that explore and analyze user-supplied data with the
+LLM in the loop. Generates EDA, plots, and modeling suggestions.
+
+**4) Document Assistant** — analyzes documents using **Docling** and a dozen LangChain document
+loaders (Wikipedia, PDFs, web pages, and more). Strong for users who need RAG over their own files.
+
+**5) Plan & Solve** — agentic decomposition tool: turns a user request into a detailed strategy
+plan and executes it step-by-step.
+
+## Stack
+
+- **Streamlit** — interface
+- **LangChain** — agent composition + retrieval orchestration
+- **Ollama** for fully local inference; **Groq** for low-latency hosted
+- **Docling** for document parsing
+
+[Source on GitHub →](https://github.com/rafaelcoelho1409/COELHOGenAI)

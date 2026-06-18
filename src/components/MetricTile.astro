@@ -1,0 +1,22 @@
+---
+export interface Props {
+  value: string;
+  unit?: string;
+  label: string;
+}
+const { value, unit, label } = Astro.props;
+---
+
+<div
+  class="flex flex-col gap-2 rounded-lg border p-4"
+  style="border-color: var(--color-border); background-color: var(--color-surface);"
+>
+  <div class="flex items-baseline gap-1">
+    <span
+      class="font-mono text-2xl font-semibold tracking-tight sm:text-3xl"
+      style="color: var(--color-accent);">{value}</span
+    >
+    {unit && <span class="font-mono text-sm" style="color: var(--color-text-dim);">{unit}</span>}
+  </div>
+  <div class="text-[13px] leading-snug" style="color: var(--color-text-muted);">{label}</div>
+</div>

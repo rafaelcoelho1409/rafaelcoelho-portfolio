@@ -1,0 +1,140 @@
+---
+title: "Building a local Kubernetes cluster and provisioning DevOps services with Terraform"
+summary: "How to build a local k3d cluster that hosts GitLab, Rancher, ArgoCD, and LocalStack — fully provisioned with Terraform for cross-OS reproducibility."
+date: 2025-11-10
+tags:
+  - kubernetes
+  - k3d
+  - terraform
+  - helm
+  - argocd
+  - gitops
+  - mlops
+---
+
+## Motivation
+
+In the last months I've worked on several projects involving **Machine Learning** and **DevOps**.
+Two of them — a recommendation system for job positions and a Speech-To-Speech system
+(STT/ASR + TTS) — plus a personal **Real-Time Machine Learning** project running in my free time
+made me feel the same friction over and over: I needed a local Kubernetes cluster with real-time
+updates *before* pushing repos to production.
+
+So I started using **k3d** and **Skaffold** locally, and then went further and rebuilt a complete
+local Kubernetes stack with **Rancher**, **ArgoCD**, **GitLab**, and **LocalStack** — all installed
+declaratively so it would survive an OS switch.
+
+Initially I scripted the installs as `.sh` files (into `bash/`). That works on Linux but breaks on
+Windows. So I dove into **Terraform**. After understanding the basics (providers, resources,
+variables, outputs, the `terraform init / plan / apply / destroy` lifecycle), I rebuilt the same
+stack as an OS-agnostic Terraform module — files in `terraform/`. No more translating `.sh`
+to `.bat`; the abstraction layer guarantees reproducibility on Linux, Windows, and macOS.
+
+> **Heads up:** plan for at least 16 GB of RAM. My local k3d cluster with the full stack
+> (GitLab + Rancher + ArgoCD + LocalStack) was pulling ~10 GB, mostly GitLab. You can disable
+> GitLab components you don't need via `values.yaml` to slim it down.
+
+## DevOps stack
+
+### Features
+
+- **k3d cluster** — 1 server + 3 agents with a local Docker registry
+- **ArgoCD** — GitOps continuous delivery
+- **ArgoCD Image Updater** — auto-bumps image tags in Git
+- **GitLab** — complete DevOps platform with CI/CD
+- **Rancher** — Kubernetes management UI
+- **LocalStack** — AWS service emulator for local dev
+
+## My personal setup
+
+> **Warning:** highly recommended to have 32 GB RAM, or 16 GB if you disable unused GitLab features
+> in `terraform/modules/gitlab/values.yaml`.
+
+- OS: **Arch Linux**
+- RAM: 64 GB
+- CPU: Intel Core i7 11th gen, 8 cores
+- Storage: 2 TB NVMe SSD
+
+## Installation requirements
+
+- [k3d](https://k3d.io/stable/#installation)
+- [Docker](https://docs.docker.com/engine/install/)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/)
+- [Helm](https://helm.sh/docs/intro/install/)
+- [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+
+## Installation steps
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/rafaelcoelho1409/K3D
+```
+
+### 2. Enter the Terraform folder
+
+```bash
+cd K3D/terraform
+```
+
+### 3. Initialize Terraform
+
+```bash
+terraform init
+```
+
+### 4. Create the k3d cluster
+
+Provision the cluster first to avoid connectivity issues during the rest of the apply:
+
+```bash
+terraform apply -target=module.k3d_cluster
+```
+
+### 5. Deploy all services
+
+```bash
+terraform apply
+```
+
+> **Warning:** several minutes. Make sure RAM is healthy before this.
+
+### 6. Access the services
+
+- **Rancher** — http://localhost:7443
+- **GitLab** — http://localhost:8090
+- **ArgoCD** — http://localhost:9080
+- **LocalStack** — http://localhost:4566
+- **k3d Registry** — http://localhost:5000
+
+### 7. Retrieve credentials
+
+**Rancher** — username `root`, password:
+
+```bash
+kubectl get secret gitlab-gitlab-initial-root-password -n ${NAMESPACE} \
+  -o jsonpath='{.data.password}' 2>/dev/null | base64 -d \
+  || echo "(not ready yet, check in a few minutes)"
+```
+
+**ArgoCD** — username `admin`, password:
+
+```bash
+kubectl -n argocd get secret argocd-initial-admin-secret \
+  -o jsonpath="{.data.password}" | base64 -d
+```
+
+## Results
+
+I connected my **Real-Time Machine Learning** project to this stack, so:
+
+1. Push the repo to local GitLab
+2. GitLab CI builds Docker images and pushes them to the k3d Registry
+3. ArgoCD Image Updater detects new images on the registry and triggers ArgoCD
+4. ArgoCD applies the Helm charts to the cluster and monitors resource health in real time
+
+The main purpose: a complete local CI/CD flow connecting GitLab CI with ArgoCD, with Kubernetes
+resource health monitored live in Rancher — and all of it disposable in one
+`terraform destroy`.
+
+[Source on GitHub →](https://github.com/rafaelcoelho1409/K3D)

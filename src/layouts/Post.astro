@@ -1,0 +1,52 @@
+---
+import Base from "./Base.astro";
+
+export interface Props {
+  title: string;
+  summary: string;
+  date: Date;
+  tags: string[];
+}
+
+const { title, summary, date, tags } = Astro.props;
+
+const dateLabel = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+}).format(date);
+---
+
+<Base title={title} description={summary} article>
+  <article class="container-page">
+    <a
+      href="/writing"
+      class="mb-6 inline-flex items-center gap-1 font-mono text-[12px] transition-colors hover:text-[var(--color-accent)]"
+      style="color: var(--color-text-dim);"
+    >
+      ← Writing
+    </a>
+
+    <header class="mb-10">
+      <p class="mb-2 font-mono text-[12px]" style="color: var(--color-accent);">{dateLabel}</p>
+      <h1
+        class="mb-4 text-3xl font-semibold tracking-tight sm:text-4xl"
+        style="color: var(--color-text);"
+      >
+        {title}
+      </h1>
+      <p class="text-[16px] leading-7" style="color: var(--color-text-muted);">{summary}</p>
+      {tags.length > 0 && (
+        <div class="mt-4 flex flex-wrap gap-2">
+          {tags.map((t) => (
+            <span class="font-mono text-[11px]" style="color: var(--color-text-dim);">#{t}</span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <div class="prose-content">
+      <slot />
+    </div>
+  </article>
+</Base>
