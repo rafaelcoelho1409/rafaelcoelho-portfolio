@@ -1,9 +1,8 @@
 ---
 title: "COELHO Agents"
-summary: "Multi-agent system with LangChain and LangGraph powering a simple assistant, an autonomous software developer agent, and a Knowledge-Graph-backed YouTube content search."
-outcome: "Production GraphRAG pipeline with Neo4j knowledge graph extraction from YouTube transcripts; autonomous code-fixing loops in the software developer agent."
+summary: "Multi-agent platform combining a memory-aware assistant, an autonomous Software Developer agent with self-fixing code loops, and a GraphRAG-based YouTube Content Search — all orchestrated with LangChain + LangGraph."
+outcome: "Three production agent tools shipped end-to-end · autonomous code-fix retry loops in the Software Developer · GraphRAG (Neo4j) backing multi-hop video query reasoning."
 date: 2025-02-17
-order: 3
 stack:
   - LangChain
   - LangGraph
@@ -11,35 +10,92 @@ stack:
   - GraphRAG
   - Streamlit
   - Python
+  - LLM Apps
+  - Multi-agent systems
 repo: https://github.com/rafaelcoelho1409/COELHOAgents
 thumbnail: /work/coelho-agents/logo.png
 ---
 
-## Three agentic tools in one platform
+## Executive summary
 
-**1) Simple Assistant** — a chatbot with memory and real-time response.
+**COELHO Agents** packages three production-grade agentic tools behind a single
+Streamlit interface, all orchestrated with **LangChain** and **LangGraph**:
 
-**2) Software Developer** — agentic tool that generates code, runs it, and *fixes its own bugs*
-autonomously in retry loops. Built on a LangGraph state machine for plan → write → execute →
-diagnose → patch.
+1. **Simple Assistant** — chatbot with memory and real-time response
+2. **Software Developer** — autonomous coding agent that generates code, runs it, and *fixes its own bugs* in retry loops
+3. **YouTube Content Search** — GraphRAG-based video query system backed by a Neo4j knowledge graph (the research that became [COELHO Nexus](/work/coelho-nexus))
 
-**3) YouTube Content Search** — extracts video transcripts, runs entity / relation extraction with
-an LLM, and stores the result in Neo4j as a Knowledge Graph. Lets users ask multi-hop questions
-that vanilla RAG can't answer — e.g. *"who has been interviewed about LLM safety on this channel?"*
-This pattern became the backbone of [COELHO Nexus](/work/coelho-nexus).
+The project demonstrates three distinct agentic patterns — conversational memory,
+plan-execute-diagnose-patch loops, and graph-augmented retrieval — running on the
+same LangChain / LangGraph foundation.
 
-## Why Knowledge Graph over pure vector RAG
+## See it in action
 
-Vector RAG retrieves by semantic similarity, which is fine for keyword-ish questions but bad at
-multi-hop reasoning. A Knowledge Graph encodes *explicit relationships* (e.g. `X works_for Y`,
-`Y located_in Z`) so the retrieval step can walk relationships, not just embeddings. The cost is
-extraction quality; the reward is correctness on questions that mention multiple entities.
+The agents demand a working Python environment, multiple LLM API keys, and a running
+Neo4j instance, so you can't just spin them up. This walkthrough is the verifiable
+record of the three tools in operation — memory-aware chat, autonomous code-fix
+loops, and live GraphRAG video queries.
+
+<div
+  class="overflow-hidden rounded-sm border"
+  style="border-color: var(--color-gold-deep); background-color: oklch(0.08 0 0); aspect-ratio: 16 / 9; position: relative;"
+>
+  <iframe
+    src="https://www.youtube.com/embed/lxXcUA0jmcM"
+    title="COELHO Agents — project walkthrough"
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    loading="lazy"
+  ></iframe>
+</div>
+
+<div
+  style="margin-top: 12px; text-align: right; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-platinum-dim);"
+>
+  <a
+    href="https://www.youtube.com/watch?v=lxXcUA0jmcM"
+    target="_blank"
+    rel="noreferrer noopener"
+    style="color: inherit; text-decoration: none;"
+    onmouseover="this.style.color='var(--color-gold)'"
+    onmouseout="this.style.color='var(--color-platinum-dim)'"
+  >
+    Open on YouTube ↗
+  </a>
+</div>
+
+## Three agentic tools, three distinct patterns
+
+| Tool | Agent pattern | Why it's non-trivial |
+|---|---|---|
+| **Simple Assistant** | Conversational memory over LangChain message history | Persistent context across turns — not stateless one-shot prompts |
+| **Software Developer** | Plan → write → execute → diagnose → patch retry loop (LangGraph state machine) | Self-correcting code generation: the agent runs its own code, parses errors, rewrites, retries — autonomous bug fixing |
+| **YouTube Content Search** | GraphRAG over Neo4j knowledge graph extracted from video transcripts | Multi-hop reasoning impossible with vector RAG alone |
+
+## Why Knowledge Graph + Agents > vanilla RAG
+
+Vector RAG retrieves by semantic similarity — fine for paraphrase-level questions,
+but it can't answer multi-hop relational queries like *"who has been interviewed
+about LLM safety on this channel?"* Knowledge Graphs encode entities and relationships
+explicitly (`X works_for Y → Y located_in Z`), so a Cypher query walks the graph and
+the LLM grounds its answer in real relationships rather than chunk-similarity lottery.
+
+The YouTube Content Search tool here was the first prototype of this pattern. The
+operational primitives — agent loops, graph extraction, multi-hop traversal — became
+the architectural backbone of [COELHO Nexus](/work/coelho-nexus).
 
 ## Stack
 
-- **Streamlit** — interface
-- **LangChain** — agent and tool composition
-- **LangGraph** — multi-agent orchestration with explicit state graphs and retry edges
-- **Neo4j** — Knowledge Graph storage and Cypher querying
+- **Streamlit** — interactive interface
+- **LangChain** — agent and tool composition primitives
+- **LangGraph** — multi-agent orchestration with explicit state graphs and retry edges (powers the Software Developer's self-fix loop)
+- **Neo4j** — Knowledge Graph storage + Cypher querying
+
+## What this project proves
+
+- **Three distinct agent patterns shipped in one codebase** — memory-aware conversation, autonomous code-fix loops, and graph-augmented retrieval — not toy demos
+- **LangGraph state machines work for real production agent loops** — including self-correcting code generation with retry semantics
+- **The GraphRAG pattern scales** — what started here as YouTube transcript search became the production retrieval backbone of COELHO Nexus
 
 [Source on GitHub →](https://github.com/rafaelcoelho1409/COELHOAgents)
