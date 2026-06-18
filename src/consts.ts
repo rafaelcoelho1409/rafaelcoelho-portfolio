@@ -18,8 +18,8 @@ export const SOCIALS = {
 export const NAV = [
   { href: "/work", label: "Work" },
   { href: "/writing", label: "Writing" },
+  { href: "/repositories", label: "Repositories" },
   { href: "/cv", label: "CV" },
-  { href: "/now", label: "Now" },
   { href: "/contact", label: "Contact" },
 ] as const;
 
