@@ -1,31 +1,91 @@
 ---
 title: "COELHO VISION"
-summary: "Computer Vision platform built on OpenCV, Ultralytics, and MediaPipe — object detection, image segmentation, pose estimation, and real-time camera integration."
-outcome: "Live Streamlit app demonstrating four CV pipelines (detection, segmentation, pose, live camera) backed by SOTA pretrained models."
+summary: "Computer Vision platform combining OpenCV, Ultralytics, and MediaPipe behind four production pipelines — object detection, image segmentation, pose estimation, and real-time camera integration — exposed via a Streamlit interface."
+outcome: "Four production CV pipelines shipped end-to-end · live Streamlit demo · backbone choices (OpenCV / Ultralytics / MediaPipe) picked per pipeline by accuracy-vs-latency tradeoff."
 date: 2024-04-01
-order: 7
 stack:
   - OpenCV
   - Ultralytics YOLO
   - MediaPipe
-  - Streamlit
+  - RoboFlow
+  - OpenVINO
   - Python
+  - Streamlit
 demo: https://coelhovision.streamlit.app/
 repo: https://github.com/rafaelcoelho1409/COELHOVISION
+presentation: /work/coelho-vision/COELHOVISION.pdf
 thumbnail: /work/coelho-vision/logo.png
 ---
 
-## Four CV pipelines, one app
+import PdfViewer from "../../components/PdfViewer.astro";
 
-COELHO VISION is a Computer Vision platform built on OpenCV, Ultralytics, and MediaPipe.
+## Executive summary
+
+**COELHO VISION** is a Computer Vision platform combining three best-in-class CV
+backbones — **OpenCV**, **Ultralytics YOLO**, and **MediaPipe** — behind four
+production pipelines exposed via a **Streamlit** interface:
 
 1. **Object Detection** — object / image classification + face detection
-2. **Image Segmentation** — pixel-level segmentation for detailed analysis
+2. **Image Segmentation** — pixel-level segmentation for fine-grained analysis
 3. **Pose Estimation** — gesture recognition and motion analysis
-4. **Live Camera Integration** — apply all three in real time from the user's device camera
+4. **Live Camera Integration** — applies all three pipelines in real time from the user's webcam
 
-Used as a sandbox for evaluating tradeoffs between YOLO variants and MediaPipe across realtime
-and high-accuracy scenarios.
+The platform is **publicly live** ([coelhovision.streamlit.app](https://coelhovision.streamlit.app/))
+— no PDF deck required to verify it runs, just open the link and a webcam.
+
+## See it deployed
+
+The Streamlit app handles the lightweight live demo. These 23 slides are the deeper
+record — backbone selection rationale per pipeline, accuracy/latency tradeoffs across
+OpenCV / Ultralytics / MediaPipe, and the design choices behind each of the four
+production pipelines.
+
+<PdfViewer
+  src="/work/coelho-vision/COELHOVISION.pdf"
+  height="72vh"
+  ariaLabel="COELHO VISION — 23-slide deployment record"
+  downloadLabel="Open PDF in new tab"
+/>
+
+## Four pipelines, three backbones
+
+| Pipeline | Primary backbone | Why this backbone |
+|---|---|---|
+| **Object Detection** | Ultralytics YOLO | SOTA accuracy/speed tradeoff; easy to swap YOLO variants for the workload |
+| **Image Segmentation** | OpenCV + Ultralytics | Classical OpenCV ops where they win; YOLO-seg where neural is required |
+| **Pose Estimation** | MediaPipe | Purpose-built for real-time skeleton estimation; runs CPU-only at acceptable fps |
+| **Live Camera Integration** | All three composed | Each backbone runs on the same webcam feed in parallel — direct apples-to-apples comparison for users |
+
+The selection isn't dogmatic — each pipeline picks the backbone that wins on its
+specific accuracy-vs-latency curve, rather than forcing one model family to do
+everything.
+
+## Why mix three backbones instead of one
+
+A single CV backbone (say, YOLOv11 for everything) is simpler — but you lose:
+
+- **Pose estimation gracefully on CPU** → MediaPipe is built for it; YOLO is overkill and slower
+- **Classical OpenCV operations** that don't need a neural net at all (color filters, edge detection, geometric warps)
+- **Optionality** when a new SOTA detector ships — you can swap one backbone without rewriting the whole stack
+
+This three-backbone choice is a deliberate engineering tradeoff: slightly more code
+to maintain, materially better behavior across the four pipelines.
+
+## Stack
+
+- **OpenCV** — classical CV operations + foundation for several pipeline steps
+- **Ultralytics YOLO** — detection and segmentation neural backbones
+- **MediaPipe** — real-time pose and gesture estimation
+- **RoboFlow** — dataset management and labeling for custom-fine-tuned models
+- **OpenVINO** — Intel inference optimization for CPU-only deployment scenarios
+- **Streamlit** — public-facing demo interface
+- **Python** — implementation
+
+## What this project proves
+
+- **Backbone-selection discipline** — choosing the right tool per pipeline rather than forcing one family to fit every problem
+- **Real-time CV runs on commodity hardware** — MediaPipe pose + Ultralytics detection both ship at usable fps without dedicated GPU acceleration
+- **Public, runnable proof** — the Streamlit app is live; anyone can verify the claims with a webcam in 30 seconds
 
 [Live demo →](https://coelhovision.streamlit.app/) ·
 [Source on GitHub →](https://github.com/rafaelcoelho1409/COELHOVISION)
