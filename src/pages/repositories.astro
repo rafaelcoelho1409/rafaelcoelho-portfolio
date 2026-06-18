@@ -12,7 +12,7 @@ const STATS_BORDER = "4a3a1f";
 const statsUrl = `https://github-readme-stats.vercel.app/api?username=${GITHUB_USERNAME}&show_icons=true&hide_border=false&include_all_commits=true&count_private=true&bg_color=${STATS_BG}&title_color=${STATS_TITLE}&text_color=${STATS_TEXT}&icon_color=${STATS_ICON}&border_color=${STATS_BORDER}`;
 const langsUrl = `https://github-readme-stats.vercel.app/api/top-langs/?username=${GITHUB_USERNAME}&layout=compact&hide_border=false&bg_color=${STATS_BG}&title_color=${STATS_TITLE}&text_color=${STATS_TEXT}&border_color=${STATS_BORDER}`;
 const streakUrl = `https://github-readme-streak-stats.herokuapp.com/?user=${GITHUB_USERNAME}&background=${STATS_BG}&stroke=${STATS_BORDER}&ring=${STATS_TITLE}&fire=${STATS_TITLE}&currStreakLabel=${STATS_TITLE}&sideLabels=${STATS_TEXT}&dates=${STATS_TEXT}&currStreakNum=${STATS_TEXT}&sideNums=${STATS_TEXT}&hide_border=false`;
-const trophyUrl = `https://github-profile-trophy.vercel.app/?username=${GITHUB_USERNAME}&theme=darkhub&no-frame=false&row=2&column=4&margin-w=8&margin-h=8`;
+const trophyUrl = `https://github-trophies.vercel.app/?username=${GITHUB_USERNAME}&theme=darkhub&no-frame=false&row=2&column=4&margin-w=8&margin-h=8`;
 
 const grouped = REPOS.reduce<Record<number, typeof REPOS>>((acc, r) => {
   (acc[r.year] ||= []).push(r);
@@ -121,14 +121,14 @@ const years = Object.keys(grouped)
 
     <section>
       <h2 class="label-mono mb-7">Repositories by year</h2>
-      <div class="space-y-12">
+      <div class="space-y-16">
         {
           years.map((year) => (
-            <div>
-              <div class="mb-5 flex items-baseline gap-3">
+            <div class="pt-4">
+              <div class="mb-6 flex items-baseline gap-4">
                 <span
-                  class="font-display text-[28px] font-semibold tracking-tight"
-                  style="color: var(--color-gold); letter-spacing: -0.02em;"
+                  class="font-display text-[44px] font-semibold tracking-tight sm:text-[52px]"
+                  style="color: var(--color-gold); letter-spacing: -0.025em; line-height: 1;"
                 >
                   {year}
                 </span>
