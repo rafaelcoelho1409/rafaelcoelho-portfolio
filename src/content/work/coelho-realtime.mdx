@@ -1,7 +1,7 @@
 ---
 title: "COELHO RealTime"
 summary: "Production-grade Real-Time MLOps platform on Kubernetes combining incremental ML and batch ML across fraud detection, ETA prediction, and customer segmentation."
-outcome: "39 FastAPI endpoints · 50+ Prometheus metrics · 11 Grafana dashboards · 30+ alert rules · sub-millisecond Redis-cached inference."
+outcome: "39 FastAPI endpoints across three versioned routers · sub-millisecond Redis-cached inference · end-to-end GitOps (Terraform → Helm → ArgoCD → GitLab CI) · full observability stack (Prometheus + Grafana + Alertmanager + Karma)."
 date: 2026-01-27
 featured: true
 order: 2
@@ -15,18 +15,25 @@ stack:
   - MLflow
   - River ML
   - CatBoost
+  - scikit-learn
   - FastAPI
   - SvelteKit
   - Redis
+  - PostgreSQL
   - Prometheus
   - Grafana
+  - Alertmanager
   - Terraform
   - Helm
   - ArgoCD
   - GitLab CI
+  - DuckDB
 repo: https://github.com/rafaelcoelho1409/COELHORealTime
-presentation: https://github.com/rafaelcoelho1409/COELHORealTime
+presentation: /work/coelho-realtime/COELHORealTime.pdf
 ---
+
+import { Image } from "astro:assets";
+import architecture from "../../assets/work/coelho-realtime/architecture.png";
 
 ## Executive summary
 
@@ -42,9 +49,16 @@ The platform implements a **dual ML paradigm** where River ML handles real-time 
 training directly from Kafka streams, while CatBoost and scikit-learn handle batch training on
 data accumulated in a Delta Lake. All experiments are tracked with MLflow, models are cached in
 Redis for sub-millisecond inference, and the entire system is monitored through Prometheus,
-Grafana, and Alertmanager.
+Grafana, Alertmanager, and Karma.
 
-## Architecture
+## Platform architecture
+
+<Image
+  src={architecture}
+  alt="COELHO RealTime platform architecture — data flow from Kafka producers through dual incremental (River) and batch (CatBoost / sklearn) ML paths, with MLflow tracking, Redis serving, and full observability."
+  loading="eager"
+  quality={92}
+/>
 
 ### Data flow
 
@@ -56,35 +70,48 @@ Grafana, and Alertmanager.
 6. **Tracking** — every experiment logged to MLflow with S3 artifacts on MinIO
 7. **Monitoring** — Prometheus scrapes metrics from all services; Grafana renders dashboards; Alertmanager fires alerts
 
-### Unified FastAPI backend
-
-A single service consolidates all ML functionality into **39 endpoints** across three versioned routers:
-
-- `/api/v1/incremental` — River ML real-time training, predictions, metrics (16 endpoints)
-- `/api/v1/batch` — CatBoost / sklearn batch training, YellowBrick / Scikit-Plot visualizations (20 endpoints)
-- `/api/v1/sql` — DuckDB SQL queries against Delta Lake tables (3 endpoints)
-
-Includes MLflow model selection (best model by metric), Redis caching, Prometheus instrumentation,
-and visualization generation.
-
-### SvelteKit frontend
-
-Interactive dashboard for training, predictions, and model diagnostics via YellowBrick. Project
-pages for TFD / ETA / ECCI with nested tabs (Incremental ML / Batch ML / SQL).
-
 ## ML use cases at a glance
 
 | Use case | Task | Incremental model | Batch model | Metric |
 |---|---|---|---|---|
-| **TFD** Transaction Fraud Detection | Binary classification | Adaptive Random Forest (River) | CatBoostClassifier | F-Beta (β=2.0) |
+| **TFD** Transaction Fraud Detection | Binary classification | Adaptive Random Forest (River) | CatBoostClassifier | F-Beta (β = 2.0) |
 | **ETA** Estimated Time of Arrival | Regression | Adaptive Random Forest (River) | CatBoostRegressor | MAE |
-| **ECCI** Customer Interactions | Clustering | DBSTREAM (River) | KMeans (sklearn) | Silhouette |
+| **ECCI** E-Commerce Customer Interactions | Clustering | DBSTREAM (River) | KMeans (scikit-learn) | Silhouette |
+
+## Key components
+
+### Unified FastAPI backend
+
+A single service consolidates all ML functionality into **39 endpoints** across three versioned routers:
+
+| Router | Purpose | Endpoints |
+|---|---|---|
+| `/api/v1/incremental` | River ML real-time training, predictions, metrics | 16 |
+| `/api/v1/batch` | CatBoost / sklearn batch training + YellowBrick / Scikit-Plot visualizations | 20 |
+| `/api/v1/sql` | DuckDB SQL queries against Delta Lake tables | 3 |
+
+Includes MLflow model selection (best model by metric), Redis caching, Prometheus instrumentation,
+and visualization generation on demand.
+
+### SvelteKit frontend
+
+Interactive dashboard for training, predictions, and model diagnostics via YellowBrick. Project
+pages for TFD, ETA, and ECCI with nested tabs (Incremental ML / Batch ML / SQL).
 
 ## Infrastructure & deployment
 
-The entire platform is deployed on a **k3d Kubernetes** cluster provisioned with **Terraform**,
-packaged as a **Helm umbrella chart** with 7 dependencies (MLflow, Redis, MinIO, PostgreSQL,
-kube-prometheus-stack, Kafka, Spark).
+The entire platform is deployed on a **k3d Kubernetes** cluster provisioned with **Terraform** and
+packaged as a **Helm umbrella chart** with seven dependencies:
+
+| Dependency | Version | Source |
+|---|---|---|
+| **MLflow** | 1.8.1 | community-charts |
+| **Redis** | 24.0.8 | Bitnami |
+| **MinIO** | 5.4.0 | MinIO Official |
+| **PostgreSQL** | 18.1.14 | Bitnami |
+| **kube-prometheus-stack** | 80.6.0 | prometheus-community |
+| **Kafka** | 32.4.3 | Bitnami |
+| **Spark** | 10.0.3 | Bitnami |
 
 ### CI/CD & GitOps
 
@@ -102,9 +129,9 @@ Deploy to cluster → Prometheus monitors → Grafana dashboards → Alertmanage
 
 ## Observability
 
-### Prometheus
+### Prometheus — 50+ custom metrics
 
-**50+ custom metrics** instrumented across services:
+Instrumented across all services:
 
 - **FastAPI** — training status, prediction count / latency / errors, cache hits/misses, model load duration, MLflow operation duration, SQL query duration, visualization generation time
 - **Kafka producers** — messages sent, errors, send duration, connection status, retries, fraud ratio (TFD), active sessions (ECCI)
@@ -113,34 +140,44 @@ Deploy to cluster → Prometheus monitors → Grafana dashboards → Alertmanage
 
 All provisioned via ConfigMaps with sidecar auto-discovery:
 
-1. COELHORealTime Overview — service health, total CPU/RAM aggregate panels with sparklines
-2. ML Pipeline — training metrics, predictions, model performance
-3. FastAPI Detailed — latency, error rates, throughput per endpoint
-4. Kafka Producers — message rates, send latency, errors
-5. Kafka — consumer lag, throughput, partitions
-6. PostgreSQL — connections, queries, replication
-7. Redis — memory, connections, ops/sec
-8. MinIO — S3 ops, storage, buckets
-9. Spark — performance metrics
-10. Spark Streaming — structured streaming metrics
-11. SvelteKit — frontend performance
+1. **COELHORealTime Overview** — service health, total CPU/RAM aggregate panels with sparklines
+2. **ML Pipeline** — training metrics, predictions, model performance
+3. **FastAPI Detailed** — latency, error rates, throughput per endpoint
+4. **Kafka Producers** — message rates, send latency, errors, connections
+5. **Kafka** — consumer lag, throughput, partitions
+6. **PostgreSQL** — connections, queries, replication
+7. **Redis** — memory, connections, ops/sec
+8. **MinIO** — S3 operations, storage, buckets
+9. **Spark** — performance metrics
+10. **Spark Streaming** — structured streaming metrics
+11. **SvelteKit** — frontend performance
 
 ### Alerting
 
-- **30+ Prometheus alerting rules** across 10 rule groups
-- Alertmanager with routing and inhibition rules
-- Karma UI for alert visualization
-- Pre-configured receivers for Slack, Discord, Email, PagerDuty
+- **30+ Prometheus alerting rules** across 10 rule groups (FastAPI, Kafka, Kafka Producers, MLflow, PostgreSQL, Redis, MinIO, SvelteKit, Spark, Application General)
+- **Alertmanager** with routing and inhibition rules
+- **Karma** UI for alert visualization
+- Pre-configured receivers for Slack, Discord, Email, and PagerDuty
 
 ## Hardware footprint
 
-- Arch Linux · 64 GB RAM · Intel i7 11th gen · 8 cores · 2 TB NVMe
-- Minimum 32 GB RAM required (FastAPI 8 GB, Spark Worker 5 GB, Kafka 2 GB, Prometheus 2 GB, etc.)
+| Component | Specification |
+|---|---|
+| **RAM** | 64 GB |
+| **CPU** | 8 cores (modern x86_64) |
+| **Storage** | 2 TB NVMe SSD |
+| **Orchestration** | k3d (local Kubernetes) |
+
+> **Minimum 32 GB RAM required.** The platform runs multiple memory-intensive services
+> concurrently (FastAPI ~8 GB, Spark Worker ~5 GB, Kafka ~2 GB, Prometheus ~2 GB, etc.). Systems
+> with less than 32 GB will experience OOMKills and pod restart loops. **64 GB recommended** for
+> comfortable headroom.
 
 ## What this project proves
 
-- End-to-end MLOps lifecycle ownership: data engineering → training → serving → observability
-- Real-time and batch ML co-existing in a single platform — not theoretical, tested under load
-- Production rigor: tracing, alerting, GitOps, IaC, dashboards — not a notebook demo
+- **End-to-end MLOps lifecycle ownership** — data engineering → training → serving → observability, all owned by one engineer in one repo
+- **Real-time and batch ML co-existing in a single platform** — not theoretical; tested under continuous synthetic load
+- **Production rigor** — tracing, alerting, GitOps, IaC, dashboards, alerting routing — not a notebook demo
 
-[Source on GitHub →](https://github.com/rafaelcoelho1409/COELHORealTime)
+[Source on GitHub →](https://github.com/rafaelcoelho1409/COELHORealTime) ·
+[PDF presentation (53 slides) →](/work/coelho-realtime/COELHORealTime.pdf)
