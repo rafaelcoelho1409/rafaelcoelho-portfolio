@@ -1,27 +1,87 @@
 ---
 title: "Formula 1 Analytics"
-summary: "F1 analytics platform with historical Overview, statistical Insights, full season reviews, and an AI Space applying ML to race data."
-outcome: "Live Streamlit app blending narrative storytelling with quantitative race analysis."
+summary: "F1 analytics platform combining historical narrative, statistical insights, full season reviews, and an AI Space applying ML to race data — running live on Streamlit with end-to-end data pipelines."
+outcome: "Four-section live platform · public Streamlit app · ML on race outcomes + pit strategy modeling · sandbox that doubled as my testbed for sports-analytics tooling."
 date: 2023-11-01
-order: 9
 stack:
   - Python
   - Streamlit
   - pandas
+  - NumPy
   - scikit-learn
+  - Plotly
+  - matplotlib
+  - Ergast F1 API
 demo: https://f1analytics.streamlit.app/
 repo: https://github.com/rafaelcoelho1409/FormulaOneAnalytics
+presentation: /work/formula-one-analytics/F1Analytics.pdf
 thumbnail: /work/formula-one-analytics/logo.jpg
 ---
 
-## Data-driven F1 — for fans and for ML practice
+import PdfViewer from "../../components/PdfViewer.astro";
 
-Formula 1 Analytics is a side project that doubles as a sandbox for sports analytics. Four sections:
+## Executive summary
 
-- **Overview** — F1 history, iconic circuits, season legacy
-- **Insights** — statistics and pattern analysis on track and driver performance
-- **Seasons** — per-season recaps with race strategies and driver context
-- **AI Space** — ML on race data: race outcome prediction, pit-stop strategy modeling
+**Formula 1 Analytics** is an end-to-end data platform for the world of F1 racing —
+historical narrative, statistical pattern analysis, full season reviews, and an
+**AI Space** applying ML to race-outcome prediction and pit strategy modeling. The
+platform is **publicly live** at
+[f1analytics.streamlit.app](https://f1analytics.streamlit.app/) — anyone can open it
+and explore.
+
+The project also served as a deliberate sandbox: every new data-science library or
+ML framework I wanted to test got prototyped here against real F1 race data before
+going into production work.
+
+## See it deployed
+
+The Streamlit app is the primary live verification — just open it. These 19 slides
+are the deeper deployment record: the four sections in operation, the AI Space
+delivering predictions on real seasons, and the visualization patterns used
+throughout.
+
+<PdfViewer
+  src="/work/formula-one-analytics/F1Analytics.pdf"
+  height="72vh"
+  ariaLabel="Formula 1 Analytics — 19-slide deployment record"
+  downloadLabel="Open PDF in new tab"
+/>
+
+## Four sections, one data substrate
+
+| Section | What it delivers | Why it earns the slot |
+|---|---|---|
+| **Overview** | F1 history, iconic circuits, season legacy storytelling | Hook for non-stat-heads — narrative makes the data accessible |
+| **Insights** | Statistical pattern analysis on track and driver performance | Where the *quantitative* fans land — distributions, correlations, anomalies |
+| **Seasons** | Per-season recaps with race strategies, driver arcs, context | Combines narrative + stats — the season as both story and dataset |
+| **AI Space** | ML applied to race-outcome prediction and pit-stop strategy modeling | The differentiator — most F1 sites surface stats; few apply ML on top |
+
+## What this project really was
+
+A **production sandbox for testing tooling**. Every time I wanted to evaluate a new
+library — a different plotting backend, a new tabular-data framework, a fresh ML
+algorithm — I prototyped it here against real F1 data before deciding whether it
+belonged in client / production work. The cost was low (race data is clean and
+public via Ergast), the iteration was fast, and the public Streamlit app meant
+others could see and use what I built.
+
+Several stack choices for later projects (Plotly over matplotlib for interactive
+charts, Streamlit for fast prototyping of analytical UIs) originated here.
+
+## Stack
+
+- **Python** — implementation
+- **Streamlit** — public-facing live interface
+- **pandas** + **NumPy** — data wrangling
+- **scikit-learn** — ML for race-outcome prediction and pit strategy modeling
+- **Plotly** + **matplotlib** — interactive and static visualizations
+- **Ergast F1 API** — open historical race data source
+
+## What this project proves
+
+- **End-to-end ownership of a live public product** — data ingestion through ML through a live Streamlit UI, all maintained by one engineer
+- **Sandbox discipline** — using a personal project as a deliberate testbed for tooling decisions that later landed in production work
+- **Sports analytics as a domain** — adds another vertical to the breadth of domains shipped (Logistics, Finance, Real Estate, CV, Cybersecurity, Sports)
 
 [Live demo →](https://f1analytics.streamlit.app/) ·
 [Source on GitHub →](https://github.com/rafaelcoelho1409/FormulaOneAnalytics)
