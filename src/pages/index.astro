@@ -111,7 +111,7 @@ const recentPosts = (await getCollection("writing", ({ data }) => !data.draft))
       </div>
       <div class="grid grid-cols-1 gap-3">
         {
-          featuredList.map((entry) => (
+          featuredList.map((entry, i) => (
             <ProjectCard
               title={entry.data.title}
               summary={entry.data.summary}
@@ -120,6 +120,8 @@ const recentPosts = (await getCollection("writing", ({ data }) => !data.draft))
               stack={entry.data.stack}
               date={entry.data.date}
               featured={entry.data.featured}
+              thumbnail={entry.data.thumbnail}
+              eager={i === 0}
             />
           ))
         }

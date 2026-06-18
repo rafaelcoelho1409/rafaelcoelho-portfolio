@@ -29,7 +29,7 @@ const all = (await getCollection("work", ({ data }) => !data.draft)).sort(
 
     <div class="grid grid-cols-1 gap-3">
       {
-        all.map((entry) => (
+        all.map((entry, i) => (
           <ProjectCard
             title={entry.data.title}
             summary={entry.data.summary}
@@ -38,6 +38,8 @@ const all = (await getCollection("work", ({ data }) => !data.draft)).sort(
             stack={entry.data.stack}
             date={entry.data.date}
             featured={entry.data.featured}
+            thumbnail={entry.data.thumbnail}
+            eager={i < 2}
           />
         ))
       }

@@ -13,6 +13,7 @@ const work = defineCollection({
     demo: z.string().optional(),
     paper: z.string().optional(),
     presentation: z.string().optional(),
+    thumbnail: z.string().optional(),
     featured: z.boolean().default(false),
     order: z.number().default(100),
     draft: z.boolean().default(false),
