@@ -27,7 +27,7 @@ export const NAV = [
 ] as const;
 
 export const HOME_METRICS = [
-  { value: "6+", unit: "yrs", label: "designing production ML systems" },
-  { value: "50+", unit: "", label: "Prometheus metrics shipped to prod" },
-  { value: "11", unit: "", label: "Grafana dashboards in real-time MLOps platform" },
+  { value: "6+", unit: "yrs", label: "designing production ML systems on Kubernetes" },
+  { value: "9", unit: "", label: "production AI / ML projects shipped end-to-end" },
+  { value: "BSc", unit: "", label: "Mathematics · UFPR — analytical foundation for ML" },
 ] as const;
