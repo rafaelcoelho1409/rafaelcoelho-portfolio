@@ -45,7 +45,7 @@ export const REPOS: Repo[] = [
   // 2025
   {
     repo: "rafaelcoelho1409/K3D",
-    projectName: "Local Kubernetes cluster with DevOps tooling via Terraform",
+    projectName: "Building a local Kubernetes cluster with DevOps tools using Terraform",
     releaseDate: "November 2025",
     year: 2025,
     caseStudy: "/writing/k3d-local-cluster",
@@ -143,7 +143,7 @@ export const REPOS: Repo[] = [
   // 2023
   {
     repo: "rafaelcoelho1409/COELHOVISION",
-    projectName: "COELHO VISION",
+    projectName: "COELHO Vision",
     releaseDate: "December 2023",
     year: 2023,
     caseStudy: "/work/coelho-vision",
@@ -159,7 +159,7 @@ export const REPOS: Repo[] = [
   },
   {
     repo: "rafaelcoelho1409/FormulaOneAnalytics",
-    projectName: "Formula 1 Analytics",
+    projectName: "Formula One Analytics",
     releaseDate: "December 2023",
     year: 2023,
     caseStudy: "/work/formula-one-analytics",
@@ -189,42 +189,42 @@ export const REPOS: Repo[] = [
   // 2022
   {
     repo: "rafaelcoelho1409/DataEngineering",
-    projectName: "Data Engineering & ML with Airflow + PySpark",
+    projectName: "Data Engineering and Machine Learning with Airflow & PySpark",
     releaseDate: "April 2022",
     year: 2022,
     keyTools: ["Python", "PySpark", "Airflow"],
   },
   {
     repo: "rafaelcoelho1409/DataEngineering2",
-    projectName: "Data Engineering & ML with Airflow, Pandas, SARIMAX, XGBoost",
+    projectName: "Data Engineering and Machine Learning with Airflow, Pandas, SARIMAX and XGBoost",
     releaseDate: "April 2022",
     year: 2022,
     keyTools: ["Python", "Airflow", "pmdarima", "XGBoost", "scikit-learn"],
   },
   {
     repo: "rafaelcoelho1409/TimeSeriesForecast",
-    projectName: "Time Series & Forecast with SARIMAX, XGBoost, Prophet",
+    projectName: "Time Series & Forecast using SARIMAX, XGBoost and Facebook Prophet",
     releaseDate: "March 2022",
     year: 2022,
     keyTools: ["Python", "scikit-learn", "Prophet", "pmdarima", "XGBoost"],
   },
   {
     repo: "rafaelcoelho1409/NLP-WebScraping",
-    projectName: "NLP & Web Scraping",
+    projectName: "Natural Language Processing (NLP) & Web Scraping",
     releaseDate: "March 2022",
     year: 2022,
     keyTools: ["Python", "Selenium", "NLTK", "Streamlit"],
   },
   {
     repo: "rafaelcoelho1409/ComputerVision",
-    projectName: "Computer Vision with TensorFlow, Keras, OpenCV",
+    projectName: "Computer Vision with Tensorflow, Keras and OpenCV",
     releaseDate: "January 2022",
     year: 2022,
     keyTools: ["Python", "Streamlit", "TensorFlow", "Keras", "OpenCV"],
   },
   {
     repo: "rafaelcoelho1409/DeepLearning",
-    projectName: "Deep Learning with TensorFlow + Keras",
+    projectName: "Deep Learning using Tensorflow & Keras",
     releaseDate: "January 2022",
     year: 2022,
     keyTools: ["Python", "Streamlit", "TensorFlow", "Keras"],
@@ -232,28 +232,28 @@ export const REPOS: Repo[] = [
   // 2021
   {
     repo: "rafaelcoelho1409/CustomerSegmentation",
-    projectName: "Customer segmentation via clustering ML",
+    projectName: "Customer segmentation using clustering algorithms (Machine Learning)",
     releaseDate: "November 2021",
     year: 2021,
     keyTools: ["Python", "Streamlit", "scikit-learn"],
   },
   {
     repo: "rafaelcoelho1409/GoogleShoppingBot",
-    projectName: "Google Shopping web scraping bot (Selenium)",
+    projectName: "Web Scraping with Selenium to collect product prices on Google Shopping",
     releaseDate: "November 2021",
     year: 2021,
     keyTools: ["Python", "Selenium", "Docker"],
   },
   {
     repo: "rafaelcoelho1409/Computer_Vision_AI_1",
-    projectName: "Object detection & classification via CV + DL",
+    projectName: "Detecting and classifying objects using Computer Vision and Deep Learning",
     releaseDate: "May 2021",
     year: 2021,
     keyTools: ["Python", "OpenCV", "TensorFlow", "Keras"],
   },
   {
     repo: "rafaelcoelho1409/Chest-X-Ray-COVID-19",
-    projectName: "X-ray detection of COVID-19 / pneumonia",
+    projectName: "X-ray images for detection of COVID-19 or pneumonia",
     releaseDate: "March 2021",
     year: 2021,
     keyTools: ["Python", "TensorFlow", "Keras"],

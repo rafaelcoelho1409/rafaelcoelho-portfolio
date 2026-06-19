@@ -18,9 +18,9 @@ export const SOCIALS = {
 export const NAV = [
   { href: "/work", label: "Work" },
   { href: "/writing", label: "Writing" },
+  { href: "/skills", label: "Skills" },
   { href: "/repositories", label: "Repositories" },
   { href: "/cv", label: "CV" },
-  { href: "/contact", label: "Contact" },
 ] as const;
 
 export const HOME_METRICS = [

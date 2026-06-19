@@ -1,0 +1,91 @@
+---
+import Base from "../layouts/Base.astro";
+import { SKILLS } from "../data/skills";
+
+const totalTools = SKILLS.reduce((sum, cat) => sum + cat.tools.length, 0);
+---
+
+<Base
+  title="Skills"
+  description="Complete technical skill catalog — every tool, framework, and platform I work with, organized by domain. Each card links to the tool's official documentation."
+>
+  <div class="container-page">
+    <header class="mb-12 pt-4">
+      <p class="eyebrow mb-4">/ Skills</p>
+      <h1
+        class="font-display mb-4 text-[2.4rem] font-medium tracking-tight"
+        style="color: var(--color-text); letter-spacing: -0.025em;"
+      >
+        Skills
+      </h1>
+      <p class="text-[16px] leading-[1.7]" style="color: var(--color-text-muted);">
+        Complete catalog of the tools, frameworks, and platforms I work with across the
+        full ML / DevOps / GenAI / security stack — grouped by domain. Click any card
+        to open the tool's official documentation. <span
+          class="font-mono text-[13px] whitespace-nowrap"
+          style="color: var(--color-platinum-dim);"
+        >
+          {SKILLS.length} categories · {totalTools} tools
+        </span>
+      </p>
+    </header>
+
+    <div class="hairline-gold mb-12" style="opacity: 0.35;"></div>
+
+    <div class="space-y-12">
+      {
+        SKILLS.map((cat) => (
+          <section>
+            <div class="mb-5 flex items-baseline justify-between gap-3">
+              <h2
+                class="font-display text-[20px] font-semibold tracking-tight"
+                style="color: var(--color-text); letter-spacing: -0.015em;"
+              >
+                {cat.name}
+              </h2>
+              <span
+                class="font-mono text-[10.5px] tracking-[0.14em] uppercase whitespace-nowrap"
+                style="color: var(--color-platinum-dim);"
+              >
+                {cat.tools.length} {cat.tools.length === 1 ? "tool" : "tools"}
+              </span>
+            </div>
+            <div
+              style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px;"
+            >
+              {cat.tools.map((tool) => (
+                <a
+                  href={tool.docs}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  class="group flex flex-col items-center gap-2.5 rounded-sm border p-3.5 transition-all hover:border-[var(--color-gold)]"
+                  style="border-color: var(--color-border); background-color: var(--color-bg-2);"
+                  title={`${tool.name} — open docs`}
+                >
+                  <div
+                    style="height: 56px; width: 56px; display: flex; align-items: center; justify-content: center; background-color: oklch(0.94 0.005 80); border-radius: 4px; padding: 6px;"
+                  >
+                    <img
+                      src={tool.logo}
+                      alt={`${tool.name} logo`}
+                      loading="lazy"
+                      decoding="async"
+                      referrerpolicy="no-referrer"
+                      style="max-height: 100%; max-width: 100%; object-fit: contain;"
+                    />
+                  </div>
+                  <span
+                    class="text-center font-mono text-[11px] tracking-tight transition-colors group-hover:text-[var(--color-gold)]"
+                    style="color: var(--color-text-muted); line-height: 1.3;"
+                  >
+                    {tool.name}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </div>
+</Base>
