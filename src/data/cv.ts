@@ -10,7 +10,7 @@ export const CV = {
 
   highlights: [
     "Built a Real-Time MLOps platform on Kubernetes — incremental + batch ML on Kafka, Spark, Delta Lake, MLflow, with Terraform / Helm / ArgoCD / GitLab CI and 50+ Prometheus metrics across 11 Grafana dashboards.",
-    "Designing COELHO Nexus — an Agentic RAG + GraphRAG platform (FastAPI, Qdrant, Neo4j, LangGraph) running zero-cost on Oracle Cloud + free-tier inference providers.",
+    "Architected COELHO Nexus — a Kubernetes-native platform running three production AI features (FastAPI, FastHTML, FastMCP, LangGraph, DeepAgents, Neo4j, Qdrant) on 100% free-tier inference via a self-learning bandit router.",
     "Production-grade Generative AI and Agentic AI experience: multi-agent systems with LangChain / LangGraph and Knowledge Graphs (GraphRAG / Neo4j) for autonomous reasoning and retrieval.",
     "Domain experience across Logistics, Financial Markets, Real Estate, Computer Vision, and Cybersecurity.",
   ],

@@ -1,12 +1,12 @@
 export const SITE = {
   title: "Rafael Coelho",
-  tagline: "Senior AI Engineer · MLOps & Agentic Systems",
+  tagline: "Senior AI Engineer · Agentic AI, LLMOps & MLOps",
   description:
-    "Senior AI Engineer shipping production agentic AI on Kubernetes — adaptive RAG, real-time ML, GraphRAG, GitOps. 6+ years. Building COELHO Nexus.",
+    "Senior AI Engineer building production agentic AI on Kubernetes — multi-agent orchestration, evaluation-gated RAG, real-time MLOps. 6+ years.",
   url: "https://rafaelcoelho.pages.dev",
   author: "Rafael Coelho",
   location: "Brazil",
-  relocation: "Open to relocation — Abu Dhabi · Riyadh · Doha · Dubai · Singapore",
+  relocation: "Available · Senior AI / MLOps roles",
   ogImage: "/og.png",
   locale: "en",
 } as const;

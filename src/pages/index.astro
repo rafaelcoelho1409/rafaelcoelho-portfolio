@@ -11,8 +11,9 @@ import { SITE, HOME_METRICS } from "../consts";
 const allWork = (await getCollection("work", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
-const featured = allWork.filter((w) => w.data.featured).slice(0, 4);
-const featuredList = featured.length > 0 ? featured : allWork.slice(0, 4);
+const featured = allWork.filter((w) => w.data.featured);
+const rest = allWork.filter((w) => !w.data.featured);
+const featuredList = [...featured, ...rest].slice(0, 4);
 
 const recentPosts = (await getCollection("writing", ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
@@ -27,10 +28,11 @@ const recentPosts = (await getCollection("writing", ({ data }) => !data.draft))
         class="font-display mb-8 text-[2.25rem] leading-[1.12] font-medium tracking-tight sm:text-[3.25rem]"
         style="color: var(--color-text); letter-spacing: -0.03em;"
       >
-        Production AI systems on Kubernetes — from real-time
+        Production AI systems on Kubernetes — from real-time incremental
+        pipelines to adaptive
         <span style="color: var(--color-gold); font-style: italic;"
-          >incremental</span
-        > pipelines to adaptive agentic RAG.
+          >agentic</span
+        > RAG.
       </h1>
 
       <div
@@ -41,16 +43,16 @@ const recentPosts = (await getCollection("writing", ({ data }) => !data.draft))
             class="text-[17px] leading-[1.7]"
             style="color: var(--color-text-muted);"
           >
-            Six years engineering production ML systems — Kafka, Spark, end-to-end
-            GitOps. Architect of <a
+            Six years engineering production ML systems end to end — Kafka
+            and Spark pipelines, full GitOps delivery. Architect of <a
               href="/work/coelho-nexus"
               class="font-medium transition-colors hover:text-[var(--color-gold)]"
               style="color: var(--color-text); border-bottom: 1px solid var(--color-gold); padding-bottom: 1px;"
               >COELHO Nexus</a
-            > on Docker · Kubernetes · Helm · Terraform · Terragrunt — adaptive
-            Agentic RAG with a multi-provider Thompson-sampling LLM rotator,
-            two-stage retrieval, GraphRAG via Neo4j, and full observability via
-            LangFuse · OpenTelemetry · Alloy · LGTM.
+            >, a Kubernetes-native platform running three production agentic
+            AI features on one self-learning LLM rotator, evaluation-gated
+            pipelines, and full observability via LangFuse · OpenTelemetry ·
+            Alloy · LGTM — at $0 inference cost.
           </p>
 
           <div class="mt-8 flex flex-wrap gap-2.5">
@@ -64,7 +66,7 @@ const recentPosts = (await getCollection("writing", ({ data }) => !data.draft))
               class="rounded-full border px-3 py-1 font-mono text-[10.5px] tracking-[0.14em] uppercase"
               style="border-color: var(--color-gold-deep); color: var(--color-gold);"
             >
-              Available · Senior AI / MLOps roles
+              {SITE.relocation}
             </span>
           </div>
         </div>
