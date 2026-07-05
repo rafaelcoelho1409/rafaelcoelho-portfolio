@@ -3,6 +3,13 @@ import Base from "../layouts/Base.astro";
 import { SKILLS } from "../data/skills";
 
 const totalTools = SKILLS.reduce((sum, cat) => sum + cat.tools.length, 0);
+
+const slugify = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 ---
 
 <Base
@@ -10,7 +17,7 @@ const totalTools = SKILLS.reduce((sum, cat) => sum + cat.tools.length, 0);
   description="Complete technical skill catalog — every tool, framework, and platform I work with, organized by domain. Each card links to the tool's official documentation."
 >
   <div class="container-page">
-    <header class="mb-12 pt-4">
+    <header class="mb-8 pt-4">
       <p class="eyebrow mb-4">/ Skills</p>
       <h1
         class="font-display mb-4 text-[2.4rem] font-medium tracking-tight"
@@ -30,12 +37,50 @@ const totalTools = SKILLS.reduce((sum, cat) => sum + cat.tools.length, 0);
       </p>
     </header>
 
+    <div class="mb-8">
+      <input
+        id="skills-search"
+        type="text"
+        placeholder="Filter by name…"
+        autocomplete="off"
+        spellcheck="false"
+        class="w-full rounded-sm border px-4 py-2.5 font-mono text-[13px] outline-none transition-colors"
+        style="border-color: var(--color-border); background-color: var(--color-bg-2); color: var(--color-text);"
+      />
+      <p
+        id="skills-search-empty"
+        class="mt-3 hidden font-mono text-[13px]"
+        style="color: var(--color-text-dim);"
+      >
+        No tools match "<span id="skills-search-empty-term"></span>".
+      </p>
+    </div>
+
+    <nav
+      id="skills-quicknav"
+      class="mb-10 flex flex-wrap gap-2"
+      aria-label="Jump to category"
+    >
+      {
+        SKILLS.map((cat) => (
+          <a
+            href={`#${slugify(cat.name)}`}
+            data-quicknav-for={slugify(cat.name)}
+            class="rounded-sm border px-3 py-1.5 font-mono text-[11px] tracking-tight whitespace-nowrap transition-colors hover:border-[var(--color-gold)] hover:text-[var(--color-gold)]"
+            style="border-color: var(--color-border); color: var(--color-text-muted);"
+          >
+            {cat.name}
+          </a>
+        ))
+      }
+    </nav>
+
     <div class="hairline-gold mb-12" style="opacity: 0.35;"></div>
 
     <div class="space-y-12">
       {
         SKILLS.map((cat) => (
-          <section>
+          <section id={slugify(cat.name)} data-category>
             <div class="mb-5 flex items-baseline justify-between gap-3">
               <h2
                 class="font-display text-[20px] font-semibold tracking-tight"
@@ -44,6 +89,7 @@ const totalTools = SKILLS.reduce((sum, cat) => sum + cat.tools.length, 0);
                 {cat.name}
               </h2>
               <span
+                data-category-count
                 class="font-mono text-[10.5px] tracking-[0.14em] uppercase whitespace-nowrap"
                 style="color: var(--color-platinum-dim);"
               >
@@ -58,6 +104,8 @@ const totalTools = SKILLS.reduce((sum, cat) => sum + cat.tools.length, 0);
                   href={tool.docs}
                   target="_blank"
                   rel="noreferrer noopener"
+                  data-tool
+                  data-tool-name={tool.name.toLowerCase()}
                   class="group flex flex-col items-center gap-2.5 rounded-sm border p-3.5 transition-all hover:border-[var(--color-gold)]"
                   style="border-color: var(--color-border); background-color: var(--color-bg-2);"
                   title={`${tool.name} — open docs`}
@@ -89,3 +137,53 @@ const totalTools = SKILLS.reduce((sum, cat) => sum + cat.tools.length, 0);
     </div>
   </div>
 </Base>
+
+<script is:inline>
+  (function () {
+    const input = document.getElementById("skills-search");
+    const emptyState = document.getElementById("skills-search-empty");
+    const emptyTerm = document.getElementById("skills-search-empty-term");
+    const sections = Array.from(document.querySelectorAll("[data-category]"));
+    const quicknavLinks = Array.from(
+      document.querySelectorAll("[data-quicknav-for]"),
+    );
+
+    if (!input) return;
+
+    input.addEventListener("input", () => {
+      const term = input.value.trim().toLowerCase();
+      let anyVisible = false;
+
+      sections.forEach((section) => {
+        const tools = Array.from(section.querySelectorAll("[data-tool]"));
+        let visibleCount = 0;
+        tools.forEach((tool) => {
+          const name = tool.getAttribute("data-tool-name") || "";
+          const match = term === "" || name.includes(term);
+          tool.style.display = match ? "" : "none";
+          if (match) visibleCount++;
+        });
+        const sectionHasMatch = visibleCount > 0;
+        section.style.display = sectionHasMatch ? "" : "none";
+        if (sectionHasMatch) anyVisible = true;
+
+        const countEl = section.querySelector("[data-category-count]");
+        if (countEl) {
+          countEl.textContent = `${visibleCount} ${visibleCount === 1 ? "tool" : "tools"}`;
+        }
+
+        const navLink = quicknavLinks.find(
+          (a) => a.getAttribute("data-quicknav-for") === section.id,
+        );
+        if (navLink) {
+          navLink.style.display = sectionHasMatch ? "" : "none";
+        }
+      });
+
+      if (emptyState && emptyTerm) {
+        emptyState.classList.toggle("hidden", term === "" || anyVisible);
+        emptyTerm.textContent = input.value.trim();
+      }
+    });
+  })();
+</script>

@@ -59,7 +59,7 @@ export const SKILLS: SkillCategory[] = [
     ],
   },
   {
-    name: "Machine learning",
+    name: "Machine learning & MLOps",
     tools: [
       {
         name: "scikit-learn",
@@ -96,6 +96,11 @@ export const SKILLS: SkillCategory[] = [
         docs: "https://adtk.readthedocs.io/",
         logo: "https://adtk.readthedocs.io/en/stable/_static/arundo_logo_black.png",
       },
+      {
+        name: "MLflow",
+        docs: "https://mlflow.org/docs/latest/index.html",
+        logo: "https://raw.githubusercontent.com/mlflow/mlflow/refs/heads/master/assets/logo.svg",
+      },
     ],
   },
   {
@@ -119,12 +124,22 @@ export const SKILLS: SkillCategory[] = [
     ],
   },
   {
-    name: "Generative AI & LLMs",
+    name: "Agentic AI",
     tools: [
       {
-        name: "OpenAI",
-        docs: "https://platform.openai.com/docs/",
-        logo: "https://www.svgrepo.com/show/306500/openai.svg",
+        name: "LangChain",
+        docs: "https://python.langchain.com/docs/",
+        logo: "/skills/langchain.jpg",
+      },
+      {
+        name: "LangGraph",
+        docs: "https://langchain-ai.github.io/langgraph/",
+        logo: "/skills/langgraph.jpg",
+      },
+      {
+        name: "DeepAgents",
+        docs: "https://github.com/langchain-ai/deepagents",
+        logo: "/skills/deepagents.jpg",
       },
       {
         name: "Hugging Face",
@@ -132,29 +147,34 @@ export const SKILLS: SkillCategory[] = [
         logo: "https://huggingface.co/front/assets/huggingface_logo-noborder.svg",
       },
       {
-        name: "Ollama",
-        docs: "https://ollama.com/docs",
-        logo: "https://ollama.com/public/ollama.png",
-      },
-      {
-        name: "Groq",
-        docs: "https://console.groq.com/docs",
-        logo: "https://console.groq.com/groq-logo.svg",
-      },
-      {
-        name: "LangChain",
-        docs: "https://python.langchain.com/docs/",
-        logo: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/dark/langchain-color.png",
-      },
-      {
-        name: "LangGraph",
-        docs: "https://langchain-ai.github.io/langgraph/",
-        logo: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/dark/langgraph.png",
+        name: "FastMCP",
+        docs: "https://gofastmcp.com/",
+        logo: "/skills/fastmcp.png",
       },
       {
         name: "Qdrant",
         docs: "https://python-client.qdrant.tech",
-        logo: "https://images.seeklogo.com/logo-png/49/1/qdrant-icon-logo-png_seeklogo-497960.png",
+        logo: "/skills/qdrant.svg",
+      },
+      {
+        name: "Neo4j",
+        docs: "https://neo4j.com/docs/",
+        logo: "/skills/neo4j.svg",
+      },
+    ],
+  },
+  {
+    name: "LLMOps",
+    tools: [
+      {
+        name: "LiteLLM",
+        docs: "https://docs.litellm.ai/",
+        logo: "/skills/litellm.jpg",
+      },
+      {
+        name: "LangFuse",
+        docs: "https://langfuse.com/docs",
+        logo: "/skills/langfuse.svg",
       },
     ],
   },
@@ -189,7 +209,7 @@ export const SKILLS: SkillCategory[] = [
     ],
   },
   {
-    name: "MLOps & DevOps",
+    name: "DevOps",
     tools: [
       { name: "Git", docs: "https://git-scm.com/doc", logo: DEVICON("git") },
       {
@@ -218,11 +238,6 @@ export const SKILLS: SkillCategory[] = [
         logo: DEVICON("helm"),
       },
       {
-        name: "Terraform",
-        docs: "https://developer.hashicorp.com/terraform/docs",
-        logo: DEVICON("terraform"),
-      },
-      {
         name: "ArgoCD",
         docs: "https://argo-cd.readthedocs.io/en/stable/",
         logo: DEVICON("argocd"),
@@ -233,34 +248,69 @@ export const SKILLS: SkillCategory[] = [
         logo: "https://k3d.io/stable/static/img/k3d_logo_black_blue.svg",
       },
       {
+        name: "Rancher",
+        docs: "https://ranchermanager.docs.rancher.com/",
+        logo: "/skills/rancher.png",
+      },
+      {
         name: "Skaffold",
         docs: "https://skaffold.dev/docs/",
         logo: "https://raw.githubusercontent.com/GoogleContainerTools/skaffold/main/logo/skaffold.png",
       },
+    ],
+  },
+  {
+    name: "Infrastructure as Code (IaC)",
+    tools: [
       {
-        name: "MLflow",
-        docs: "https://mlflow.org/docs/latest/index.html",
-        logo: "https://raw.githubusercontent.com/mlflow/mlflow/refs/heads/master/assets/logo.svg",
+        name: "Terragrunt",
+        docs: "https://terragrunt.gruntwork.io/docs/",
+        logo: "/skills/terragrunt.png",
       },
       {
-        name: "FastAPI",
-        docs: "https://fastapi.tiangolo.com/",
-        logo: DEVICON("fastapi"),
+        name: "Terraform",
+        docs: "https://developer.hashicorp.com/terraform/docs",
+        logo: DEVICON("terraform"),
       },
       {
-        name: "Pydantic",
-        docs: "https://docs.pydantic.dev/",
-        logo: "https://docs.pydantic.dev/latest/logo-white.svg",
+        name: "OpenTofu",
+        docs: "https://opentofu.org/docs/",
+        logo: "/skills/opentofu.png",
       },
-      {
-        name: "Prometheus",
-        docs: "https://prometheus.io/docs/introduction/overview/",
-        logo: "https://upload.wikimedia.org/wikipedia/commons/3/38/Prometheus_software_logo.svg",
-      },
+    ],
+  },
+  {
+    name: "Observability",
+    tools: [
       {
         name: "Grafana",
         docs: "https://grafana.com/docs/",
-        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Grafana_icon.svg/960px-Grafana_icon.svg.png",
+        logo: "/skills/grafana.svg",
+      },
+      {
+        name: "Grafana Alloy",
+        docs: "https://grafana.com/docs/alloy/latest/",
+        logo: "/skills/grafana-alloy.png",
+      },
+      {
+        name: "Grafana Loki",
+        docs: "https://grafana.com/docs/loki/latest/",
+        logo: "/skills/loki.png",
+      },
+      {
+        name: "Grafana Tempo",
+        docs: "https://grafana.com/docs/tempo/latest/",
+        logo: "/skills/tempo.png",
+      },
+      {
+        name: "Grafana Mimir",
+        docs: "https://grafana.com/docs/mimir/latest/",
+        logo: "/skills/mimir.png",
+      },
+      {
+        name: "OpenTelemetry",
+        docs: "https://opentelemetry.io/docs/",
+        logo: "/skills/opentelemetry.png",
       },
     ],
   },
@@ -292,6 +342,21 @@ export const SKILLS: SkillCategory[] = [
         docs: "https://doc.qt.io/qtforpython-6/",
         logo: DEVICON("qt"),
       },
+      {
+        name: "FastHTML",
+        docs: "https://fastht.ml/docs/",
+        logo: "/skills/fasthtml.svg",
+      },
+      {
+        name: "FastAPI",
+        docs: "https://fastapi.tiangolo.com/",
+        logo: DEVICON("fastapi"),
+      },
+      {
+        name: "Pydantic",
+        docs: "https://docs.pydantic.dev/",
+        logo: "/skills/pydantic.jpg",
+      },
     ],
   },
   {
@@ -321,6 +386,21 @@ export const SKILLS: SkillCategory[] = [
         name: "Luigi",
         docs: "https://luigi.readthedocs.io/",
         logo: "https://raw.githubusercontent.com/spotify/luigi/master/doc/luigi.png",
+      },
+      {
+        name: "Playwright",
+        docs: "https://playwright.dev/python/docs/intro",
+        logo: "/skills/playwright.svg",
+      },
+      {
+        name: "Crawl4AI",
+        docs: "https://docs.crawl4ai.com/",
+        logo: "/skills/crawl4ai.jpg",
+      },
+      {
+        name: "Celery",
+        docs: "https://docs.celeryq.dev/",
+        logo: "/skills/celery.png",
       },
     ],
   },
@@ -352,6 +432,21 @@ export const SKILLS: SkillCategory[] = [
         docs: "https://www.postgresql.org/docs/",
         logo: DEVICON("postgresql"),
       },
+      {
+        name: "Redis",
+        docs: "https://redis.io/docs/latest/",
+        logo: "/skills/redis.svg",
+      },
+      {
+        name: "Elasticsearch",
+        docs: "https://www.elastic.co/docs",
+        logo: "/skills/elasticsearch.svg",
+      },
+      {
+        name: "MinIO",
+        docs: "https://min.io/docs/minio/linux/index.html",
+        logo: "/skills/minio.png",
+      },
     ],
   },
   {
@@ -380,12 +475,12 @@ export const SKILLS: SkillCategory[] = [
       {
         name: "ProjectDiscovery",
         docs: "https://docs.projectdiscovery.io/",
-        logo: "https://projectdiscovery.io/_next/static/media/ProjectDiscoveryLogo.a524f50f.svg",
+        logo: "/skills/projectdiscovery.jpg",
       },
       {
         name: "Shodan",
         docs: "https://developer.shodan.io/",
-        logo: "https://www.shodan.io/static/img/logo-6abcc86b.png",
+        logo: "/skills/shodan.png",
       },
       {
         name: "Censys",
