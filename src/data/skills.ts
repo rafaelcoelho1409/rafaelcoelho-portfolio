@@ -14,7 +14,7 @@ const DEVICON = (slug: string, variant = "original") =>
 
 export const SKILLS: SkillCategory[] = [
   {
-    name: "Programming languages",
+    name: "Programming Languages",
     tools: [
       {
         name: "Python",
@@ -34,7 +34,7 @@ export const SKILLS: SkillCategory[] = [
     ],
   },
   {
-    name: "Data science & analytics",
+    name: "Data Science & Analytics",
     tools: [
       {
         name: "NumPy",
@@ -49,7 +49,7 @@ export const SKILLS: SkillCategory[] = [
       {
         name: "DuckDB",
         docs: "https://duckdb.org/docs/stable/",
-        logo: "https://upload.wikimedia.org/wikipedia/commons/4/40/DuckDB_logo.svg",
+        logo: "/skills/duckdb.png",
       },
       {
         name: "Plotly",
@@ -59,7 +59,7 @@ export const SKILLS: SkillCategory[] = [
     ],
   },
   {
-    name: "Machine learning & MLOps",
+    name: "Machine Learning & MLOps",
     tools: [
       {
         name: "scikit-learn",
@@ -104,7 +104,7 @@ export const SKILLS: SkillCategory[] = [
     ],
   },
   {
-    name: "Deep learning",
+    name: "Deep Learning",
     tools: [
       {
         name: "TensorFlow",
@@ -174,12 +174,12 @@ export const SKILLS: SkillCategory[] = [
       {
         name: "LangFuse",
         docs: "https://langfuse.com/docs",
-        logo: "/skills/langfuse.svg",
+        logo: "/skills/langfuse.png",
       },
     ],
   },
   {
-    name: "Computer vision",
+    name: "Computer Vision",
     tools: [
       {
         name: "OpenCV",
@@ -199,7 +199,7 @@ export const SKILLS: SkillCategory[] = [
       {
         name: "RoboFlow",
         docs: "https://roboflow.com/docs",
-        logo: "https://logosandtypes.com/wp-content/uploads/2025/02/roboflow.png",
+        logo: "/skills/roboflow.png",
       },
       {
         name: "OpenVINO",
@@ -315,7 +315,7 @@ export const SKILLS: SkillCategory[] = [
     ],
   },
   {
-    name: "Data engineering",
+    name: "Data Engineering",
     tools: [
       {
         name: "PySpark",
@@ -325,12 +325,12 @@ export const SKILLS: SkillCategory[] = [
       {
         name: "Delta Lake",
         docs: "https://docs.delta.io/",
-        logo: "https://delta.io/_astro/delta-lake-logo.Dx7tzbyv_1OsUys.svg",
+        logo: "/skills/delta_lake.jpg",
       },
     ],
   },
   {
-    name: "Web development & UI",
+    name: "Web Development & UI",
     tools: [
       {
         name: "Streamlit",
@@ -360,7 +360,7 @@ export const SKILLS: SkillCategory[] = [
     ],
   },
   {
-    name: "Automation & orchestration",
+    name: "Automation & Orchestration",
     tools: [
       {
         name: "Selenium",
@@ -405,7 +405,7 @@ export const SKILLS: SkillCategory[] = [
     ],
   },
   {
-    name: "Cloud platforms",
+    name: "Cloud Platforms",
     tools: [
       {
         name: "AWS",
