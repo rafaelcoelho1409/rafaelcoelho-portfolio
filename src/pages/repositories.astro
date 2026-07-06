@@ -2,15 +2,13 @@
 import Base from "../layouts/Base.astro";
 import StackBadge from "../components/StackBadge.astro";
 import { REPOS, GITHUB_USERNAME } from "../data/repositories";
+import { GITHUB_STATS, GITHUB_STATS_AS_OF, TOP_LANGUAGES } from "../data/githubStats";
 
 const STATS_BG = "0a0a0a";
 const STATS_TITLE = "d4b572";
 const STATS_TEXT = "cccccc";
-const STATS_ICON = "d4b572";
 const STATS_BORDER = "4a3a1f";
 
-const statsUrl = `https://github-readme-stats.vercel.app/api?username=${GITHUB_USERNAME}&show_icons=true&hide_border=false&include_all_commits=true&count_private=true&bg_color=${STATS_BG}&title_color=${STATS_TITLE}&text_color=${STATS_TEXT}&icon_color=${STATS_ICON}&border_color=${STATS_BORDER}`;
-const langsUrl = `https://github-readme-stats.vercel.app/api/top-langs/?username=${GITHUB_USERNAME}&layout=compact&hide_border=false&bg_color=${STATS_BG}&title_color=${STATS_TITLE}&text_color=${STATS_TEXT}&border_color=${STATS_BORDER}`;
 const streakUrl = `https://github-readme-streak-stats.herokuapp.com/?user=${GITHUB_USERNAME}&background=${STATS_BG}&stroke=${STATS_BORDER}&ring=${STATS_TITLE}&fire=${STATS_TITLE}&currStreakLabel=${STATS_TITLE}&sideLabels=${STATS_TEXT}&dates=${STATS_TEXT}&currStreakNum=${STATS_TEXT}&sideNums=${STATS_TEXT}&hide_border=false`;
 const trophyUrl = `https://github-trophies.vercel.app/?username=${GITHUB_USERNAME}&theme=darkhub&no-frame=false&row=2&column=4&margin-w=8&margin-h=8`;
 
@@ -38,8 +36,8 @@ const years = Object.keys(grouped)
         Public repositories
       </h1>
       <p class="text-[16px] leading-[1.7]" style="color: var(--color-text-muted);">
-        Every public GitHub project I've shipped, grouped by release year. Live stats
-        cards below pull directly from GitHub.
+        Every public GitHub project I've shipped, grouped by release year. Stats below
+        reflect GitHub activity.
       </p>
     </header>
 
@@ -50,31 +48,79 @@ const years = Object.keys(grouped)
           href={`https://github.com/${GITHUB_USERNAME}`}
           target="_blank"
           rel="noreferrer noopener"
-          class="block overflow-hidden rounded-sm border transition-colors hover:border-[var(--color-gold)]"
-          style="border-color: var(--color-border);"
+          class="block rounded-sm border p-5 transition-colors hover:border-[var(--color-gold)]"
+          style="border-color: var(--color-border); background-color: var(--color-bg-2);"
         >
-          <img
-            src={statsUrl}
-            alt={`${GITHUB_USERNAME} GitHub statistics`}
-            class="block w-full"
-            loading="lazy"
-            decoding="async"
-          />
+          <div class="mb-4 flex items-baseline justify-between">
+            <span class="font-mono text-[11px] tracking-[0.14em] uppercase" style="color: var(--color-platinum-dim);">
+              {GITHUB_USERNAME}'s GitHub stats
+            </span>
+            <span class="font-mono text-[10px] tracking-tight" style="color: var(--color-text-dim);">
+              as of {GITHUB_STATS_AS_OF}
+            </span>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <div class="font-display text-[1.8rem] font-semibold tracking-tight" style="color: var(--color-gold);">
+                {GITHUB_STATS.publicRepos}
+              </div>
+              <div class="text-[12.5px]" style="color: var(--color-text-muted);">Public repos</div>
+            </div>
+            <div>
+              <div class="font-display text-[1.8rem] font-semibold tracking-tight" style="color: var(--color-gold);">
+                {GITHUB_STATS.followers}
+              </div>
+              <div class="text-[12.5px]" style="color: var(--color-text-muted);">Followers</div>
+            </div>
+            <div>
+              <div class="font-display text-[1.8rem] font-semibold tracking-tight" style="color: var(--color-gold);">
+                {GITHUB_STATS.totalStars}
+              </div>
+              <div class="text-[12.5px]" style="color: var(--color-text-muted);">Total stars</div>
+            </div>
+            <div>
+              <div class="font-display text-[1.8rem] font-semibold tracking-tight" style="color: var(--color-gold);">
+                {GITHUB_STATS.memberSince}
+              </div>
+              <div class="text-[12.5px]" style="color: var(--color-text-muted);">Member since</div>
+            </div>
+          </div>
         </a>
         <a
           href={`https://github.com/${GITHUB_USERNAME}?tab=repositories`}
           target="_blank"
           rel="noreferrer noopener"
-          class="block overflow-hidden rounded-sm border transition-colors hover:border-[var(--color-gold)]"
-          style="border-color: var(--color-border);"
+          class="block rounded-sm border p-5 transition-colors hover:border-[var(--color-gold)]"
+          style="border-color: var(--color-border); background-color: var(--color-bg-2);"
         >
-          <img
-            src={langsUrl}
-            alt={`${GITHUB_USERNAME} top languages`}
-            class="block w-full"
-            loading="lazy"
-            decoding="async"
-          />
+          <div class="mb-4 flex items-baseline justify-between">
+            <span class="font-mono text-[11px] tracking-[0.14em] uppercase" style="color: var(--color-platinum-dim);">
+              Most used languages
+            </span>
+            <span class="font-mono text-[10px] tracking-tight" style="color: var(--color-text-dim);">
+              as of {GITHUB_STATS_AS_OF}
+            </span>
+          </div>
+          <div class="space-y-2.5">
+            {
+              TOP_LANGUAGES.map((lang) => (
+                <div>
+                  <div class="mb-1 flex items-baseline justify-between text-[12.5px]">
+                    <span style="color: var(--color-text);">{lang.name}</span>
+                    <span class="font-mono" style="color: var(--color-platinum-dim);">
+                      {lang.percent.toFixed(1)}%
+                    </span>
+                  </div>
+                  <div class="h-[5px] w-full rounded-full" style="background-color: var(--color-border);">
+                    <div
+                      class="h-full rounded-full"
+                      style={`width: ${lang.percent}%; background-color: var(--color-gold);`}
+                    />
+                  </div>
+                </div>
+              ))
+            }
+          </div>
         </a>
         <a
           href={`https://github.com/${GITHUB_USERNAME}`}
