@@ -4,11 +4,16 @@ import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 
+import cloudflare from "@astrojs/cloudflare";
+
 export default defineConfig({
   site: "https://rafaelcoelho.pages.dev",
   trailingSlash: "ignore",
+
   vite: {
     plugins: [tailwindcss()],
   },
+
   integrations: [mdx(), sitemap()],
+  adapter: cloudflare(),
 });
