@@ -1,20 +1,76 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
-  <title id="title">Rafael Coelho — Senior AI Engineer</title>
-  <desc id="description">Production AI platforms, agentic AI, and MLOps. Government systems serving more than 1.4 million citizens.</desc>
+  <title id="title">Rafael Coelho — Production AI on Kubernetes</title>
+  <desc id="description">Senior AI Engineer building production AI on Kubernetes, from real-time ML to adaptive agentic RAG.</desc>
   <defs>
-    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#d8bb7d" stop-opacity=".18" />
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#aa8445" />
+      <stop offset=".5" stop-color="#f0d696" />
+      <stop offset="1" stop-color="#b89455" />
+    </linearGradient>
+    <radialGradient id="aura" cx="78%" cy="17%" r="75%">
+      <stop offset="0" stop-color="#d8bb7d" stop-opacity=".13" />
       <stop offset="1" stop-color="#d8bb7d" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse">
+      <path d="M42 0H0V42" fill="none" stroke="#d8bb7d" stroke-opacity=".045" />
+    </pattern>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#15140f" />
+      <stop offset="1" stop-color="#0b0b0a" />
     </linearGradient>
   </defs>
-  <rect width="1200" height="630" fill="#0b0b0a" />
-  <circle cx="1060" cy="-20" r="420" fill="url(#accent)" />
-  <path d="M80 86h1040" stroke="#826a3b" stroke-opacity=".7" />
-  <text x="82" y="146" fill="#d7bd83" font-family="Arial, sans-serif" font-size="22" letter-spacing="5">RAFAEL COELHO · PORTFOLIO</text>
-  <text x="78" y="300" fill="#f5f3ed" font-family="Georgia, serif" font-size="76" letter-spacing="-2">Senior AI Engineer</text>
-  <text x="82" y="366" fill="#c7c2b6" font-family="Arial, sans-serif" font-size="28">Production AI Platforms · Agentic AI · MLOps</text>
-  <path d="M82 418h92" stroke="#d7bd83" stroke-width="3" />
-  <text x="82" y="480" fill="#f5f3ed" font-family="Arial, sans-serif" font-size="26">1.4M+ citizens served  ·  7.7M+ interactions processed</text>
-  <text x="82" y="550" fill="#9b968b" font-family="Arial, sans-serif" font-size="20">Brazil · Available · Senior AI / MLOps roles</text>
-  <text x="1120" y="577" fill="#d7bd83" font-family="Arial, sans-serif" font-size="18" text-anchor="end">rafaelcoelho.pages.dev</text>
+  <rect width="1200" height="630" fill="#090a09" />
+  <rect width="1200" height="630" fill="url(#grid)" />
+  <rect width="1200" height="630" fill="url(#aura)" />
+
+  <rect x="32" y="32" width="1136" height="566" rx="4" fill="none" stroke="#d8bb7d" stroke-opacity=".22" />
+  <path d="M32 94h1136M32 532h1136" stroke="#d8bb7d" stroke-opacity=".16" />
+  <path d="M32 32h44M32 32v44M1168 32h-44M1168 32v44M32 598h44M32 598v-44M1168 598h-44M1168 598v-44" fill="none" stroke="url(#gold)" stroke-width="2" />
+
+  <text x="80" y="78" fill="#e3c780" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="3.2">RAFAEL COELHO</text>
+  <path d="M280 70h35" stroke="url(#gold)" stroke-width="1.5" />
+  <text x="330" y="78" fill="#9c9688" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="1.6">AI SYSTEMS / PORTFOLIO</text>
+  <text x="1118" y="78" fill="#9c9688" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="end" letter-spacing="1.2">BRAZIL · 01</text>
+
+  <text x="80" y="202" fill="#f4f1e9" font-family="Inter, Arial, sans-serif" font-size="67" font-weight="700" letter-spacing="-2.2">Production AI</text>
+  <text x="80" y="274" fill="url(#gold)" font-family="Fraunces, Georgia, serif" font-size="64" font-weight="600" font-style="italic" letter-spacing="-1.8">on Kubernetes</text>
+  <text x="84" y="320" fill="#c6c0b3" font-family="JetBrains Mono, monospace" font-size="15" letter-spacing="1.35">REAL-TIME ML  /  ADAPTIVE AGENTIC RAG</text>
+
+  <path d="M82 354h740" stroke="url(#gold)" stroke-opacity=".8" />
+  <path d="M82 354h90" stroke="url(#gold)" stroke-width="3" />
+
+  <g>
+    <rect x="80" y="382" width="354" height="105" rx="3" fill="url(#panel)" stroke="#c6a25e" stroke-opacity=".38" />
+    <path d="M80 382v105" stroke="url(#gold)" stroke-width="3" />
+    <text x="105" y="423" fill="#f3efe6" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing=".2">COELHO NEXUS</text>
+    <text x="106" y="455" fill="#b4ad9e" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="1">AGENTIC AI PLATFORM</text>
+    <text x="106" y="474" fill="#847d70" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing=".9">RETRIEVAL · ORCHESTRATION · EVALS</text>
+  </g>
+  <g>
+    <rect x="450" y="382" width="372" height="105" rx="3" fill="url(#panel)" stroke="#c6a25e" stroke-opacity=".38" />
+    <path d="M450 382v105" stroke="url(#gold)" stroke-width="3" />
+    <text x="475" y="423" fill="#f3efe6" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing=".2">COELHO REALTIME</text>
+    <text x="476" y="455" fill="#b4ad9e" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="1">STREAMING MLOPS PLATFORM</text>
+    <text x="476" y="474" fill="#847d70" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing=".9">KAFKA · INCREMENTAL ML · SERVING</text>
+  </g>
+
+  <g transform="translate(866 139)">
+    <text x="126" y="0" fill="#a69c86" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle" letter-spacing="1.4">PRODUCTION STACK</text>
+    <path d="M126 28v280" stroke="#b18a4a" stroke-opacity=".58" stroke-width="1.2" />
+    <path d="M126 87h-32M126 171h32M126 255h-32" stroke="#d8bb7d" stroke-opacity=".5" />
+    <circle cx="126" cy="87" r="7" fill="#0b0b0a" stroke="url(#gold)" stroke-width="2" />
+    <circle cx="126" cy="171" r="7" fill="#0b0b0a" stroke="url(#gold)" stroke-width="2" />
+    <circle cx="126" cy="255" r="7" fill="#0b0b0a" stroke="url(#gold)" stroke-width="2" />
+    <rect x="4" y="63" width="90" height="48" rx="2" fill="#0d0e0c" stroke="#c6a25e" stroke-opacity=".45" />
+    <rect x="158" y="147" width="90" height="48" rx="2" fill="#0d0e0c" stroke="#c6a25e" stroke-opacity=".45" />
+    <rect x="4" y="231" width="90" height="48" rx="2" fill="#0d0e0c" stroke="#c6a25e" stroke-opacity=".45" />
+    <text x="49" y="92" fill="#ded3b7" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle" letter-spacing="1">DATA</text>
+    <text x="203" y="176" fill="#ded3b7" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle" letter-spacing="1">MODELS</text>
+    <text x="49" y="260" fill="#ded3b7" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle" letter-spacing="1">AGENTS</text>
+    <path d="M66 310h120" stroke="#d8bb7d" stroke-opacity=".26" />
+    <text x="126" y="333" fill="#877e6c" font-family="JetBrains Mono, monospace" font-size="9" text-anchor="middle" letter-spacing="1">KUBERNETES NATIVE</text>
+  </g>
+
+  <text x="82" y="566" fill="#9c9688" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="1.35">SENIOR AI ENGINEER</text>
+  <text x="1118" y="566" fill="#d8bb7d" font-family="Inter, Arial, sans-serif" font-size="15" text-anchor="end">rafaelcoelho.pages.dev</text>
 </svg>
