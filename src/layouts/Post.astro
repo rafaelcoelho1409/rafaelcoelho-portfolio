@@ -1,62 +1,137 @@
 ---
 import Base from "./Base.astro";
+import { SITE } from "../consts";
+
+type Heading = {
+  depth: number;
+  slug: string;
+  text: string;
+};
 
 export interface Props {
   title: string;
   summary: string;
   date: Date;
   tags: string[];
+  readingTime: number;
+  headings: Heading[];
+  image?: string;
+  imageAlt?: string;
+  schemaImage?: string;
 }
 
-const { title, summary, date, tags } = Astro.props;
+const {
+  title,
+  summary,
+  date,
+  tags,
+  readingTime,
+  headings,
+  image,
+  imageAlt,
+  schemaImage,
+} = Astro.props;
 
 const dateLabel = new Intl.DateTimeFormat("en-US", {
   month: "long",
   day: "numeric",
   year: "numeric",
+  timeZone: "UTC",
 })
   .format(date)
   .toUpperCase();
+const canonical = new URL(Astro.url.pathname, SITE.url).toString();
+const imageUrl = new URL(image ?? SITE.ogImage, SITE.url).toString();
+const schemaImageUrl = new URL(schemaImage ?? image ?? SITE.ogImage, SITE.url).toString();
+const articleImageAlt = imageAlt ?? `${title} — ${SITE.author}`;
+const tocHeadings = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: title,
+  description: summary,
+  image: [schemaImageUrl],
+  datePublished: date.toISOString(),
+  author: {
+    "@type": "Person",
+    name: SITE.author,
+    url: SITE.url,
+  },
+  mainEntityOfPage: canonical,
+  keywords: tags.join(", "),
+  inLanguage: SITE.locale,
+};
 ---
 
-<Base title={title} description={summary} article>
+<Base
+  title={title}
+  description={summary}
+  image={image}
+  imageAlt={articleImageAlt}
+  article
+  publishedTime={date.toISOString()}
+  articleTags={tags}
+  structuredData={structuredData}
+>
   <article class="container-page">
     <a
       href="/writing"
-      class="mb-8 inline-flex items-center gap-1 font-mono text-[11px] tracking-[0.14em] uppercase transition-colors hover:text-[var(--color-gold)]"
+      class="mb-7 inline-flex items-center gap-1 font-mono text-[11px] tracking-[0.14em] uppercase transition-colors hover:text-[var(--color-gold)] sm:mb-8"
       style="color: var(--color-platinum-dim);"
     >
       ← Writing
     </a>
 
-    <header class="mb-12">
-      <p
-        class="eyebrow mb-4"
-        style="font-family: var(--font-mono);"
-      >
-        {dateLabel}
-      </p>
+    <header class="post-header mb-8 sm:mb-12">
+      <div class="post-byline mb-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10.5px] tracking-[0.12em] uppercase">
+        <time class="eyebrow" datetime={date.toISOString()}>{dateLabel}</time>
+        <span aria-hidden="true" style="color: var(--color-border-strong);">·</span>
+        <span>{readingTime} min read</span>
+      </div>
       <h1
-        class="font-display mb-6 text-[2.4rem] leading-[1.1] font-medium tracking-tight sm:text-[3rem]"
+        class="font-display mb-4 text-[2rem] leading-[1.1] font-medium tracking-tight sm:mb-6 sm:text-[3rem]"
         style="color: var(--color-text); letter-spacing: -0.028em;"
       >
         {title}
       </h1>
-      <p class="text-[17px] leading-[1.7]" style="color: var(--color-text-muted);">
+      <p class="text-[16px] leading-[1.65] sm:text-[17px] sm:leading-[1.7]" style="color: var(--color-text-muted);">
         {summary}
       </p>
       {tags.length > 0 && (
-        <div class="mt-5 flex flex-wrap gap-3">
-          {tags.map((t) => (
-            <span class="font-mono text-[10.5px] tracking-tight" style="color: var(--color-text-dim);">
-              #{t}
-            </span>
+        <ul class="post-topics mt-4 flex flex-wrap items-center gap-x-3 gap-y-2" aria-label="Article topics">
+          {tags.slice(0, 3).map((tag) => (
+            <li class="font-mono text-[10px] tracking-tight" style="color: var(--color-text-dim);">
+              #{tag}
+            </li>
           ))}
-        </div>
+          {tags.length > 3 && (
+            <li class="font-mono text-[10px] tracking-tight" style="color: var(--color-text-dim);">
+              +{tags.length - 3} topics
+            </li>
+          )}
+        </ul>
       )}
     </header>
 
-    <div class="hairline-gold mb-10" style="opacity: 0.35;"></div>
+    {tocHeadings.length > 0 && (
+      <details class="post-toc">
+        <summary class="post-toc__summary">
+          <span>On this page</span>
+          <span class="post-toc__count">{tocHeadings.length} sections</span>
+        </summary>
+        <nav aria-label="Article sections">
+          <ol class="post-toc__list">
+            {tocHeadings.map((heading) => (
+              <li class:list={["post-toc__item", `post-toc__item--${heading.depth}`]}>
+                <a class="post-toc__link" href={`#${heading.slug}`}>{heading.text}</a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </details>
+    )}
+
+    <div class="hairline-gold mb-8 sm:mb-10" style="opacity: 0.35;"></div>
 
     <div class="prose-content">
       <slot />

@@ -4,21 +4,25 @@ import { CV } from "../data/cv";
 import { SITE, SOCIALS } from "../consts";
 ---
 
-<Base title="CV" description={`CV of ${SITE.author} — Senior MLOps / ML Engineer.`}>
-  <div class="container-page">
-    <header class="mb-14 pt-4">
+<Base title="CV" description={`CV of ${SITE.author} — ${SITE.tagline}.`}>
+  <div class="container-wide">
+    <header class="mx-auto mb-14 max-w-5xl pt-4">
       <p class="eyebrow mb-4">/ CV</p>
       <h1
-        class="font-display mb-1 text-[2.4rem] font-medium tracking-tight"
+        class="font-display mb-1 text-[2.4rem] font-medium tracking-tight sm:text-5xl"
         style="color: var(--color-text); letter-spacing: -0.025em;"
       >
         {SITE.author}
       </h1>
-      <p class="mb-5 font-mono text-[12px] tracking-[0.14em] uppercase" style="color: var(--color-platinum-dim);">
+      <p class="mb-5 font-mono text-xs tracking-[0.1em] uppercase" style="color: var(--color-platinum);">
         {SITE.tagline} · {SITE.location}
       </p>
-      <p class="text-[16px] leading-[1.75]" style="color: var(--color-text-muted);">
+      <p class="max-w-3xl text-[17px] leading-[1.75]" style="color: var(--color-text-muted);">
         {CV.intro}
+      </p>
+
+      <p class="mt-5 max-w-3xl text-sm leading-relaxed" style="color: var(--color-gold);">
+        {SITE.relocation}
       </p>
 
       <div class="mt-6 flex flex-wrap gap-2.5 font-mono text-[12px] tracking-tight">
@@ -34,118 +38,84 @@ import { SITE, SOCIALS } from "../consts";
 
     <div class="hairline-gold mb-12" style="opacity: 0.35;"></div>
 
-    <section class="mb-14">
-      <h2 class="label-mono mb-5">Areas of expertise</h2>
-      <div class="flex flex-wrap gap-1.5">
+    <section class="mx-auto mb-14 max-w-5xl" aria-labelledby="expertise-heading">
+      <h2 id="expertise-heading" class="label-mono mb-5">Core strengths</h2>
+      <ul class="flex flex-wrap gap-2">
         {
-          CV.areasOfExpertise.map((a) => (
-            <span
-              class="inline-flex items-center rounded-full border px-2.5 py-[3px] font-mono text-[10.5px] tracking-tight"
+          CV.areasOfExpertise.map((area) => (
+            <li
+              class="inline-flex min-h-9 items-center rounded-full border px-3 py-1 font-mono text-xs tracking-tight"
               style="border-color: var(--color-border-strong); background-color: var(--color-bg-2); color: var(--color-text-muted);"
             >
-              {a}
-            </span>
-          ))
-        }
-      </div>
-    </section>
-
-    <section class="mb-14">
-      <h2 class="label-mono mb-5">Highlights</h2>
-      <ul class="space-y-3.5">
-        {
-          CV.highlights.map((h) => (
-            <li
-              class="flex gap-3.5 text-[14.5px] leading-[1.7]"
-              style="color: var(--color-text-muted);"
-            >
-              <span style="color: var(--color-gold);">→</span>
-              <span>{h}</span>
+              {area}
             </li>
           ))
         }
       </ul>
     </section>
 
-    <section class="mb-14">
-      <h2 class="label-mono mb-6">Experience</h2>
-      <div class="space-y-8">
+    <section class="mx-auto mb-14 max-w-5xl" aria-labelledby="experience-heading">
+      <h2 id="experience-heading" class="label-mono mb-6">Experience</h2>
+      <ol>
         {
           CV.experience.map((exp) => (
-            <div>
-              <div class="mb-2 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                <span class="font-display text-[16px]" style="color: var(--color-text);">
-                  {exp.title}
-                </span>
-                <span
-                  class="font-mono text-[11.5px] tracking-[0.1em] uppercase"
-                  style="color: var(--color-platinum-dim);"
-                >
-                  {exp.org} · {exp.period}
-                </span>
-              </div>
-              <ul class="space-y-2">
-                {exp.bullets.map((b) => (
-                  <li
-                    class="flex gap-3 text-[13.5px] leading-[1.65]"
-                    style="color: var(--color-text-muted);"
-                  >
-                    <span style="color: var(--color-gold);">→</span>
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <li
+              class="border-t py-6 first:border-t-0 first:pt-0 last:pb-0"
+              style="border-color: var(--color-border);"
+            >
+              <article>
+                <header class="mb-3 flex flex-col gap-1.5 md:flex-row md:items-baseline md:justify-between md:gap-6">
+                  <h3 class="font-display text-[17px] font-medium" style="color: var(--color-text);">
+                    {exp.title}
+                  </h3>
+                  <p class="shrink-0 font-mono text-[11px] leading-relaxed tracking-[0.04em] md:text-right" style="color: var(--color-platinum);">
+                    <span>{exp.org}</span><span aria-hidden="true"> · </span><span>{exp.period}</span>
+                  </p>
+                </header>
+                <ul class="max-w-4xl space-y-2.5">
+                  {exp.bullets.map((bullet) => (
+                    <li class="flex gap-3 text-[14.5px] leading-[1.75]" style="color: var(--color-text-muted);">
+                      <span class="shrink-0" aria-hidden="true" style="color: var(--color-gold);">→</span>
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            </li>
           ))
         }
-      </div>
+      </ol>
     </section>
 
-    <section class="mb-14">
-      <h2 class="label-mono mb-6">Education</h2>
-      <div class="space-y-3">
+    <section class="mx-auto mb-14 max-w-5xl" aria-labelledby="education-heading">
+      <h2 id="education-heading" class="label-mono mb-6">Education</h2>
+      <div class="space-y-4">
         {
           CV.education.map((e) => (
-            <div>
-              <div class="font-display text-[16px]" style="color: var(--color-text);">
+            <article>
+              <h3 class="font-display text-[16px]" style="color: var(--color-text);">
                 {e.degree}
-              </div>
-              <div class="font-mono text-[11.5px] tracking-[0.1em] uppercase" style="color: var(--color-platinum-dim);">
+              </h3>
+              <p class="font-mono text-[11.5px] tracking-[0.1em] uppercase" style="color: var(--color-platinum-dim);">
                 {e.org} · {e.period}
-              </div>
-            </div>
+              </p>
+            </article>
           ))
         }
       </div>
     </section>
 
-    <section class="mb-14">
-      <h2 class="label-mono mb-5">Languages</h2>
+    <section class="mx-auto mb-6 max-w-5xl" aria-labelledby="languages-heading">
+      <h2 id="languages-heading" class="label-mono mb-5">Languages</h2>
       <ul class="flex flex-wrap gap-x-7 gap-y-2 text-[14px]">
         {
-          CV.languages.map((l) => (
+          CV.languages.map((language) => (
             <li style="color: var(--color-text-muted);">
-              <span style="color: var(--color-text);">{l.name}</span> · {l.level}
+              <span style="color: var(--color-text);">{language.name}</span> · {language.level}
             </li>
           ))
         }
       </ul>
-    </section>
-
-    <section class="mb-6">
-      <h2 class="label-mono mb-5">Interests</h2>
-      <div class="flex flex-wrap gap-1.5">
-        {
-          CV.interests.map((i) => (
-            <span
-              class="inline-flex items-center rounded-full border px-2.5 py-[3px] font-mono text-[10.5px] tracking-tight"
-              style="border-color: var(--color-gold-deep); background-color: color-mix(in oklch, var(--color-gold) 4%, var(--color-bg-2)); color: var(--color-gold-dim);"
-            >
-              {i}
-            </span>
-          ))
-        }
-      </div>
     </section>
   </div>
 </Base>

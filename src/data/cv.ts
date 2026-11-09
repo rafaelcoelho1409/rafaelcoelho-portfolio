@@ -13,23 +13,16 @@ export type CVExperience = {
 
 export const CV = {
   intro:
-    "Senior AI Engineer with 6+ years designing, deploying, and operating production agentic and ML systems on Kubernetes — not just models, but the platforms, pipelines, and observability that make them reliable at scale. Delivered government-scale MLOps platforms (1.4M+ citizens served, 7.7M+ production interactions) and Kubernetes-native multi-agent AI systems running on 100% free-tier inference. Hands-on across the full lifecycle — data engineering, model training and serving, IaC, container orchestration, agentic orchestration with LangGraph, and observability at scale.",
-
-  highlights: [
-    "Built a Real-Time MLOps platform on Kubernetes — 3 concurrent pipelines (fraud detection, delivery-time prediction, customer segmentation) fusing River ML incremental learning with CatBoost/scikit-learn batch models on Kafka, Spark, Delta Lake; 39 FastAPI endpoints, full GitOps (Terraform / Helm / ArgoCD / GitLab CI), 50+ Prometheus metrics across 11 Grafana dashboards.",
-    "Architected COELHO Nexus — a Kubernetes-native platform running three production AI features (FastAPI, FastHTML, FastMCP, LangGraph, DeepAgents, Neo4j, Qdrant) with evaluation-gated pipelines and full LangFuse/OpenTelemetry observability, on 100% free-tier inference via a self-learning bandit router.",
-    "Delivered production ML platforms at government scale for state government clients (1.4M+ citizens served, 7.7M+ interactions processed) — recommendation systems, semantic search, and multi-cloud speech AI, each on Kubernetes with full observability and CI/CD.",
-    "Domain experience across Public Sector/GovTech, Logistics, Financial Markets, Real Estate, Computer Vision, and Cybersecurity.",
-  ],
+    "Senior AI Engineer with 7+ years designing production AI, ML, and data systems. Focused on agentic applications, reliable real-time ML, Kubernetes platforms, and end-to-end delivery from architecture through observability.",
 
   experience: [
     {
-      title: "Independent AI Engineer",
+      title: "Independent AI Engineer · portfolio systems",
       org: "Self-directed",
       period: "February 2026 – Present",
       bullets: [
-        "COELHO Nexus: Kubernetes-native platform, 3 production AI apps (doc distillation, YouTube GraphRAG, research digests), 124 REST endpoints, 18 Terraform modules, self-learning bandit LLM router with evaluation-gated pipelines, full LangFuse/OpenTelemetry/Grafana LGTM observability, $0 inference cost.",
-        "COELHO RealTime: Real-time MLOps platform on Kubernetes running 3 concurrent pipelines (fraud detection, delivery-time prediction, customer segmentation), combining River ML incremental learning with CatBoost/scikit-learn batch models on Kafka (KRaft)/Spark/Delta Lake; 39 FastAPI endpoints across 3 versioned routers, full GitOps delivery, 50+ Prometheus metrics across 11 Grafana dashboards.",
+        "Built COELHO Nexus, a Kubernetes-native agentic AI platform, with a self-learning model router, evaluation-gated workflows, 18 Terraform modules, and end-to-end observability across its three production apps.",
+        "Built COELHO RealTime for fraud detection, delivery-time prediction, and customer segmentation, combining River incremental learning and CatBoost/scikit-learn batch models across Kafka, Spark, and Delta Lake. Delivered GitOps, 50+ Prometheus metrics, and 11 Grafana dashboards.",
       ],
     },
     {
@@ -37,19 +30,11 @@ export const CV = {
       org: "GovTech sector (client confidential)",
       period: "April 2025 – April 2026",
       bullets: [
-        "Four production ML/MLOps platforms for Brazilian state government clients, each on Kubernetes with full observability and CI/CD.",
-        "Citizen Recommendation Platform (state government client): Recommendation engine for 1.4M+ citizens, 7.7M+ interactions, hourly Delta Lake ETL; ALS models served at <100ms via FastAPI.",
-        "Employment Matching Platform (state government client): Semantic job-matching pipeline (Portuguese-BERT, Qdrant) over public job listings, closing the loop with automatic citizen notifications.",
-        "Speech-to-Speech: Multi-tenant, billable speech API (STT/TTS/conversational voice AI) abstracting AWS/Google Cloud/OpenAI as interchangeable providers; load-tested for p50/p95/p99 latency and concurrency.",
-        "Speech-to-Speech (GPU prototype): Self-hosted Whisper + Kokoro via NVIDIA Triton; pivoted to the managed multi-cloud architecture above after GPU quantization still fell short of latency targets at scale.",
-      ],
-    },
-    {
-      title: "Independent AI Engineer",
-      org: "Self-directed",
-      period: "October 2023 – March 2025",
-      bullets: [
-        "Built and shipped seven open-source AI/Data Science platforms as a personal portfolio: COELHO Finance, COELHO VISION, Formula 1 Analytics, Pentesting Automation, COELHO GenAI, COELHO Agents, and YouTube Content Search — see Selected Work for details.",
+        "Delivered four Kubernetes-based ML/MLOps platforms for Brazilian state clients, each with observability and CI/CD.",
+        "Built ALS recommendations for 1.4M+ citizens across 7.7M+ interactions, powered by hourly Delta Lake ETL and served through FastAPI in under 100 ms.",
+        "Developed semantic employment matching with Portuguese BERT and Qdrant over public job listings, closing the loop with automatic citizen notifications.",
+        "Built a multi-tenant speech API for STT, TTS, and conversational voice AI, with AWS, Google Cloud, and OpenAI as interchangeable providers; load-tested latency and concurrency.",
+        "Evaluated self-hosted Whisper and Kokoro on NVIDIA Triton, then moved to managed multi-cloud providers when GPU quantization missed latency targets at scale.",
       ],
     },
     {
@@ -57,8 +42,16 @@ export const CV = {
       org: "PropTech company (name confidential)",
       period: "October 2024 – February 2025",
       bullets: [
-        "Designed recommendation strategies for real-estate property discovery; built an embedding-based similarity search pipeline (cosine similarity, Qdrant vector DB) with a scalable indexing strategy for fast, accurate property lookups.",
-        "Engineered LangChain autonomous agents automating multi-step business workflows, integrated with existing systems in collaboration with cross-functional teams.",
+        "Built an embedding-based property discovery pipeline with cosine similarity, Qdrant, and scalable indexing for fast lookups.",
+        "Developed LangChain agents to automate multi-step business workflows and integrate with existing systems.",
+      ],
+    },
+    {
+      title: "Independent AI Engineer · portfolio systems",
+      org: "Self-directed",
+      period: "October 2023 – March 2025",
+      bullets: [
+        "Built seven open-source AI and data-science projects across generative AI, agent workflows, finance, computer vision, analytics, and security.",
       ],
     },
     {
@@ -66,8 +59,8 @@ export const CV = {
       org: "Global Big Four consulting firm (name confidential)",
       period: "June 2022 – September 2023",
       bullets: [
-        "Delivered DS/AI and market-intelligence consulting across electric-utility, telecom, and sugar-ethanol clients; authored market research and competitive-landscape deliverables presented to client management.",
-        "Built multi-source data pipelines (Azure Data Factory, Logic Apps, Polars/Pandas/PySpark) and interactive Dash/Plotly dashboards for market sizing and KPIs.",
+        "Delivered data science, AI, and market-intelligence work for electric utility, telecom, and sugar-ethanol clients; presented market research and competitive analysis to client management.",
+        "Built multi-source pipelines with Azure Data Factory, Logic Apps, Polars, Pandas, and PySpark, plus Dash/Plotly dashboards for market sizing and KPIs.",
       ],
     },
     {
@@ -97,34 +90,14 @@ export const CV = {
   ] satisfies CVEducation[],
 
   areasOfExpertise: [
-    "Data Science",
-    "Data Analytics",
-    "Machine Learning",
-    "Deep Learning",
-    "Generative AI",
-    "Large Language Models (LLMs)",
-    "Agentic AI",
-    "Computer Vision",
-    "MLOps",
-    "DevOps",
+    "Python",
+    "AI Platform Architecture",
+    "Agentic AI & Retrieval",
+    "LLM Evaluation & Observability",
+    "Machine Learning & MLOps",
     "Data Engineering",
-    "Automation & Orchestration",
-    "Cloud Platforms",
-    "Databases",
-    "Cybersecurity",
-    "Pentesting",
-    "Open Source Intelligence (OSINT)",
-  ],
-
-  interests: [
-    "Artificial Intelligence",
-    "AI Agents",
-    "Generative AI",
-    "Cybersecurity",
-    "Computer Vision",
-    "Quantum Computing",
-    "Physics",
-    "Financial Markets",
+    "Kubernetes & GitOps",
+    "FastAPI & Model Serving",
   ],
 
   languages: [

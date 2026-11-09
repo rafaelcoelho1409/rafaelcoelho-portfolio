@@ -2,31 +2,26 @@
 import Base from "../layouts/Base.astro";
 import StackBadge from "../components/StackBadge.astro";
 import { REPOS, GITHUB_USERNAME } from "../data/repositories";
-import { GITHUB_STATS, GITHUB_STATS_AS_OF, TOP_LANGUAGES } from "../data/githubStats";
 
-const STATS_BG = "0a0a0a";
-const STATS_TITLE = "d4b572";
-const STATS_TEXT = "cccccc";
-const STATS_BORDER = "4a3a1f";
+const featured = REPOS.filter((repo) => repo.spotlight);
+const featuredRepos = new Set(featured.map((repo) => repo.repo));
+const archive = REPOS.filter((repo) => !featuredRepos.has(repo.repo));
 
-const streakUrl = `https://github-readme-streak-stats.herokuapp.com/?user=${GITHUB_USERNAME}&background=${STATS_BG}&stroke=${STATS_BORDER}&ring=${STATS_TITLE}&fire=${STATS_TITLE}&currStreakLabel=${STATS_TITLE}&sideLabels=${STATS_TEXT}&dates=${STATS_TEXT}&currStreakNum=${STATS_TEXT}&sideNums=${STATS_TEXT}&hide_border=false`;
-const trophyUrl = `https://github-trophies.vercel.app/?username=${GITHUB_USERNAME}&theme=darkhub&no-frame=false&row=2&column=4&margin-w=8&margin-h=8`;
-
-const grouped = REPOS.reduce<Record<number, typeof REPOS>>((acc, r) => {
-  (acc[r.year] ||= []).push(r);
+const grouped = archive.reduce<Record<number, typeof archive>>((acc, repo) => {
+  (acc[repo.year] ||= []).push(repo);
   return acc;
 }, {});
 
 const years = Object.keys(grouped)
-  .map((y) => Number(y))
+  .map(Number)
   .sort((a, b) => b - a);
 ---
 
 <Base
   title="Repositories"
-  description="GitHub repositories — every public project I've shipped, grouped by year, with key tooling per repo."
+  description="Explore two flagship AI and MLOps platforms, then browse 18 more public repositories by year."
 >
-  <div class="container-page">
+  <div class="container-wide">
     <header class="mb-12 pt-4">
       <p class="eyebrow mb-4">/ Repositories</p>
       <h1
@@ -35,201 +30,160 @@ const years = Object.keys(grouped)
       >
         Public repositories
       </h1>
-      <p class="text-[16px] leading-[1.7]" style="color: var(--color-text-muted);">
-        Every public GitHub project I've shipped, grouped by release year. Stats below
-        reflect GitHub activity.
+      <p class="max-w-3xl text-[17px] leading-[1.7]" style="color: var(--color-text-muted);">
+        Explore my flagship AI and MLOps platforms, then browse the complete archive
+        of {REPOS.length} public projects.
       </p>
     </header>
 
-    <section class="mb-16">
-      <h2 class="label-mono mb-5">GitHub activity</h2>
-      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
-        <a
-          href={`https://github.com/${GITHUB_USERNAME}`}
-          target="_blank"
-          rel="noreferrer noopener"
-          class="block rounded-sm border p-5 transition-colors hover:border-[var(--color-gold)]"
-          style="border-color: var(--color-border); background-color: var(--color-bg-2);"
-        >
-          <div class="mb-4 flex items-baseline justify-between">
-            <span class="font-mono text-[11px] tracking-[0.14em] uppercase" style="color: var(--color-platinum-dim);">
-              {GITHUB_USERNAME}'s GitHub stats
-            </span>
-            <span class="font-mono text-[10px] tracking-tight" style="color: var(--color-text-dim);">
-              as of {GITHUB_STATS_AS_OF}
-            </span>
-          </div>
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <div class="font-display text-[1.8rem] font-semibold tracking-tight" style="color: var(--color-gold);">
-                {GITHUB_STATS.publicRepos}
-              </div>
-              <div class="text-[12.5px]" style="color: var(--color-text-muted);">Public repos</div>
-            </div>
-            <div>
-              <div class="font-display text-[1.8rem] font-semibold tracking-tight" style="color: var(--color-gold);">
-                {GITHUB_STATS.followers}
-              </div>
-              <div class="text-[12.5px]" style="color: var(--color-text-muted);">Followers</div>
-            </div>
-            <div>
-              <div class="font-display text-[1.8rem] font-semibold tracking-tight" style="color: var(--color-gold);">
-                {GITHUB_STATS.totalStars}
-              </div>
-              <div class="text-[12.5px]" style="color: var(--color-text-muted);">Total stars</div>
-            </div>
-            <div>
-              <div class="font-display text-[1.8rem] font-semibold tracking-tight" style="color: var(--color-gold);">
-                {GITHUB_STATS.memberSince}
-              </div>
-              <div class="text-[12.5px]" style="color: var(--color-text-muted);">Member since</div>
-            </div>
-          </div>
-        </a>
+    <section class="mb-14" aria-labelledby="flagship-heading">
+      <div class="mb-5 flex flex-wrap items-baseline justify-between gap-3">
+        <h2 id="flagship-heading" class="label-mono">Flagship systems</h2>
         <a
           href={`https://github.com/${GITHUB_USERNAME}?tab=repositories`}
           target="_blank"
           rel="noreferrer noopener"
-          class="block rounded-sm border p-5 transition-colors hover:border-[var(--color-gold)]"
-          style="border-color: var(--color-border); background-color: var(--color-bg-2);"
+          class="min-h-11 inline-flex items-center font-mono text-xs tracking-wide transition-colors hover:text-[var(--color-gold)]"
+          style="color: var(--color-platinum);"
         >
-          <div class="mb-4 flex items-baseline justify-between">
-            <span class="font-mono text-[11px] tracking-[0.14em] uppercase" style="color: var(--color-platinum-dim);">
-              Most used languages
-            </span>
-            <span class="font-mono text-[10px] tracking-tight" style="color: var(--color-text-dim);">
-              as of {GITHUB_STATS_AS_OF}
-            </span>
-          </div>
-          <div class="space-y-2.5">
-            {
-              TOP_LANGUAGES.map((lang) => (
-                <div>
-                  <div class="mb-1 flex items-baseline justify-between text-[12.5px]">
-                    <span style="color: var(--color-text);">{lang.name}</span>
-                    <span class="font-mono" style="color: var(--color-platinum-dim);">
-                      {lang.percent.toFixed(1)}%
-                    </span>
-                  </div>
-                  <div class="h-[5px] w-full rounded-full" style="background-color: var(--color-border);">
-                    <div
-                      class="h-full rounded-full"
-                      style={`width: ${lang.percent}%; background-color: var(--color-gold);`}
-                    />
-                  </div>
-                </div>
-              ))
-            }
-          </div>
+          Browse GitHub repositories ↗
         </a>
-        <a
-          href={`https://github.com/${GITHUB_USERNAME}`}
-          target="_blank"
-          rel="noreferrer noopener"
-          class="block overflow-hidden rounded-sm border transition-colors hover:border-[var(--color-gold)]"
-          style="border-color: var(--color-border);"
-        >
-          <img
-            src={streakUrl}
-            alt={`${GITHUB_USERNAME} contribution streak`}
-            class="block w-full"
-            loading="lazy"
-            decoding="async"
-          />
-        </a>
-        <a
-          href={`https://github.com/${GITHUB_USERNAME}`}
-          target="_blank"
-          rel="noreferrer noopener"
-          class="block overflow-hidden rounded-sm border transition-colors hover:border-[var(--color-gold)]"
-          style="border-color: var(--color-border); background-color: var(--color-bg-2);"
-        >
-          <img
-            src={trophyUrl}
-            alt={`${GITHUB_USERNAME} GitHub trophies`}
-            class="block w-full"
-            loading="lazy"
-            decoding="async"
-          />
-        </a>
+      </div>
+
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+        {featured.map((repo, index) => (
+          <article
+            class="flex h-full flex-col rounded-sm border p-5 sm:p-6"
+            style={`border-color: ${index === 0 ? "var(--color-gold-deep)" : "var(--color-border-strong)"}; background-color: var(--color-bg-2);`}
+          >
+            <div class="mb-4 flex flex-wrap items-center justify-between gap-2">
+              <p class="font-mono text-[11px] tracking-[0.12em] uppercase" style="color: var(--color-gold);">
+                {repo.spotlight?.label}
+              </p>
+              <span class="font-mono text-xs uppercase tracking-wide" style="color: var(--color-platinum-dim);">
+                {repo.releaseDate}
+              </span>
+            </div>
+
+            <h3 class="font-display mb-3 text-[22px] font-semibold tracking-tight" style="color: var(--color-text);">
+              {repo.projectName}
+            </h3>
+            <p class="mb-5 text-[15px] leading-[1.7]" style="color: var(--color-text-muted);">
+              {repo.spotlight?.summary}
+            </p>
+
+            <ul class="mb-5 grid grid-cols-1 gap-2 border-y py-3 sm:grid-cols-3 sm:gap-3" style="border-color: var(--color-border);">
+              {repo.spotlight?.proofPoints.map((point) => (
+                <li class="font-mono text-[12px] leading-relaxed" style="color: var(--color-platinum);">
+                  {point}
+                </li>
+              ))}
+            </ul>
+
+            <div class="mb-6 flex flex-wrap gap-1.5">
+              {repo.spotlight?.tools.map((tool) => <StackBadge name={tool} />)}
+            </div>
+
+            <div class="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[13px]">
+              {repo.caseStudy && (
+                <a
+                  href={repo.caseStudy}
+                  class="min-h-11 inline-flex items-center transition-colors hover:text-[var(--color-gold)]"
+                  style="color: var(--color-gold);"
+                >
+                  Read case study →
+                </a>
+              )}
+              <a
+                href={`https://github.com/${repo.repo}`}
+                target="_blank"
+                rel="noreferrer noopener"
+                aria-label={`View ${repo.projectName} source on GitHub`}
+                class="min-h-11 inline-flex items-center transition-colors hover:text-[var(--color-gold)]"
+                style="color: var(--color-platinum);"
+              >
+                Source on GitHub ↗
+              </a>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
 
     <div class="hairline-gold mb-12" style="opacity: 0.35;"></div>
 
-    <section>
-      <h2 class="label-mono mb-7">Repositories by year</h2>
-      <div class="space-y-16">
-        {
-          years.map((year) => (
-            <div class="pt-4">
-              <div class="mb-6 flex items-baseline gap-4">
-                <span
-                  class="font-display font-bold tracking-tight"
-                  style="font-size: clamp(28px, 3vw, 40px); color: var(--color-gold); letter-spacing: -0.025em; line-height: 1;"
-                >
-                  {year}
-                </span>
-                <span
-                  class="font-mono text-[11px] tracking-[0.14em] uppercase"
-                  style="color: var(--color-platinum-dim);"
-                >
-                  {grouped[year].length} {grouped[year].length === 1 ? "repo" : "repos"}
-                </span>
-              </div>
-              <div class="grid grid-cols-1 gap-3">
-                {grouped[year].map((r) => (
-                  <article
-                    class="rounded-sm border p-5"
-                    style="border-color: var(--color-border); background-color: var(--color-bg-2);"
-                  >
-                    <div class="mb-3 flex flex-wrap items-baseline justify-between gap-2">
-                      <h3
-                        class="font-display text-[17px] font-semibold tracking-tight"
-                        style="color: var(--color-text); letter-spacing: -0.015em;"
-                      >
-                        {r.projectName}
-                      </h3>
-                      <span
-                        class="font-mono text-[10.5px] tracking-[0.14em] whitespace-nowrap uppercase"
-                        style="color: var(--color-platinum-dim);"
-                      >
-                        {r.releaseDate}
-                      </span>
-                    </div>
+    <section aria-labelledby="repo-archive-heading">
+      <div class="mb-6 flex flex-wrap items-baseline justify-between gap-3">
+        <div>
+          <h2 id="repo-archive-heading" class="label-mono mb-2">Complete repository archive</h2>
+          <p class="text-sm leading-relaxed" style="color: var(--color-text-muted);">
+            {archive.length} additional projects, grouped by release year.
+          </p>
+        </div>
+        <span class="font-mono text-xs tracking-wide" style="color: var(--color-platinum-dim);">
+          {years[years.length - 1]}–{years[0]}
+        </span>
+      </div>
 
-                    <div class="mb-4 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11.5px] tracking-tight">
-                      <a
-                        href={`https://github.com/${r.repo}`}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        class="transition-colors hover:text-[var(--color-gold)]"
-                        style="color: var(--color-gold-dim);"
-                      >
-                        github.com/{r.repo} ↗
-                      </a>
-                      {r.caseStudy && (
-                        <a
-                          href={r.caseStudy}
-                          class="transition-colors hover:text-[var(--color-gold)]"
-                          style="color: var(--color-gold-dim);"
-                        >
-                          Case study →
-                        </a>
-                      )}
-                    </div>
-
-                    <div class="flex flex-wrap gap-1.5">
-                      {r.keyTools.map((t) => (
-                        <StackBadge name={t} />
-                      ))}
-                    </div>
-                  </article>
-                ))}
-              </div>
+      <div class="space-y-9">
+        {years.map((year) => (
+          <section aria-labelledby={`year-${year}`}>
+            <div class="mb-3 flex items-baseline gap-3">
+              <h3 id={`year-${year}`} class="font-display text-2xl font-semibold tracking-tight" style="color: var(--color-gold);">
+                {year}
+              </h3>
+              <span class="font-mono text-[11px] tracking-[0.12em] uppercase" style="color: var(--color-platinum-dim);">
+                {grouped[year].length} {grouped[year].length === 1 ? "repository" : "repositories"}
+              </span>
             </div>
-          ))
-        }
+
+            <ul class="divide-y border-y" style="border-color: var(--color-border);">
+              {grouped[year].map((repo) => (
+                <li class="grid gap-2 py-4 md:grid-cols-[minmax(0,1fr)_minmax(180px,auto)_auto] md:items-center md:gap-5">
+                  <div class="min-w-0">
+                    <h4 class="font-display text-[15.5px] font-semibold leading-snug" style="color: var(--color-text);">
+                      {repo.projectName}
+                    </h4>
+                    <p class="mt-1 font-mono text-[11px] uppercase tracking-wide" style="color: var(--color-platinum-dim);">
+                      {repo.releaseDate}
+                    </p>
+                  </div>
+
+                  <div class="flex flex-wrap items-center gap-1.5">
+                    {repo.keyTools.slice(0, 3).map((tool) => <StackBadge name={tool} />)}
+                    {repo.keyTools.length > 3 && (
+                      <span class="px-1 font-mono text-xs" style="color: var(--color-text-dim);">
+                        +{repo.keyTools.length - 3}
+                      </span>
+                    )}
+                  </div>
+
+                  <div class="flex min-h-11 flex-wrap items-center gap-x-4 gap-y-1 font-mono text-xs">
+                    {repo.caseStudy && (
+                      <a
+                        href={repo.caseStudy}
+                        class="min-h-11 inline-flex items-center transition-colors hover:text-[var(--color-gold)]"
+                        style="color: var(--color-gold);"
+                      >
+                        Case study →
+                      </a>
+                    )}
+                    <a
+                      href={`https://github.com/${repo.repo}`}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      aria-label={`View ${repo.projectName} source on GitHub`}
+                      class="min-h-11 inline-flex items-center transition-colors hover:text-[var(--color-gold)]"
+                      style="color: var(--color-platinum);"
+                    >
+                      GitHub ↗
+                    </a>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
       </div>
     </section>
   </div>

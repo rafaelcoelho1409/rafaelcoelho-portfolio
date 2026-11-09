@@ -1,7 +1,7 @@
 ---
 title: "COELHO Nexus"
-summary: "Kubernetes-native multi-agent AI platform hosting three production features — documentation distillation, YouTube GraphRAG search, and autonomous research digests — on one shared LLM rotator, six data stores, and full GitOps observability, architected and operated solo."
-outcome: "Three AI features live on one platform · 124 REST endpoints across four domains · 18 Terraform modules across a 6-layer dependency graph · 20+ free-tier LLMs routed by a variance-aware Thompson-sampling bandit · dual observability (Grafana LGTM + LangFuse) on every call."
+summary: "Kubernetes-native AI platform uniting three agentic applications behind shared model routing, retrieval, data services, GitOps delivery, and observability, designed and operated end to end."
+outcome: "3 AI applications · 124 API endpoints · 18 Terraform modules across 6 dependency layers · 20+ free-tier models routed with a Thompson-sampling bandit · per-call traces across Grafana LGTM and LangFuse."
 date: 2026-07-04
 featured: true
 order: 1
@@ -10,7 +10,14 @@ stack:
   - Terraform
   - ArgoCD
   - FastAPI
-  - FastHTML
+  - Next.js
+  - React
+  - TypeScript
+  - Tailwind CSS
+  - shadcn/ui
+  - Base UI
+  - TanStack Query
+  - React Flow
   - FastMCP
   - Celery
   - LangGraph
@@ -30,7 +37,6 @@ thumbnail: /work/coelho-nexus/logo.jpg
 ---
 
 import { Image } from "astro:assets";
-import architecture from "../../assets/work/coelho-nexus/architecture.png";
 import aiPipeline from "../../assets/work/coelho-nexus/ai_pipeline.png";
 import PdfViewer from "../../components/PdfViewer.astro";
 
@@ -63,36 +69,140 @@ actually running the system. Navigate with arrows or open fullscreen for the ful
 
 <PdfViewer
   src="/work/coelho-nexus/COELHONexus.pdf"
-  height="72vh"
+  height="min(70vh, 720px)"
   ariaLabel="COELHO Nexus — 80-slide deployment record"
   downloadLabel="Open PDF in new tab"
 />
 
-## Three apps, one platform
+<section className="app-showcase" aria-labelledby="app-showcase-title">
+  <header className="app-showcase__header">
+    <p className="app-showcase__eyebrow">Platform applications</p>
+    <h2 id="app-showcase-title" className="app-showcase__title">Three apps, one platform</h2>
+    <p className="app-showcase__intro">Three focused AI products share one Kubernetes platform, model router, and production observability stack.</p>
+  </header>
 
-| App | What it does | Proven on |
-|---|---|---|
-| **Docs Distiller** | A five-tier ingestion cascade (`llms_full.txt` → `llms_txt` → sitemap → httpx-crawl-with-Playwright-fallback → GitHub README) pulls in a framework's documentation; a LangGraph Planner → Synth pipeline turns it into a structured study guide, chapter by chapter. | 107 frameworks catalogued — Celery (493 pages), Pydantic (308 pages), Claude Code (195 pages), Skaffold (80 pages) already ingested and synthesized |
-| **YouTube Content Search** | Playwright-driven transcript scraping feeds a hybrid retrieval pipeline — Qdrant dense vectors, Elasticsearch full-text, and a Neo4j entity graph — behind an adaptive RAG loop (retrieve → grade → generate → verify) across four query-depth modes. | A real channel ingestion (Andrej Karpathy's catalog) answering cross-video questions with a structured, inline-cited answer — not a generic summary |
-| **Research Radar** | An 8-phase DeepAgents orchestrator fans out across four discovery sources, scores every candidate on an 8-term weighted signal, deep-reads the top papers, and synthesizes a ranked digest with cross-paper themes. | A live scan surfacing and ranking real arXiv and Hacker News papers, each with an LLM-extracted commercial "money angle" |
+  <div className="app-showcase__list">
+    <article className="app-showcase__card" aria-labelledby="docs-distiller-title">
+      <header className="app-showcase__card-header">
+        <span className="app-showcase__number" aria-hidden="true">01</span>
+        <h3 id="docs-distiller-title" className="app-showcase__name">Docs Distiller</h3>
+        <span className="app-showcase__metric">107 frameworks catalogued</span>
+      </header>
+      <div className="app-showcase__details">
+        <div className="app-showcase__detail app-showcase__detail--wide">
+          <h4 className="app-showcase__label">Five-tier documentation fallback</h4>
+          <p className="app-showcase__copy">Each source is tried in order to gather a framework’s documentation:</p>
+          <ol className="app-showcase__flow" aria-label="Documentation source fallback order">
+            <li><span>01</span><code>llms_full.txt</code></li>
+            <li><span>02</span><code>llms_txt</code></li>
+            <li><span>03</span><span>Sitemap</span></li>
+            <li><span>04</span><span>HTTPX crawl with Playwright fallback</span></li>
+            <li><span>05</span><span>GitHub README</span></li>
+          </ol>
+        </div>
+        <div className="app-showcase__detail">
+          <h4 className="app-showcase__label">LangGraph Planner → Synth</h4>
+          <p className="app-showcase__copy">The pipeline turns the gathered documentation into a structured study guide, chapter by chapter.</p>
+        </div>
+        <div className="app-showcase__detail">
+          <h4 className="app-showcase__label">Proven at scale</h4>
+          <p className="app-showcase__copy">Frameworks already ingested and synthesized include Celery (<strong>493 pages</strong>), Pydantic (<strong>308</strong>), Claude Code (<strong>195</strong>), and Skaffold (<strong>80</strong>).</p>
+        </div>
+      </div>
+    </article>
 
-## Architecture
+    <article className="app-showcase__card" aria-labelledby="youtube-search-title">
+      <header className="app-showcase__card-header">
+        <span className="app-showcase__number" aria-hidden="true">02</span>
+        <h3 id="youtube-search-title" className="app-showcase__name">YouTube Content Search</h3>
+        <span className="app-showcase__metric">3 retrieval backends · 4 query depths</span>
+      </header>
+      <div className="app-showcase__details">
+        <div className="app-showcase__detail">
+          <h4 className="app-showcase__label">Retrieval and answer loop</h4>
+          <p className="app-showcase__copy">Playwright collects video transcripts. Each question combines dense, full-text, and entity-graph retrieval, then adapts its search before answering.</p>
+          <div className="app-showcase__chips" aria-label="Retrieval backends">
+            <span>Qdrant · dense vectors</span>
+            <span>Elasticsearch · full text</span>
+            <span>Neo4j · entity graph</span>
+          </div>
+          <ol className="app-showcase__sequence" aria-label="Adaptive retrieval steps">
+            <li>Retrieve</li><li>Grade</li><li>Generate</li><li>Verify</li>
+          </ol>
+        </div>
+        <div className="app-showcase__detail">
+          <h4 className="app-showcase__label">Proven on real content</h4>
+          <p className="app-showcase__copy">A real ingestion of Andrej Karpathy’s channel answers questions across videos with a structured, inline-cited response—not a generic summary.</p>
+        </div>
+      </div>
+    </article>
 
-<Image
-  src={architecture}
-  alt="COELHO Nexus platform architecture — FastAPI/FastHTML/FastMCP application layer, six data stores, GitOps/CI-CD layer, and dual observability (Grafana LGTM + LangFuse), all provisioned via Terraform/Terragrunt on a k3d cluster."
-  loading="eager"
-  quality={92}
-/>
+    <article className="app-showcase__card" aria-labelledby="research-radar-title">
+      <header className="app-showcase__card-header">
+        <span className="app-showcase__number" aria-hidden="true">03</span>
+        <h3 id="research-radar-title" className="app-showcase__name">Research Radar</h3>
+        <span className="app-showcase__metric">8 phases · 4 discovery sources</span>
+      </header>
+      <div className="app-showcase__details">
+        <div className="app-showcase__detail">
+          <h4 className="app-showcase__label">Research workflow</h4>
+          <p className="app-showcase__copy">DeepAgents runs parallel discovery, ranks candidates with an eight-term weighted signal, deep-reads the strongest papers, and synthesizes cross-paper themes.</p>
+          <div className="app-showcase__chips" aria-label="Research sources">
+            <span>arXiv</span><span>Semantic Scholar</span><span>Hugging Face</span><span>Hacker News</span>
+          </div>
+        </div>
+        <div className="app-showcase__detail">
+          <h4 className="app-showcase__label">Proven in a live scan</h4>
+          <p className="app-showcase__copy">The scan surfaces and ranks current research and Hacker News papers, including an LLM-extracted commercial “money angle” for each candidate.</p>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
 
-**Three microservices carry the whole platform:**
-- **FastAPI** — the ML/agent backend. Owns all three pipelines plus Celery-orchestrated
-  background task queues, one isolated queue per feature.
-- **FastHTML** — the frontend. Server-rendered, HTMX-reactive, no JS build step, Cytoscape.js
-  graph visualizations, SSE for live pipeline progress.
-- **FastMCP** — an internal Model Context Protocol gateway exposing the four research-discovery
-  tools (arXiv, Semantic Scholar, HuggingFace, Hacker News) that Research Radar calls into, with
-  rate-limited token buckets and BYOK credential injection.
+## Current architecture
+
+<section className="app-showcase" aria-labelledby="nexus-architecture-title">
+  <header className="app-showcase__header">
+    <p className="app-showcase__eyebrow">Platform architecture</p>
+    <h2 id="nexus-architecture-title" className="app-showcase__title">One web app, shared AI services</h2>
+    <p className="app-showcase__intro">The current Next.js interface sits over a shared API, asynchronous pipelines, data services, and Kubernetes delivery layer.</p>
+  </header>
+
+  <div className="app-showcase__details">
+    <article className="app-showcase__detail">
+      <h3 className="app-showcase__label">01 · Web application</h3>
+      <p className="app-showcase__copy">Next.js 16 App Router is the platform’s only UI. It proxies API requests and streams live pipeline progress over SSE.</p>
+      <div className="app-showcase__chips" aria-label="Web application stack">
+        <span>React 19</span><span>TypeScript</span><span>Tailwind CSS</span><span>shadcn/ui on Base UI</span><span>TanStack Query</span><span>React Flow</span>
+      </div>
+    </article>
+
+    <article className="app-showcase__detail">
+      <h3 className="app-showcase__label">02 · API and orchestration</h3>
+      <p className="app-showcase__copy">FastAPI owns the product APIs and agent pipelines. Celery runs ingestion and synthesis work asynchronously; FastMCP exposes the research-source tools.</p>
+      <div className="app-showcase__chips" aria-label="API and orchestration stack">
+        <span>FastAPI</span><span>Celery</span><span>Redis</span><span>FastMCP</span><span>LangGraph</span><span>DeepAgents</span>
+      </div>
+    </article>
+
+    <article className="app-showcase__detail">
+      <h3 className="app-showcase__label">03 · Retrieval and persistence</h3>
+      <p className="app-showcase__copy">Each store has a defined role across relational state, vector and full-text retrieval, graph relationships, object storage, and task state.</p>
+      <div className="app-showcase__chips" aria-label="Data stores">
+        <span>PostgreSQL</span><span>Qdrant</span><span>Elasticsearch</span><span>Neo4j</span><span>MinIO</span><span>Redis</span>
+      </div>
+    </article>
+
+    <article className="app-showcase__detail">
+      <h3 className="app-showcase__label">04 · Delivery and observability</h3>
+      <p className="app-showcase__copy">Terraform and Terragrunt provision the Kubernetes platform. Skaffold supports development; ArgoCD delivers GitOps deployments, with Grafana LGTM and LangFuse traces.</p>
+      <div className="app-showcase__chips" aria-label="Platform operations stack">
+        <span>Kubernetes / k3d</span><span>Terraform / Terragrunt</span><span>Skaffold</span><span>ArgoCD</span><span>Grafana LGTM</span><span>LangFuse</span>
+      </div>
+    </article>
+  </div>
+</section>
 
 **Six data stores, each earning its place:**
 
@@ -116,9 +226,11 @@ against an in-cluster GitLab instance instead of GitHub directly.
 
 <Image
   src={aiPipeline}
+  width={1600}
   alt="COELHO Nexus AI pipeline internals — LangGraph Planner and Synth pipelines for Docs Distiller, the Graph-RAG pipeline for YouTube Content Search, the DeepAgents orchestrator for Research Radar, and the shared LLM Rotator all three route through."
   loading="lazy"
-  quality={92}
+  format="webp"
+  quality={85}
 />
 
 Each pipeline is a distinct agentic pattern, not a single-prompt wrapper:
@@ -185,7 +297,7 @@ them to production standard: hybrid retrieval instead of graph-only, a self-lear
 instead of a manual toggle, DeepAgents orchestration instead of a single chain — on
 infrastructure a platform team would recognize.
 
-## What this project proves
+## Platform ownership, end to end
 
 - **End-to-end platform ownership** — Terraform modules, three microservices, three agentic
   pipelines, GitOps delivery, and dual observability, all designed, built, and operated by one
@@ -195,5 +307,3 @@ infrastructure a platform team would recognize.
 - **Cost-aware architecture at zero marginal cost** — a self-learning bandit router turns "free
   tier" from a constraint into a legitimate production strategy, verified in the deployment
   record above, not claimed on faith.
-
-[Source on GitHub →](https://github.com/rafaelcoelho1409/COELHONexus)

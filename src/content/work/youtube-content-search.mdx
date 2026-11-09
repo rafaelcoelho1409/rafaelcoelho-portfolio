@@ -1,7 +1,7 @@
 ---
 title: "YouTube Content Search"
-summary: "Multi-mode GraphRAG platform that extracts entities and relationships from YouTube transcripts into a Neo4j knowledge graph for multi-hop reasoning — the research that became COELHO Nexus."
-outcome: "Four search modes (Search · Video · Channel · Playlist) · multi-hop reasoning via Neo4j knowledge graph · multi-provider LLM routing across Groq, OpenAI, SambaNova, Scaleway."
+summary: "GraphRAG research product turning YouTube transcripts into a Neo4j knowledge graph for multi-hop search across videos, channels, and playlists."
+outcome: "4 retrieval modes · Neo4j knowledge graph · multi-provider inference · core GraphRAG pattern later evolved into COELHO Nexus."
 date: 2025-03-28
 stack:
   - LangChain
@@ -45,7 +45,7 @@ fullscreen for the full read.
 
 <PdfViewer
   src="/work/youtube-content-search/YouTubeContentSearch.pdf"
-  height="72vh"
+  height="min(70vh, 720px)"
   ariaLabel="YouTube Content Search — 20-slide deployment record"
   downloadLabel="Open PDF in new tab"
 />
@@ -91,10 +91,8 @@ production agentic RAG platform with adaptive retrieval routing.
 - **Streamlit** — interactive interface
 - **Python** — implementation
 
-## What this project proves
+## Retrieval engineering takeaways
 
 - **GraphRAG is more than a buzzword** — explicit entity-relationship modeling beats vector-only retrieval on multi-hop questions
 - **Multi-provider LLM routing was shipping-ready in early 2025** — switching across Groq / OpenAI / SambaNova / Scaleway for production cost control predates the rotator I now run in COELHO Nexus
 - **Foundation for COELHO Nexus** — every retrieval insight here was absorbed into the Nexus adaptive 3-mode agentic RAG architecture
-
-[Source on GitHub →](https://github.com/rafaelcoelho1409/YouTubeContentSearch)

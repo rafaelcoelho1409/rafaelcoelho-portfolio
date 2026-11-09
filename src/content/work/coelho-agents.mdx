@@ -1,7 +1,7 @@
 ---
 title: "COELHO Agents"
-summary: "Multi-agent platform combining a memory-aware assistant, an autonomous Software Developer agent with self-fixing code loops, and a GraphRAG-based YouTube Content Search — all orchestrated with LangChain + LangGraph."
-outcome: "Three production agent tools shipped end-to-end · autonomous code-fix retry loops in the Software Developer · GraphRAG (Neo4j) backing multi-hop video query reasoning."
+summary: "Three agent systems in one LangChain and LangGraph product: memory-aware chat, self-correcting software development, and GraphRAG search over YouTube content."
+outcome: "3 agent patterns · retry-based code repair · Neo4j-backed multi-hop retrieval · research prototypes later consolidated into COELHO Nexus."
 date: 2025-02-17
 stack:
   - LangChain
@@ -41,7 +41,7 @@ loops, and live GraphRAG video queries.
   style="border-color: var(--color-gold-deep); background-color: oklch(0.08 0 0); aspect-ratio: 16 / 9; position: relative;"
 >
   <iframe
-    src="https://www.youtube.com/embed/lxXcUA0jmcM"
+    src="https://www.youtube-nocookie.com/embed/lxXcUA0jmcM"
     title="COELHO Agents — project walkthrough"
     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -92,10 +92,8 @@ the architectural backbone of [COELHO Nexus](/work/coelho-nexus).
 - **LangGraph** — multi-agent orchestration with explicit state graphs and retry edges (powers the Software Developer's self-fix loop)
 - **Neo4j** — Knowledge Graph storage + Cypher querying
 
-## What this project proves
+## Agent design and delivery
 
 - **Three distinct agent patterns shipped in one codebase** — memory-aware conversation, autonomous code-fix loops, and graph-augmented retrieval — not toy demos
 - **LangGraph state machines work for real production agent loops** — including self-correcting code generation with retry semantics
 - **The GraphRAG pattern scales** — what started here as YouTube transcript search became the production retrieval backbone of COELHO Nexus
-
-[Source on GitHub →](https://github.com/rafaelcoelho1409/COELHOAgents)

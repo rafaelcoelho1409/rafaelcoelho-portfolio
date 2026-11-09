@@ -1,13 +1,36 @@
 export type Skill = {
   name: string;
   docs: string;
-  logo: string;
+  logo?: string;
+  mark?: string;
 };
 
 export type SkillCategory = {
   name: string;
+  description?: string;
   tools: Skill[];
 };
+
+export const CORE_CAPABILITIES = [
+  {
+    title: "Agentic AI systems",
+    description:
+      "Build retrieval and agent workflows with evaluation gates, structured outputs, and observable execution.",
+    tools: ["Agentic AI", "GraphRAG", "RAG evaluation", "LangGraph", "LangFuse"],
+  },
+  {
+    title: "Production ML platforms",
+    description:
+      "Combine streaming and batch data paths, model training and serving, and operational monitoring.",
+    tools: ["Kafka", "Spark", "River ML", "FastAPI", "Prometheus"],
+  },
+  {
+    title: "Infrastructure & delivery",
+    description:
+      "Provision and run containerized systems with repeatable infrastructure, GitOps, and telemetry.",
+    tools: ["Kubernetes", "Terraform", "Helm", "ArgoCD", "OpenTelemetry"],
+  },
+] as const;
 
 const DEVICON = (slug: string, variant = "original") =>
   `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${slug}/${slug}-${variant}.svg`;
@@ -27,9 +50,14 @@ export const SKILLS: SkillCategory[] = [
         logo: DEVICON("bash"),
       },
       {
-        name: "Go",
-        docs: "https://go.dev/doc/",
-        logo: DEVICON("go", "original-wordmark"),
+        name: "JavaScript",
+        docs: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+        logo: DEVICON("javascript", "original"),
+      },
+      {
+        name: "TypeScript",
+        docs: "https://www.typescriptlang.org/docs/",
+        logo: DEVICON("typescript", "original"),
       },
     ],
   },
@@ -330,7 +358,7 @@ export const SKILLS: SkillCategory[] = [
     ],
   },
   {
-    name: "Web Development & UI",
+    name: "Web Development & APIs",
     tools: [
       {
         name: "Streamlit",
@@ -343,11 +371,6 @@ export const SKILLS: SkillCategory[] = [
         logo: DEVICON("qt"),
       },
       {
-        name: "FastHTML",
-        docs: "https://fastht.ml/docs/",
-        logo: "/skills/fasthtml.svg",
-      },
-      {
         name: "FastAPI",
         docs: "https://fastapi.tiangolo.com/",
         logo: DEVICON("fastapi"),
@@ -356,6 +379,58 @@ export const SKILLS: SkillCategory[] = [
         name: "Pydantic",
         docs: "https://docs.pydantic.dev/",
         logo: "/skills/pydantic.jpg",
+      },
+      {
+        name: "Zod",
+        docs: "https://zod.dev/",
+        mark: "Z",
+      },
+    ],
+  },
+  {
+    name: "Front-end Frameworks & Build",
+    description:
+      "COELHO Nexus uses Next.js and React; COELHO RealTime uses SvelteKit and Svelte.",
+    tools: [
+      {
+        name: "Next.js",
+        docs: "https://nextjs.org/docs",
+        logo: DEVICON("nextjs", "original"),
+      },
+      {
+        name: "React",
+        docs: "https://react.dev/learn",
+        logo: DEVICON("react"),
+      },
+      {
+        name: "SvelteKit",
+        docs: "https://svelte.dev/docs/kit/introduction",
+        logo: DEVICON("svelte"),
+      },
+      {
+        name: "Svelte",
+        docs: "https://svelte.dev/docs",
+        logo: DEVICON("svelte"),
+      },
+      {
+        name: "Vite",
+        docs: "https://vite.dev/guide/",
+        logo: DEVICON("vitejs", "original"),
+      },
+      {
+        name: "Tailwind CSS",
+        docs: "https://tailwindcss.com/docs",
+        logo: DEVICON("tailwindcss", "original"),
+      },
+      {
+        name: "PostCSS",
+        docs: "https://postcss.org/",
+        mark: "PC",
+      },
+      {
+        name: "Autoprefixer",
+        docs: "https://github.com/postcss/autoprefixer",
+        mark: "AP",
       },
     ],
   },

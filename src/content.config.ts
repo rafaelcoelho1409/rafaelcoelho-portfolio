@@ -27,6 +27,9 @@ const writing = defineCollection({
     summary: z.string(),
     date: z.coerce.date(),
     tags: z.array(z.string()).default([]),
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+    schemaImage: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });

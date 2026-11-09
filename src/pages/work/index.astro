@@ -12,7 +12,7 @@ const all = (await getCollection("work", ({ data }) => !data.draft)).sort(
   title="Work"
   description="Production ML and MLOps projects shipped by Rafael Coelho — case studies on architecture, tradeoffs, and outcomes."
 >
-  <div class="container-page">
+  <div class="container-wide">
     <header class="mb-14 pt-4">
       <p class="eyebrow mb-4">/ Work</p>
       <h1
@@ -21,13 +21,14 @@ const all = (await getCollection("work", ({ data }) => !data.draft)).sort(
       >
         Selected projects
       </h1>
-      <p class="text-[16px] leading-[1.7]" style="color: var(--color-text-muted);">
-        Case studies of production ML systems I've designed, shipped, and operated.
-        Architecture diagrams, tradeoff notes, and measurable outcomes.
+      <p class="max-w-3xl text-[17px] leading-[1.7]" style="color: var(--color-text-muted);">
+        Case studies of AI and ML systems I designed, built, and operated. Start with
+        the architecture and outcomes, then open the full deployment records for
+        implementation detail.
       </p>
     </header>
 
-    <div class="grid grid-cols-1 gap-3">
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
       {
         all.map((entry, i) => (
           <ProjectCard

@@ -1,7 +1,7 @@
 ---
 title: "COELHO RealTime"
-summary: "Production-grade Real-Time MLOps platform on Kubernetes combining incremental ML and batch ML across fraud detection, ETA prediction, and customer segmentation."
-outcome: "39 FastAPI endpoints across three versioned routers · sub-millisecond Redis-cached inference · end-to-end GitOps (Terraform → Helm → ArgoCD → GitLab CI) · full observability stack (Prometheus + Grafana + Alertmanager + Karma)."
+summary: "Kubernetes MLOps platform combining streaming and batch learning for fraud detection, ETA prediction, and customer behavior, with model tracking, serving, GitOps, and observability."
+outcome: "39 FastAPI endpoints · incremental and batch ML in one system · Redis-cached inference below 1 ms · Terraform-to-ArgoCD delivery · Prometheus, Grafana, Alertmanager, and Karma."
 date: 2026-01-27
 featured: true
 order: 2
@@ -62,7 +62,7 @@ the full read.
 
 <PdfViewer
   src="/work/coelho-realtime/COELHORealTime.pdf"
-  height="72vh"
+  height="min(70vh, 720px)"
   ariaLabel="COELHO RealTime — 53-slide deployment record"
   downloadLabel="Open PDF in new tab"
 />
@@ -71,9 +71,11 @@ the full read.
 
 <Image
   src={architecture}
+  width={2000}
   alt="COELHO RealTime platform architecture — data flow from Kafka producers through dual incremental (River) and batch (CatBoost / sklearn) ML paths, with MLflow tracking, Redis serving, and full observability."
-  loading="eager"
-  quality={92}
+  loading="lazy"
+  format="webp"
+  quality={85}
 />
 
 ### Data flow
@@ -189,10 +191,8 @@ All provisioned via ConfigMaps with sidecar auto-discovery:
 > with less than 32 GB will experience OOMKills and pod restart loops. **64 GB recommended** for
 > comfortable headroom.
 
-## What this project proves
+## What the operating model demonstrates
 
 - **End-to-end MLOps lifecycle ownership** — data engineering → training → serving → observability, all owned by one engineer in one repo
 - **Real-time and batch ML co-existing in a single platform** — not theoretical; tested under continuous synthetic load
 - **Production rigor** — tracing, alerting, GitOps, IaC, dashboards, alerting routing — not a notebook demo
-
-[Source on GitHub →](https://github.com/rafaelcoelho1409/COELHORealTime)

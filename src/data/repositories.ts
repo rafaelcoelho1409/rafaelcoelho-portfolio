@@ -5,6 +5,12 @@ export type Repo = {
   year: number;
   keyTools: string[];
   caseStudy?: string;
+  spotlight?: {
+    label: string;
+    summary: string;
+    proofPoints: string[];
+    tools: string[];
+  };
 };
 
 export const GITHUB_USERNAME = "rafaelcoelho1409";
@@ -17,12 +23,21 @@ export const REPOS: Repo[] = [
     releaseDate: "July 2026",
     year: 2026,
     caseStudy: "/work/coelho-nexus",
+    spotlight: {
+      label: "Flagship AI platform",
+      summary:
+        "Three agentic applications on one Kubernetes-native platform, sharing model routing, retrieval, data services, GitOps delivery, and observability.",
+      proofPoints: ["3 AI applications", "124 API endpoints", "20+ models routed"],
+      tools: ["Kubernetes", "LangGraph", "FastAPI", "Terraform"],
+    },
     keyTools: [
       "Kubernetes",
       "Terraform",
       "ArgoCD",
       "FastAPI",
-      "FastHTML",
+      "Next.js",
+      "React",
+      "Tailwind CSS",
       "FastMCP",
       "Celery",
       "LangChain",
@@ -45,6 +60,13 @@ export const REPOS: Repo[] = [
     releaseDate: "January 2026",
     year: 2026,
     caseStudy: "/work/coelho-realtime",
+    spotlight: {
+      label: "Production MLOps platform",
+      summary:
+        "Streaming and batch machine learning for fraud detection, ETA prediction, and customer behavior, with model tracking, serving, and full observability.",
+      proofPoints: ["3 ML use cases", "39 API endpoints", "<1 ms cached inference"],
+      tools: ["Kafka", "River ML", "Spark", "MLflow"],
+    },
     keyTools: [
       "Python",
       "FastAPI",

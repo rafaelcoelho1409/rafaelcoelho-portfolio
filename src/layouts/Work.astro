@@ -11,11 +11,11 @@ export interface Props {
   repo?: string;
   demo?: string;
   paper?: string;
-  presentation?: string;
 }
 
-const { title, summary, outcome, date, stack, repo, demo, paper, presentation } =
-  Astro.props;
+const { title, summary, outcome, date, stack, repo, demo, paper } = Astro.props;
+const featuredStack = stack.slice(0, 5);
+const additionalStack = stack.slice(5);
 
 const dateLabel = new Intl.DateTimeFormat("en-US", {
   month: "long",
@@ -25,71 +25,81 @@ const dateLabel = new Intl.DateTimeFormat("en-US", {
   .toUpperCase();
 
 const links = [
-  repo && { label: "Source", href: repo },
-  demo && { label: "Live demo", href: demo },
-  paper && { label: "Paper", href: paper },
-  presentation && { label: "Presentation", href: presentation },
+  repo && { label: "View source on GitHub", href: repo },
+  demo && { label: "Open live demo", href: demo },
+  paper && { label: "Read research paper", href: paper },
 ].filter(Boolean) as { label: string; href: string }[];
 ---
 
 <Base title={title} description={summary} article>
-  <article class="container-page">
+  <article class="container-wide">
     <a
       href="/work"
-      class="mb-8 inline-flex items-center gap-1 font-mono text-[11px] tracking-[0.14em] uppercase transition-colors hover:text-[var(--color-gold)]"
+      class="mb-5 inline-flex items-center gap-1 font-mono text-[11px] tracking-[0.14em] uppercase transition-colors hover:text-[var(--color-gold)]"
       style="color: var(--color-platinum-dim);"
     >
-      ← Work
+      ← Selected work
     </a>
 
-    <header class="mb-12">
+    <header class="mb-7">
       <p
-        class="eyebrow mb-4"
+        class="eyebrow mb-2"
         style="font-family: var(--font-mono);"
       >
-        {dateLabel}
+        Case study · {dateLabel}
       </p>
       <h1
-        class="font-display mb-6 text-[2.4rem] leading-[1.1] font-medium tracking-tight sm:text-[3rem]"
+        class="font-display mb-3 text-[2rem] leading-[1.1] font-medium tracking-tight sm:text-[2.5rem] lg:text-[3rem]"
         style="color: var(--color-text); letter-spacing: -0.028em;"
       >
         {title}
       </h1>
-      <p class="text-[17px] leading-[1.7]" style="color: var(--color-text-muted);">
+      <p class="max-w-3xl text-[15px] leading-[1.55] sm:text-[17px] sm:leading-[1.65]" style="color: var(--color-text-muted);">
         {summary}
       </p>
 
       {outcome && (
         <div
-          class="mt-7 rounded-sm border p-5"
-          style="border-color: var(--color-gold-deep); background-color: color-mix(in oklch, var(--color-gold) 5%, var(--color-bg-2));"
+          class="mt-4 max-w-4xl border-l-2 py-1 pl-4 sm:pl-5"
+          style="border-color: var(--color-gold-deep);"
         >
           <div
-            class="mb-2 font-mono text-[10px] tracking-[0.22em] uppercase"
+            class="mb-1 font-mono text-[10px] tracking-[0.2em] uppercase"
             style="color: var(--color-gold);"
           >
-            Outcome
+            Delivery evidence
           </div>
-          <div class="text-[14px] leading-relaxed" style="color: var(--color-text);">
+          <div class="text-[14px] leading-[1.55] sm:text-[15px]" style="color: var(--color-text);">
             {outcome}
           </div>
         </div>
       )}
 
       {stack.length > 0 && (
-        <div class="mt-6 flex flex-wrap gap-1.5">
-          {stack.map((s) => <StackBadge name={s} />)}
+        <div class="mt-4 flex flex-wrap items-center gap-1.5" role="group" aria-label="Key technologies">
+          <span class="label-mono mr-1 text-[10px]">Stack</span>
+          {featuredStack.map((s) => <StackBadge name={s} />)}
+          {additionalStack.length > 0 && (
+            <details class="relative w-full sm:w-auto">
+              <summary class="inline-flex cursor-pointer list-none items-center rounded-sm border px-2 py-1 font-mono text-[10px] tracking-wide transition-colors hover:border-[var(--color-gold)] hover:text-[var(--color-gold)] [&::-webkit-details-marker]:hidden" style="border-color: var(--color-border); color: var(--color-platinum-dim);">
+                Show {additionalStack.length} more technologies
+              </summary>
+              <div class="mt-2 flex flex-wrap gap-1.5 border-l pl-3 sm:absolute sm:z-10 sm:max-w-2xl sm:bg-[var(--color-bg-2)] sm:p-3" style="border-color: var(--color-border-strong);">
+                {additionalStack.map((s) => <StackBadge name={s} />)}
+              </div>
+            </details>
+          )}
         </div>
       )}
 
       {links.length > 0 && (
-        <div class="mt-6 flex flex-wrap gap-2.5 font-mono text-[12px] tracking-tight">
+        <div class="mt-4 flex flex-wrap gap-2 font-mono text-[11px] tracking-tight">
           {links.map((l) => (
             <a
               href={l.href}
               target="_blank"
               rel="noreferrer noopener"
-              class="rounded-sm border px-3 py-1.5 transition-colors hover:border-[var(--color-gold)] hover:text-[var(--color-gold)]"
+              class="rounded-sm border px-3 py-2 transition-colors hover:border-[var(--color-gold)] hover:text-[var(--color-gold)]"
               style="border-color: var(--color-border-strong); color: var(--color-text);"
             >
               {l.label} ↗
@@ -99,7 +109,7 @@ const links = [
       )}
     </header>
 
-    <div class="hairline-gold mb-10" style="opacity: 0.35;"></div>
+    <div class="hairline-gold mb-8" style="opacity: 0.35;"></div>
 
     <div class="prose-content">
       <slot />

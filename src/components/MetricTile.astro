@@ -17,12 +17,12 @@ const { value, unit, label } = Astro.props;
       style="color: var(--color-gold); letter-spacing: -0.03em;">{value}</span
     >
     {unit && (
-      <span class="font-mono text-[12px] tracking-tight" style="color: var(--color-platinum-dim);">
+      <span class="font-mono text-xs tracking-tight" style="color: var(--color-platinum);">
         {unit}
       </span>
     )}
   </div>
-  <div class="text-[13px] leading-snug" style="color: var(--color-text-muted);">
+  <div class="text-sm leading-[1.5]" style="color: var(--color-text-muted);">
     {label}
   </div>
 </div>

@@ -5,15 +5,14 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
 <header
-  class="sticky top-0 z-30 backdrop-blur-md"
-  style="background-color: color-mix(in oklch, var(--color-bg) 78%, transparent);"
+  class="sticky top-0 z-30"
+  style="background-color: var(--color-bg);"
 >
-  <div class="container-wide flex h-14 items-center justify-between">
+  <div class="container-wide flex flex-col gap-1 py-2 sm:h-16 sm:flex-row sm:items-center sm:justify-between sm:py-0">
     <a
       href="/"
-      class="font-display font-medium tracking-tight transition-colors hover:text-[var(--color-gold)]"
+      class="flex min-h-10 shrink-0 items-center font-display font-medium tracking-tight transition-colors hover:text-[var(--color-gold)]"
       style="color: var(--color-text); letter-spacing: -0.018em;"
-      aria-label="Rafael Coelho — home"
     >
       <span class="text-[20px]">Rafael</span>
       <span
@@ -27,7 +26,7 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
       >
     </a>
 
-    <nav class="flex items-center gap-1 text-[12.5px]" aria-label="Primary">
+    <nav class="nav-scroll flex max-w-full items-center gap-1 overflow-x-auto text-[13px] sm:ml-6" aria-label="Primary">
       {
         NAV.map((item) => {
           const active =
@@ -36,8 +35,8 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
           return (
             <a
               href={item.href}
-              class="rounded-sm px-2.5 py-1.5 font-medium tracking-tight transition-colors hover:text-[var(--color-text)]"
-              style={`color: ${active ? "var(--color-text)" : "var(--color-text-dim)"};`}
+              class="min-h-10 shrink-0 rounded-sm border-b-2 px-3 py-2 font-medium tracking-tight transition-colors hover:text-[var(--color-text)]"
+              style={`border-color: ${active ? "var(--color-gold-deep)" : "transparent"}; color: ${active ? "var(--color-text)" : "var(--color-text-dim)"};`}
               aria-current={active ? "page" : undefined}
             >
               {item.label}

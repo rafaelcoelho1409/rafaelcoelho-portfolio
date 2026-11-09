@@ -1,7 +1,7 @@
 ---
 title: "COELHO VISION"
-summary: "Computer Vision platform combining OpenCV, Ultralytics, and MediaPipe behind four production pipelines — object detection, image segmentation, pose estimation, and real-time camera integration — exposed via a Streamlit interface."
-outcome: "Four production CV pipelines shipped end-to-end · live Streamlit demo · backbone choices (OpenCV / Ultralytics / MediaPipe) picked per pipeline by accuracy-vs-latency tradeoff."
+summary: "Computer-vision application with four pipelines—detection, segmentation, pose estimation, and live camera processing—using OpenCV, Ultralytics, and MediaPipe behind Streamlit."
+outcome: "4 end-to-end CV pipelines · 3 complementary vision backbones · live public demo · model choices balanced accuracy, latency, and hardware needs."
 date: 2024-04-01
 stack:
   - OpenCV
@@ -42,7 +42,7 @@ production pipelines.
 
 <PdfViewer
   src="/work/coelho-vision/COELHOVISION.pdf"
-  height="72vh"
+  height="min(70vh, 720px)"
   ariaLabel="COELHO VISION — 23-slide deployment record"
   downloadLabel="Open PDF in new tab"
 />
@@ -81,11 +81,8 @@ to maintain, materially better behavior across the four pipelines.
 - **Streamlit** — public-facing demo interface
 - **Python** — implementation
 
-## What this project proves
+## Computer vision engineering takeaways
 
 - **Backbone-selection discipline** — choosing the right tool per pipeline rather than forcing one family to fit every problem
 - **Real-time CV runs on commodity hardware** — MediaPipe pose + Ultralytics detection both ship at usable fps without dedicated GPU acceleration
 - **Public, runnable proof** — the Streamlit app is live; anyone can verify the claims with a webcam in 30 seconds
-
-[Live demo →](https://coelhovision.streamlit.app/) ·
-[Source on GitHub →](https://github.com/rafaelcoelho1409/COELHOVISION)

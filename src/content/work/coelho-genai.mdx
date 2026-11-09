@@ -1,7 +1,7 @@
 ---
 title: "COELHO GenAI"
-summary: "Privacy-first Generative AI platform connecting users to open-source LLMs (Llama 3.1, Gemma 2) via Ollama or Groq — with five purpose-built tools spanning chat, retrieval, autonomous data science, document analysis, and agentic plan-and-solve."
-outcome: "Five distinct GenAI tools shipped end-to-end · runs fully local on Ollama or low-latency via Groq · autonomous data-science agents and document analysis via Docling."
+summary: "Privacy-aware GenAI workspace with five tools for chat, retrieval, data science, document analysis, and planning, using local Ollama or hosted Groq inference."
+outcome: "5 GenAI workflows · local or hosted inference · Docling-powered document analysis · provider choice aligned to data sensitivity and latency needs."
 date: 2024-09-01
 stack:
   - LangChain
@@ -49,7 +49,7 @@ full read.
 
 <PdfViewer
   src="/work/coelho-genai/COELHOGenAI.pdf"
-  height="72vh"
+  height="min(70vh, 720px)"
   ariaLabel="COELHO GenAI — 13-slide deployment record"
   downloadLabel="Open PDF in new tab"
 />
@@ -86,10 +86,8 @@ in [COELHO Nexus](/work/coelho-nexus) — just an earlier, narrower form.
 - **Streamlit** — interactive interface
 - **Python** — implementation
 
-## What this project proves
+## Design decisions and outcomes
 
 - **Five orthogonal GenAI patterns in one codebase** — chat, retrieval, autonomous data science, document RAG, and agentic planning — running on the same LLM substrate
 - **Local-first LLMOps was viable in 2024** — Ollama + open models gave a real privacy story before the LLMOps category had a name
 - **Multi-provider routing started here** — the Ollama/Groq toggle pattern became the production rotator powering COELHO Nexus
-
-[Source on GitHub →](https://github.com/rafaelcoelho1409/COELHOGenAI)

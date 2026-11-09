@@ -1,6 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-import { SKILLS } from "../data/skills";
+import { CORE_CAPABILITIES, SKILLS } from "../data/skills";
 
 const totalTools = SKILLS.reduce((sum, cat) => sum + cat.tools.length, 0);
 
@@ -14,135 +14,194 @@ const slugify = (name: string) =>
 
 <Base
   title="Skills"
-  description="Complete technical skill catalog — every tool, framework, and platform I work with, organized by domain. Each card links to the tool's official documentation."
+  description="Technical capabilities and production tools, grouped by discipline with direct links to their documentation."
 >
-  <div class="container-page">
-    <header class="mb-8 pt-4">
+  <div class="container-wide">
+    <header class="mx-auto mb-10 max-w-3xl pt-4 text-center">
       <p class="eyebrow mb-4">/ Skills</p>
       <h1
         class="font-display mb-4 text-[2.4rem] font-medium tracking-tight"
         style="color: var(--color-text); letter-spacing: -0.025em;"
       >
-        Skills
+        Skills & tools
       </h1>
-      <p class="text-[16px] leading-[1.7]" style="color: var(--color-text-muted);">
-        Complete catalog of the tools, frameworks, and platforms I work with across the
-        full ML / DevOps / GenAI / security stack — grouped by domain. Click any card
-        to open the tool's official documentation. <span
-          class="font-mono text-[13px] whitespace-nowrap"
-          style="color: var(--color-platinum-dim);"
-        >
-          {SKILLS.length} categories · {totalTools} tools
-        </span>
+      <p class="mx-auto max-w-2xl text-[17px] leading-[1.7]" style="color: var(--color-text-muted);">
+        Production engineering capabilities first, then a searchable index of the tools
+        used across my AI, ML, and platform projects.
+      </p>
+      <p class="mt-4 font-mono text-xs tracking-[0.08em] uppercase" style="color: var(--color-platinum-dim);">
+        {SKILLS.length} domains <span aria-hidden="true">·</span> {totalTools} tools
       </p>
     </header>
 
-    <div class="mb-8">
-      <input
-        id="skills-search"
-        type="text"
-        placeholder="Filter by name…"
-        autocomplete="off"
-        spellcheck="false"
-        class="w-full rounded-sm border px-4 py-2.5 font-mono text-[13px] outline-none transition-colors"
-        style="border-color: var(--color-border); background-color: var(--color-bg-2); color: var(--color-text);"
-      />
-      <p
-        id="skills-search-empty"
-        class="mt-3 hidden font-mono text-[13px]"
-        style="color: var(--color-text-dim);"
+    <section class="mx-auto mb-14 grid max-w-6xl grid-cols-1 gap-3 md:grid-cols-3" aria-label="Core capabilities">
+      {CORE_CAPABILITIES.map((group) => (
+        <article class="rounded-sm border p-5 text-center sm:p-6" style="border-color: var(--color-border); background-color: var(--color-bg-2);">
+          <h2 class="font-display mb-3 text-xl font-semibold" style="color: var(--color-text);">{group.title}</h2>
+          <p class="mb-4 text-[15px] leading-[1.7]" style="color: var(--color-text-muted);">{group.description}</p>
+          <div class="flex flex-wrap justify-center gap-1.5">
+            {group.tools.map((tool) => (
+              <span class="rounded-full border px-2.5 py-1 font-mono text-xs" style="border-color: var(--color-border-strong); color: var(--color-platinum);">{tool}</span>
+            ))}
+          </div>
+        </article>
+      ))}
+    </section>
+
+    <section aria-labelledby="skills-catalog-title">
+      <header class="mb-7 text-center">
+        <p class="eyebrow mb-3">Browse by discipline</p>
+        <h2 id="skills-catalog-title" class="font-display mb-3 text-2xl font-semibold tracking-tight" style="color: var(--color-text);">
+          Tool catalog
+        </h2>
+        <p class="mx-auto max-w-2xl text-sm leading-6" style="color: var(--color-text-muted);">
+          A compact, grouped reference. Open any tool for its documentation.
+        </p>
+      </header>
+
+      <div class="mx-auto mb-5 max-w-2xl">
+        <label for="skills-search" class="mb-2 block text-center text-sm font-medium" style="color: var(--color-text);">Find a technology</label>
+        <input
+          id="skills-search"
+          type="search"
+          placeholder="Search Kubernetes, React, Qdrant…"
+          autocomplete="off"
+          spellcheck="false"
+          class="min-h-12 w-full rounded-sm border px-4 py-2.5 text-[15px] outline-none transition-colors focus:border-[var(--color-gold)]"
+          style="border-color: var(--color-border); background-color: var(--color-bg-2); color: var(--color-text);"
+        />
+        <p id="skills-results" role="status" aria-live="polite" class="mt-3 text-center font-mono text-xs" style="color: var(--color-text-dim);">
+          Showing {totalTools} tools across {SKILLS.length} domains
+        </p>
+      </div>
+
+      <nav
+        id="skills-quicknav"
+        class="mb-10 flex flex-wrap justify-center gap-2"
+        aria-label="Jump to skill category"
       >
-        No tools match "<span id="skills-search-empty-term"></span>".
-      </p>
-    </div>
-
-    <nav
-      id="skills-quicknav"
-      class="mb-10 flex flex-wrap gap-2"
-      aria-label="Jump to category"
-    >
-      {
-        SKILLS.map((cat) => (
-          <a
-            href={`#${slugify(cat.name)}`}
-            data-quicknav-for={slugify(cat.name)}
-            class="rounded-sm border px-3 py-1.5 font-mono text-[11px] tracking-tight whitespace-nowrap transition-colors hover:border-[var(--color-gold)] hover:text-[var(--color-gold)]"
-            style="border-color: var(--color-border); color: var(--color-text-muted);"
-          >
-            {cat.name}
-          </a>
-        ))
-      }
-    </nav>
-
-    <div class="hairline-gold mb-12" style="opacity: 0.35;"></div>
-
-    <div class="space-y-12">
-      {
-        SKILLS.map((cat) => (
-          <section id={slugify(cat.name)} data-category>
-            <div class="mb-5 flex items-baseline justify-between gap-3">
-              <h2
-                class="font-display text-[20px] font-semibold tracking-tight"
-                style="color: var(--color-text); letter-spacing: -0.015em;"
-              >
-                {cat.name}
-              </h2>
-              <span
-                data-category-count
-                class="font-mono text-[10.5px] tracking-[0.14em] uppercase whitespace-nowrap"
-                style="color: var(--color-platinum-dim);"
-              >
-                {cat.tools.length} {cat.tools.length === 1 ? "tool" : "tools"}
-              </span>
-            </div>
-            <div
-              style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px;"
+        {
+          SKILLS.map((cat) => (
+            <a
+              href={`#${slugify(cat.name)}`}
+              data-quicknav-for={slugify(cat.name)}
+              class="min-h-10 rounded-sm border px-3 py-2 text-center font-mono text-xs tracking-tight transition-colors hover:border-[var(--color-gold)] hover:text-[var(--color-gold)]"
+              style="border-color: var(--color-border); color: var(--color-text-muted);"
             >
-              {cat.tools.map((tool) => (
-                <a
-                  href={tool.docs}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  data-tool
-                  data-tool-name={tool.name.toLowerCase()}
-                  class="group flex flex-col items-center gap-2.5 rounded-sm border p-3.5 transition-all hover:border-[var(--color-gold)]"
-                  style="border-color: var(--color-border); background-color: var(--color-bg-2);"
-                  title={`${tool.name} — open docs`}
+              {cat.name}
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="hairline-gold mb-12" style="opacity: 0.35;"></div>
+
+      <div class="mx-auto max-w-6xl space-y-12">
+        {
+          SKILLS.map((cat) => (
+            <section id={slugify(cat.name)} data-category aria-labelledby={`${slugify(cat.name)}-title`}>
+              <header class="mb-4 text-center">
+                <h2
+                  id={`${slugify(cat.name)}-title`}
+                  class="font-display text-[21px] font-semibold tracking-tight"
+                  style="color: var(--color-text); letter-spacing: -0.015em;"
                 >
-                  <div
-                    style="height: 56px; width: 56px; display: flex; align-items: center; justify-content: center; background-color: oklch(0.94 0.005 80); border-radius: 4px; padding: 6px;"
-                  >
-                    <img
-                      src={tool.logo}
-                      alt={`${tool.name} logo`}
-                      loading="lazy"
-                      decoding="async"
-                      referrerpolicy="no-referrer"
-                      style="max-height: 100%; max-width: 100%; object-fit: contain;"
-                    />
-                  </div>
-                  <span
-                    class="text-center font-mono text-[11px] tracking-tight transition-colors group-hover:text-[var(--color-gold)]"
-                    style="color: var(--color-text-muted); line-height: 1.3;"
-                  >
-                    {tool.name}
-                  </span>
-                </a>
-              ))}
-            </div>
-          </section>
-        ))
-      }
-    </div>
+                  {cat.name}
+                </h2>
+                <span
+                  data-category-count
+                  class="mt-1 block font-mono text-xs tracking-[0.08em] uppercase"
+                  style="color: var(--color-platinum-dim);"
+                >
+                  {cat.tools.length} {cat.tools.length === 1 ? "tool" : "tools"}
+                </span>
+                {cat.description && <p class="mx-auto mt-3 max-w-2xl text-sm leading-6" style="color: var(--color-text-muted);">{cat.description}</p>}
+              </header>
+              <ul class="skill-tool-grid list-none p-0" aria-label={`${cat.name} tools`}>
+                {cat.tools.map((tool) => (
+                  <li data-tool data-tool-name={tool.name.toLowerCase()}>
+                    <a
+                      href={tool.docs}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      class="group flex min-h-14 items-center justify-center gap-3 rounded-sm border px-3 py-2 text-center transition-colors hover:border-[var(--color-gold)]"
+                      style="border-color: var(--color-border); background-color: var(--color-bg-2);"
+                      title={`${tool.name} — open official documentation`}
+                    >
+                      <span
+                        class="skill-tool-mark"
+                        aria-hidden="true"
+                      >
+                        {tool.logo ? (
+                          <img
+                            src={tool.logo}
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                            referrerpolicy="no-referrer"
+                          />
+                        ) : (
+                          <span>{tool.mark ?? tool.name.slice(0, 2)}</span>
+                        )}
+                      </span>
+                      <span class="font-mono text-xs tracking-tight transition-colors group-hover:text-[var(--color-gold)]" style="color: var(--color-text-muted); line-height: 1.35;">
+                        {tool.name}
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
+      </div>
+    </section>
   </div>
 </Base>
+
+<style>
+  .skill-tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr));
+    gap: 8px;
+    margin: 0;
+  }
+
+  .skill-tool-mark {
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    background: var(--color-bg);
+    color: var(--color-platinum);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+  }
+
+  .skill-tool-mark img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+
+  @media (max-width: 420px) {
+    .skill-tool-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
 
 <script is:inline>
   (function () {
     const input = document.getElementById("skills-search");
-    const emptyState = document.getElementById("skills-search-empty");
-    const emptyTerm = document.getElementById("skills-search-empty-term");
+    const results = document.getElementById("skills-results");
     const sections = Array.from(document.querySelectorAll("[data-category]"));
     const quicknavLinks = Array.from(
       document.querySelectorAll("[data-quicknav-for]"),
@@ -153,6 +212,7 @@ const slugify = (name: string) =>
     input.addEventListener("input", () => {
       const term = input.value.trim().toLowerCase();
       let anyVisible = false;
+      let totalVisible = 0;
 
       sections.forEach((section) => {
         const tools = Array.from(section.querySelectorAll("[data-tool]"));
@@ -161,7 +221,10 @@ const slugify = (name: string) =>
           const name = tool.getAttribute("data-tool-name") || "";
           const match = term === "" || name.includes(term);
           tool.style.display = match ? "" : "none";
-          if (match) visibleCount++;
+          if (match) {
+            visibleCount++;
+            totalVisible++;
+          }
         });
         const sectionHasMatch = visibleCount > 0;
         section.style.display = sectionHasMatch ? "" : "none";
@@ -180,9 +243,11 @@ const slugify = (name: string) =>
         }
       });
 
-      if (emptyState && emptyTerm) {
-        emptyState.classList.toggle("hidden", term === "" || anyVisible);
-        emptyTerm.textContent = input.value.trim();
+      if (results) {
+        const visibleDomains = sections.filter((section) => section.style.display !== "none").length;
+        results.textContent = anyVisible
+          ? `Showing ${totalVisible} ${totalVisible === 1 ? "tool" : "tools"} across ${visibleDomains} ${visibleDomains === 1 ? "domain" : "domains"}`
+          : `No tools match “${input.value.trim()}”.`;
       }
     });
   })();

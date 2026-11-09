@@ -22,56 +22,66 @@ const recentPosts = (await getCollection("writing", ({ data }) => !data.draft))
 
 <Base>
   <div class="container-page">
-    <section class="mb-20 pt-8 sm:mb-24 sm:pt-14">
+    <section class="mb-14 pt-8 sm:mb-16 sm:pt-14">
       <p class="eyebrow mb-5">{SITE.tagline}</p>
       <h1
-        class="font-display mb-8 text-[2.25rem] leading-[1.12] font-medium tracking-tight sm:text-[3.25rem]"
+        class="font-display mb-7 max-w-4xl text-[2.45rem] leading-[1.08] font-medium tracking-tight sm:text-[3.8rem]"
         style="color: var(--color-text); letter-spacing: -0.03em;"
       >
-        Production AI systems on Kubernetes — from real-time incremental
-        pipelines to adaptive
-        <span style="color: var(--color-gold); font-style: italic;"
-          >agentic</span
-        > RAG.
+        I build production AI on Kubernetes—from real-time ML to adaptive agentic RAG.
       </h1>
 
       <div
-        class="flex flex-col-reverse items-start gap-7 sm:flex-row sm:items-start sm:gap-8"
+        class="flex flex-col-reverse items-start gap-7 sm:flex-row sm:items-start sm:gap-9"
       >
         <div class="min-w-0 flex-1">
           <p
-            class="text-[17px] leading-[1.7]"
+            class="max-w-3xl text-[17px] leading-[1.75]"
             style="color: var(--color-text-muted);"
           >
-            Six years engineering production ML systems end to end — Kafka
-            and Spark pipelines, full GitOps delivery. Architect of <a
+            Senior AI Engineer with 7+ years building production ML and AI
+            systems. <a
               href="/work/coelho-nexus"
               class="font-medium transition-colors hover:text-[var(--color-gold)]"
               style="color: var(--color-text); border-bottom: 1px solid var(--color-gold); padding-bottom: 1px;"
               >COELHO Nexus</a
-            >, a Kubernetes-native platform running three production agentic
-            AI features on one self-learning LLM rotator, evaluation-gated
-            pipelines, and full observability via LangFuse · OpenTelemetry ·
-            Alloy · LGTM — at $0 inference cost.
+            > is my flagship: three production AI applications on shared
+            Kubernetes infrastructure, with agentic retrieval, multi-provider
+            inference, and end-to-end observability. <a
+              href="/work/coelho-realtime"
+              class="font-medium transition-colors hover:text-[var(--color-gold)]"
+              style="color: var(--color-text); border-bottom: 1px solid var(--color-gold); padding-bottom: 1px;"
+              >COELHO RealTime</a
+            > demonstrates my streaming MLOps depth, combining Kafka-based
+            incremental learning, batch models, and low-latency serving.
           </p>
 
           <p
-            class="mt-4 text-[17px] leading-[1.7]"
+            class="mt-4 max-w-3xl text-[16px] leading-[1.75]"
             style="color: var(--color-text-muted);"
           >
-            Delivered production ML/AI systems across government, financial
-            markets, real estate, logistics, and cybersecurity.
+            Across Brazilian state-government engagements, I built four
+            production ML/MLOps platforms, each on Kubernetes with CI/CD and
+            full observability. They included an hourly Delta Lake/ALS
+            recommender for 1.4M+ citizens and 7.7M+ interactions (&lt;100ms
+            FastAPI inference); Portuguese-BERT/Qdrant job matching with automatic
+            citizen notifications; and a billable, multi-tenant speech API
+            abstracting AWS, Google Cloud, and OpenAI as interchangeable
+            providers for STT, TTS, and conversational voice AI, load-tested
+            for p50/p95/p99 latency and concurrency. A Whisper/Kokoro prototype
+            on NVIDIA Triton missed latency targets at scale even after
+            quantization, so I pivoted to managed multi-cloud speech providers.
           </p>
 
           <div class="mt-8 flex flex-wrap gap-2.5">
             <span
-              class="rounded-full border px-3 py-1 font-mono text-[10.5px] tracking-[0.14em] uppercase"
+              class="rounded-full border px-3 py-2 font-mono text-xs tracking-[0.08em] uppercase"
               style="border-color: var(--color-border-strong); color: var(--color-platinum);"
             >
               {SITE.location}
             </span>
             <span
-              class="rounded-full border px-3 py-1 font-mono text-[10.5px] tracking-[0.14em] uppercase"
+              class="rounded-full border px-3 py-2 font-mono text-xs leading-relaxed tracking-[0.06em]"
               style="border-color: var(--color-gold-deep); color: var(--color-gold);"
             >
               {SITE.relocation}
@@ -83,24 +93,24 @@ const recentPosts = (await getCollection("writing", ({ data }) => !data.draft))
           <Image
             src={portrait}
             alt="Rafael Coelho"
-            width={200}
-            height={200}
+            width={184}
+            height={184}
             densities={[2, 3]}
             loading="eager"
             quality={100}
             format="avif"
             class="block rounded-sm"
-            style="width: 200px; height: 200px; object-fit: cover; object-position: center 22%; border: 1px solid var(--color-gold-dim); box-shadow: 0 6px 22px oklch(0 0 0 / 0.5);"
+            style="width: 184px; height: 184px; object-fit: cover; object-position: center 22%; border: 1px solid var(--color-gold-dim);"
           />
         </div>
       </div>
     </section>
 
-    <div class="hairline-gold mb-20"></div>
+    <div class="hairline-gold mb-14 sm:mb-16"></div>
 
-    <section class="mb-20">
-      <p class="eyebrow mb-6">By the numbers</p>
-      <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+    <section class="mb-16 sm:mb-20" aria-labelledby="impact-heading">
+      <h2 id="impact-heading" class="eyebrow mb-6">By the numbers</h2>
+      <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {
           HOME_METRICS.map((m) => (
             <MetricTile value={m.value} unit={m.unit} label={m.label} />
@@ -109,16 +119,16 @@ const recentPosts = (await getCollection("writing", ({ data }) => !data.draft))
       </div>
     </section>
 
-    <section class="mb-20">
-      <div class="mb-6 flex items-baseline justify-between">
-        <p class="eyebrow">Selected work</p>
+    <section class="mb-16 sm:mb-20" aria-labelledby="work-heading">
+      <div class="mb-6 flex items-baseline justify-between gap-4">
+        <h2 id="work-heading" class="eyebrow">Selected work</h2>
         <a
           href="/work"
-          class="font-mono text-[11px] tracking-[0.14em] uppercase transition-colors hover:text-[var(--color-gold)]"
-          style="color: var(--color-platinum-dim);">All work →</a
+          class="font-mono text-xs tracking-[0.08em] uppercase transition-colors hover:text-[var(--color-gold)]"
+          style="color: var(--color-platinum);">Browse all projects →</a
         >
       </div>
-      <div class="grid grid-cols-1 gap-3">
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
         {
           featuredList.map((entry, i) => (
             <ProjectCard
@@ -138,9 +148,9 @@ const recentPosts = (await getCollection("writing", ({ data }) => !data.draft))
     </section>
 
     {recentPosts.length > 0 && (
-      <section class="mb-16">
+      <section class="mb-12" aria-labelledby="writing-heading">
         <div class="mb-4 flex items-baseline justify-between">
-          <p class="eyebrow">Recent writing</p>
+          <h2 id="writing-heading" class="eyebrow">Recent writing</h2>
           <a
             href="/writing"
             class="font-mono text-[11px] tracking-[0.14em] uppercase transition-colors hover:text-[var(--color-gold)]"
